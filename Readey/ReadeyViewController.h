@@ -14,8 +14,16 @@
 	IBOutlet UILabel *timeRemaining;
 	IBOutlet UILabel *words;
 	IBOutlet UILabel *currentWord;
+	IBOutlet UILabel *timeToRead;
+	IBOutlet UILabel *averageSpeed;
 	IBOutlet UIButton *startReading;
 	IBOutlet UIButton *pause;
+    IBOutlet UIButton *back;
+    IBOutlet UIButton *prevWordBtn;
+    IBOutlet UIButton *nextWordBtn;
+    IBOutlet UIButton *fasterBtn;
+    IBOutlet UIButton *slowerBtn;
+    IBOutlet UIProgressView *progress;
 }
 
 - (IBAction)startReading:(id)sender;
@@ -33,5 +41,8 @@
 @property (nonatomic) float wordsPerMinute;
 
 @property (nonatomic, retain) NSTimer *timer;
+
+@property (nonatomic, retain) NSDate *start;
+@property (nonatomic, retain) NSDate *finish;
 
 @end
