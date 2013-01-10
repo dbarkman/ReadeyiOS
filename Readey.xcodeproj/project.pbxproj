@@ -42,6 +42,7 @@
 		63A2EDA2169E37380071D549 /* UGMultiStepAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2ED8D169E37380071D549 /* UGMultiStepAction.m */; };
 		63A2EDA3169E37380071D549 /* UGQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2ED8F169E37380071D549 /* UGQuery.m */; };
 		63A2EDA4169E37380071D549 /* UGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2ED91169E37380071D549 /* UGUser.m */; };
+		63A2EDAF169E98540071D549 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2EDAE169E98530071D549 /* Client.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -107,6 +108,8 @@
 		63A2ED8F169E37380071D549 /* UGQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UGQuery.m; sourceTree = "<group>"; };
 		63A2ED90169E37380071D549 /* UGUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UGUser.h; sourceTree = "<group>"; };
 		63A2ED91169E37380071D549 /* UGUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UGUser.m; sourceTree = "<group>"; };
+		63A2EDAD169E98530071D549 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		63A2EDAE169E98530071D549 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +171,8 @@
 				63A2ED64169E1CA00071D549 /* LoginViewController.h */,
 				63A2ED65169E1CA00071D549 /* LoginViewController.m */,
 				63A2ED66169E1CA00071D549 /* LoginViewController.xib */,
+				63A2EDAD169E98530071D549 /* Client.h */,
+				63A2EDAE169E98530071D549 /* Client.m */,
 			);
 			path = Readey;
 			sourceTree = "<group>";
@@ -333,6 +338,7 @@
 				63A2EDA2169E37380071D549 /* UGMultiStepAction.m in Sources */,
 				63A2EDA3169E37380071D549 /* UGQuery.m in Sources */,
 				63A2EDA4169E37380071D549 /* UGUser.m in Sources */,
+				63A2EDAF169E98540071D549 /* Client.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
