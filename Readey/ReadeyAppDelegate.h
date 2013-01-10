@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class ReadeyViewController;
+@class LoginViewController;
 
 @interface ReadeyAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) ReadeyViewController *viewController;
+@property (strong, nonatomic) LoginViewController *viewController;
 
 @end

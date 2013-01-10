@@ -8,7 +8,7 @@
 
 #import "ReadeyAppDelegate.h"
 
-#import "ReadeyViewController.h"
+#import "LoginViewController.h"
 
 @implementation ReadeyAppDelegate
 
@@ -16,7 +16,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-	self.viewController = [[ReadeyViewController alloc] initWithNibName:@"ReadeyViewController" bundle:nil];
+	self.viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
 	self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;

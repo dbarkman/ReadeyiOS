@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "ReadeyViewController.h"
 
 @interface LoginViewController ()
 
@@ -23,16 +24,39 @@
     return self;
 }
 
+-(BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
+	emailTextField.delegate = self;
+	passwordTextField.delegate = self;
+	[emailTextField becomeFirstResponder];
 }
 
-- (void)didReceiveMemoryWarning
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	if (textField == emailTextField) {
+		[textField resignFirstResponder];
+		[passwordTextField becomeFirstResponder];
+	} else if (textField == passwordTextField) {
+		[textField resignFirstResponder];
+		ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
+		[readeyViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+		[self presentViewController:readeyViewController animated:YES completion:nil];
+	}
+
+	
+	return YES;
 }
 
 @end
