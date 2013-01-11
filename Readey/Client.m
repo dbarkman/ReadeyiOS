@@ -18,8 +18,8 @@
     if (self) {
         
         //configure the org and app
-        NSString * orgName = @"dbarkman";
-        NSString * appName = @"readey1";
+        NSString * orgName = @"reallysimpleapps";
+        NSString * appName = @"readey";
 		
         //make new client
         usergridClient = [[UGClient alloc]initWithOrganizationId: orgName withApplicationID: appName];

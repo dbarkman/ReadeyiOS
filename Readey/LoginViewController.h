@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Client.h"
 
-@interface LoginViewController : UIViewController <UITextFieldDelegate>
+@interface LoginViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate>
 {
 	IBOutlet UITextField *emailTextField;
 	IBOutlet UITextField *passwordTextField;
 }
+
+@property (nonatomic) int alertViewFlag;
+@property (nonatomic, strong) Client *client;
 
 @end
