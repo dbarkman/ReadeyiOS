@@ -28,14 +28,8 @@
     return self;
 }
 
--(bool)login:(NSString*)username withPassword:(NSString*)password {
-    
-    //uncomment the below for easy testing (just click login)
-    //username = @"myuser";
-    //password = @"mypass";
-    
-    //then log the user in
-    //UGClientResponse *response =
+- (bool)login:(NSString*)username withPassword:(NSString*)password
+{
     [usergridClient logInUser:username password:password];
     user = [usergridClient getLoggedInUser];
     
@@ -47,17 +41,30 @@
     
 }
 
--(bool)createUser:(NSString*)username
+- (bool)createUser:(NSString*)username
          withName:(NSString*)name
         withEmail:(NSString*)email
-     withPassword:(NSString*)password{
-	
-    
+     withPassword:(NSString*)password
+{
     UGClientResponse *response = [usergridClient addUser:username email:email name:name password:password];
     if (response.transactionState == 0) {
         return [self login:username withPassword:password];
     }
     return false;
+}
+
+- (NSArray *)getArticles
+{
+	NSString *userUUID = [user uuid];
+	
+	UGQuery *query = [[UGQuery alloc] init];
+	[query addURLTerm:@"user" equals:userUUID];
+	[query addURLTerm:@"ql" equals:@"order by created desc"];
+	UGClientResponse *response = [usergridClient getEntities:@"articles" query:query];
+	
+	NSArray *articles = [response.response objectForKey:@"entities"];
+	
+	return articles;
 }
 
 @end

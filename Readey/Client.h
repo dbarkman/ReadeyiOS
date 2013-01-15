@@ -14,11 +14,13 @@
 @property (nonatomic, strong) UGClient *usergridClient;
 @property (nonatomic, strong) UGUser *user;
 
--(bool)login:(NSString*)username withPassword:(NSString*)password;
+- (bool)login:(NSString*)username withPassword:(NSString*)password;
 
--(bool)createUser:(NSString*)username
+- (bool)createUser:(NSString*)username
 		 withName:(NSString*)name
         withEmail:(NSString*)email
 	 withPassword:(NSString*)password;
+
+- (NSArray *)getArticles;
 
 @end

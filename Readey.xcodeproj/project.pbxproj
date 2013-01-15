@@ -43,6 +43,12 @@
 		63A2EDA3169E37380071D549 /* UGQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2ED8F169E37380071D549 /* UGQuery.m */; };
 		63A2EDA4169E37380071D549 /* UGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2ED91169E37380071D549 /* UGUser.m */; };
 		63A2EDAF169E98540071D549 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2EDAE169E98530071D549 /* Client.m */; };
+		63A2EDB816A098950071D549 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2EDB716A098940071D549 /* FoldersViewController.m */; };
+		63A2EDBB16A0AFC50071D549 /* ArticleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */; };
+		63A2EDBE16A529800071D549 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A2EDBD16A529800071D549 /* settings@2x.png */; };
+		63A2EDC016A529950071D549 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A2EDBF16A529950071D549 /* settings.png */; };
+		63A2EDD616A536F50071D549 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2EDD416A536F40071D549 /* SettingsViewController.m */; };
+		63A2EDD716A536F50071D549 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63A2EDD516A536F50071D549 /* SettingsViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +116,15 @@
 		63A2ED91169E37380071D549 /* UGUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UGUser.m; sourceTree = "<group>"; };
 		63A2EDAD169E98530071D549 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
 		63A2EDAE169E98530071D549 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
+		63A2EDB616A098940071D549 /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
+		63A2EDB716A098940071D549 /* FoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewController.m; sourceTree = "<group>"; };
+		63A2EDB916A0AFC50071D549 /* ArticleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleListViewController.h; sourceTree = "<group>"; };
+		63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleListViewController.m; sourceTree = "<group>"; };
+		63A2EDBD16A529800071D549 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
+		63A2EDBF16A529950071D549 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		63A2EDD316A536F40071D549 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		63A2EDD416A536F40071D549 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		63A2EDD516A536F50071D549 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +174,7 @@
 		63A2ED2B169C8DCD0071D549 /* Readey */ = {
 			isa = PBXGroup;
 			children = (
+				63A2EDBC16A529610071D549 /* icons */,
 				63A2ED34169C8DCD0071D549 /* ReadeyAppDelegate.h */,
 				63A2ED35169C8DCD0071D549 /* ReadeyAppDelegate.m */,
 				63A2ED3D169C8DCE0071D549 /* ReadeyViewController.h */,
@@ -173,6 +189,13 @@
 				63A2ED66169E1CA00071D549 /* LoginViewController.xib */,
 				63A2EDAD169E98530071D549 /* Client.h */,
 				63A2EDAE169E98530071D549 /* Client.m */,
+				63A2EDB616A098940071D549 /* FoldersViewController.h */,
+				63A2EDB716A098940071D549 /* FoldersViewController.m */,
+				63A2EDB916A0AFC50071D549 /* ArticleListViewController.h */,
+				63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */,
+				63A2EDD316A536F40071D549 /* SettingsViewController.h */,
+				63A2EDD416A536F40071D549 /* SettingsViewController.m */,
+				63A2EDD516A536F50071D549 /* SettingsViewController.xib */,
 			);
 			path = Readey;
 			sourceTree = "<group>";
@@ -245,6 +268,15 @@
 			path = SBJson;
 			sourceTree = "<group>";
 		};
+		63A2EDBC16A529610071D549 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				63A2EDBF16A529950071D549 /* settings.png */,
+				63A2EDBD16A529800071D549 /* settings@2x.png */,
+			);
+			name = icons;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -304,6 +336,9 @@
 				63A2ED42169C8DCE0071D549 /* ReadeyViewController.xib in Resources */,
 				63A2ED5A169D653E0071D549 /* buttons in Resources */,
 				63A2ED68169E1CA00071D549 /* LoginViewController.xib in Resources */,
+				63A2EDBE16A529800071D549 /* settings@2x.png in Resources */,
+				63A2EDC016A529950071D549 /* settings.png in Resources */,
+				63A2EDD716A536F50071D549 /* SettingsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +374,9 @@
 				63A2EDA3169E37380071D549 /* UGQuery.m in Sources */,
 				63A2EDA4169E37380071D549 /* UGUser.m in Sources */,
 				63A2EDAF169E98540071D549 /* Client.m in Sources */,
+				63A2EDB816A098950071D549 /* FoldersViewController.m in Sources */,
+				63A2EDBB16A0AFC50071D549 /* ArticleListViewController.m in Sources */,
+				63A2EDD616A536F50071D549 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

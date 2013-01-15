@@ -32,6 +32,9 @@
 - (IBAction)prevWord:(id)sender;
 - (IBAction)faster:(id)sender;
 - (IBAction)slower:(id)sender;
+- (IBAction)back;
+
+@property (nonatomic, retain) NSString *articleContent;
 
 @property (nonatomic) int marker;
 @property (nonatomic) int wordArraySize;

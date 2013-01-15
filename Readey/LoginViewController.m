@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "FoldersViewController.h"
 #import "ReadeyViewController.h"
 #import "KeychainItemWrapper.h"
 
@@ -119,9 +120,18 @@
 //	NSString *newPassword = [keychainItem objectForKey:(__bridge id)kSecValueData];
 //	NSLog(@"login: %@ - password: %@", newUsername, newPassword);
 	
-	ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
-	[readeyViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
-	[self presentViewController:readeyViewController animated:YES completion:nil];
+//	ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
+//	[readeyViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+//	[self presentViewController:readeyViewController animated:YES completion:nil];
+	
+	FoldersViewController *foldersViewController = [[FoldersViewController alloc] init];
+	[foldersViewController setClient:_client];
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:foldersViewController];
+	[navController.navigationBar setTintColor:[UIColor blackColor]];
+	
+	[navController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+	[self presentViewController:navController animated:YES completion:nil];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
