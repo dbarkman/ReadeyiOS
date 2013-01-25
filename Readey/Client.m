@@ -7,6 +7,7 @@
 //
 
 #import "Client.h"
+#import "KeychainItemWrapper.h"
 
 @implementation Client
 
@@ -38,7 +39,11 @@
     } else {
         return false;
     }
-    
+}
+
+- (void)logout
+{
+	[usergridClient logOut];
 }
 
 - (bool)createUser:(NSString*)username
@@ -56,14 +61,42 @@
 - (NSArray *)getArticles
 {
 	NSString *userUUID = [user uuid];
+	NSString *userQuery = [NSString stringWithFormat:@"select * where user = %@ order by created desc", userUUID];
 	
 	UGQuery *query = [[UGQuery alloc] init];
-	[query addURLTerm:@"user" equals:userUUID];
-	[query addURLTerm:@"ql" equals:@"order by created desc"];
+	[query addURLTerm:@"ql" equals:userQuery];
 	UGClientResponse *response = [usergridClient getEntities:@"articles" query:query];
 	
-	NSArray *articles = [response.response objectForKey:@"entities"];
-	
+	NSArray *articles;
+	KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
+	NSString *username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
+	NSString *password = [keychainItem objectForKey:(__bridge id)kSecValueData];
+	username = @"abc";
+	NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] initWithCapacity:1];
+
+	switch (response.transactionState) {
+		case 0:
+			articles = [response.response objectForKey:@"entities"];
+			break;
+		case 1:
+			if ([self login:username withPassword:password]) {
+				UGClientResponse *response = [usergridClient getEntities:@"articles" query:query];
+				switch (response.transactionState) {
+					case 0:
+						articles = [response.response objectForKey:@"entities"];
+						break;
+					case 1:
+						[tempDict setObject:@"logout" forKey:@"name"];
+						articles = [[NSArray alloc] initWithObjects:tempDict, nil];
+						break;
+				}
+			} else {
+				[tempDict setObject:@"logout" forKey:@"name"];
+				articles = [[NSArray alloc] initWithObjects:tempDict, nil];
+			}
+			break;
+	}
+
 	return articles;
 }
 

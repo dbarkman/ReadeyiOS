@@ -8,7 +8,7 @@
 
 #import "FoldersViewController.h"
 #import "ArticleListViewController.h"
-#import "SettingsViewController.h"
+#import "SettingViewController.h"
 
 @interface FoldersViewController ()
 
@@ -53,16 +53,9 @@
 
 - (void)tappedSettings
 {
-	SettingsViewController *settingsViewController = [[SettingsViewController alloc] init];
+	SettingViewController *settingsViewController = [[SettingViewController alloc] init];
+	[settingsViewController setClient:_client];
 	[[self navigationController] pushViewController:settingsViewController animated:YES];
-//	[settingsViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-//	[self presentViewController:settingsViewController animated:YES completion:nil];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source

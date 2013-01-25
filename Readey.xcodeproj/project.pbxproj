@@ -47,8 +47,9 @@
 		63A2EDBB16A0AFC50071D549 /* ArticleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */; };
 		63A2EDBE16A529800071D549 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A2EDBD16A529800071D549 /* settings@2x.png */; };
 		63A2EDC016A529950071D549 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A2EDBF16A529950071D549 /* settings.png */; };
-		63A2EDD616A536F50071D549 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2EDD416A536F40071D549 /* SettingsViewController.m */; };
-		63A2EDD716A536F50071D549 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63A2EDD516A536F50071D549 /* SettingsViewController.xib */; };
+		63F1FD5216A7212100637B23 /* PickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F1FD5016A7212100637B23 /* PickerViewController.m */; };
+		63F1FD5316A7212100637B23 /* PickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F1FD5116A7212100637B23 /* PickerViewController.xib */; };
+		63F1FD6716A73D6400637B23 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F1FD6616A73D6300637B23 /* SettingViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -122,9 +123,11 @@
 		63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleListViewController.m; sourceTree = "<group>"; };
 		63A2EDBD16A529800071D549 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
 		63A2EDBF16A529950071D549 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
-		63A2EDD316A536F40071D549 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		63A2EDD416A536F40071D549 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		63A2EDD516A536F50071D549 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
+		63F1FD4F16A7212100637B23 /* PickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerViewController.h; sourceTree = "<group>"; };
+		63F1FD5016A7212100637B23 /* PickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerViewController.m; sourceTree = "<group>"; };
+		63F1FD5116A7212100637B23 /* PickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerViewController.xib; sourceTree = "<group>"; };
+		63F1FD6516A73D6300637B23 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		63F1FD6616A73D6300637B23 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,13 +177,13 @@
 		63A2ED2B169C8DCD0071D549 /* Readey */ = {
 			isa = PBXGroup;
 			children = (
+				63A2ED59169D653E0071D549 /* buttons */,
 				63A2EDBC16A529610071D549 /* icons */,
 				63A2ED34169C8DCD0071D549 /* ReadeyAppDelegate.h */,
 				63A2ED35169C8DCD0071D549 /* ReadeyAppDelegate.m */,
 				63A2ED3D169C8DCE0071D549 /* ReadeyViewController.h */,
 				63A2ED3E169C8DCE0071D549 /* ReadeyViewController.m */,
 				63A2ED40169C8DCE0071D549 /* ReadeyViewController.xib */,
-				63A2ED59169D653E0071D549 /* buttons */,
 				63A2ED2C169C8DCD0071D549 /* Supporting Files */,
 				63A2ED61169E1B5D0071D549 /* KeychainItemWrapper.h */,
 				63A2ED62169E1B5D0071D549 /* KeychainItemWrapper.m */,
@@ -193,9 +196,11 @@
 				63A2EDB716A098940071D549 /* FoldersViewController.m */,
 				63A2EDB916A0AFC50071D549 /* ArticleListViewController.h */,
 				63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */,
-				63A2EDD316A536F40071D549 /* SettingsViewController.h */,
-				63A2EDD416A536F40071D549 /* SettingsViewController.m */,
-				63A2EDD516A536F50071D549 /* SettingsViewController.xib */,
+				63F1FD6516A73D6300637B23 /* SettingViewController.h */,
+				63F1FD6616A73D6300637B23 /* SettingViewController.m */,
+				63F1FD4F16A7212100637B23 /* PickerViewController.h */,
+				63F1FD5016A7212100637B23 /* PickerViewController.m */,
+				63F1FD5116A7212100637B23 /* PickerViewController.xib */,
 			);
 			path = Readey;
 			sourceTree = "<group>";
@@ -338,7 +343,7 @@
 				63A2ED68169E1CA00071D549 /* LoginViewController.xib in Resources */,
 				63A2EDBE16A529800071D549 /* settings@2x.png in Resources */,
 				63A2EDC016A529950071D549 /* settings.png in Resources */,
-				63A2EDD716A536F50071D549 /* SettingsViewController.xib in Resources */,
+				63F1FD5316A7212100637B23 /* PickerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,7 +381,8 @@
 				63A2EDAF169E98540071D549 /* Client.m in Sources */,
 				63A2EDB816A098950071D549 /* FoldersViewController.m in Sources */,
 				63A2EDBB16A0AFC50071D549 /* ArticleListViewController.m in Sources */,
-				63A2EDD616A536F50071D549 /* SettingsViewController.m in Sources */,
+				63F1FD5216A7212100637B23 /* PickerViewController.m in Sources */,
+				63F1FD6716A73D6400637B23 /* SettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

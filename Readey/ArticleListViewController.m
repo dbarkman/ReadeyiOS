@@ -8,6 +8,10 @@
 
 #import "ArticleListViewController.h"
 #import "ReadeyViewController.h"
+#import "SettingViewController.h"
+
+#define FONT_SIZE 16.0f
+#define CELL_CONTENT_MARGIN 10.0f
 
 @interface ArticleListViewController ()
 
@@ -32,6 +36,25 @@ NSArray *articles;
     [super viewDidLoad];
 	
 	articles = [_client getArticles];
+	NSDictionary *article = [articles objectAtIndex:0];
+	NSString *name = [article objectForKey:@"name"];
+	if ([name isEqualToString:@"logout"]) {
+		[[[UIAlertView alloc] initWithTitle:@"Your session has expired. Please login again." message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+		[_client logout];
+		[[self navigationController] removeFromParentViewController];
+		[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+	}
+
+	UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(tappedSettings)];
+	[settingsButton setImageInsets:UIEdgeInsetsMake(5.0f, 0.0f, 5.0f, 0.0f)];
+	[[self navigationItem] setRightBarButtonItem:settingsButton];
+}
+
+- (void)tappedSettings
+{
+	SettingViewController *settingsViewController = [[SettingViewController alloc] init];
+	[settingsViewController setClient:_client];
+	[[self navigationController] pushViewController:settingsViewController animated:YES];
 }
 
 #pragma mark - Table view data source
@@ -41,16 +64,39 @@ NSArray *articles;
     return [articles count];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
+	NSString *articleName = [article objectForKey:@"name"];
+	
+	CGSize frameSize = self.view.frame.size;
+	CGSize constraint = CGSizeMake(frameSize.width - 20 - (CELL_CONTENT_MARGIN * 2), 20000.0f);
+	CGSize size = [articleName sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
+	
+	return size.height + (CELL_CONTENT_MARGIN * 2);
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
 	if (cell == nil) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UITableViewCell"];
+		[[cell textLabel] setLineBreakMode:NSLineBreakByWordWrapping];
+		[[cell textLabel] setNumberOfLines:0];
+		[[cell textLabel] setFont:[UIFont systemFontOfSize:FONT_SIZE]];
+	}
+	
+	NSString *wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
+	if (wpm.length == 0) {
+		wpm = @"250";
+		[[NSUserDefaults standardUserDefaults] setObject:wpm forKey:@"wpm"];
 	}
 	
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
 	[[cell textLabel] setText:[article objectForKey:@"name"]];
-	
+//	[[cell detailTextLabel] setText:@"wpm"];
+	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+
     return cell;
 }
 
