@@ -7,19 +7,37 @@
 //
 
 #import "ReadeyAppDelegate.h"
-
 #import "LoginViewController.h"
+#import <DropboxSDK/DropboxSDK.h>
 
 @implementation ReadeyAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"py9e1yuyy55owpb" appSecret:@"ai5j37a4ss5wz1g" root:kDBRootAppFolder]; // either kDBRootAppFolder or kDBRootDropbox
+    [DBSession setSharedSession:dbSession];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 	self.viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
 	self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+	if ([[DBSession sharedSession] handleOpenURL:url]) {
+		if ([[DBSession sharedSession] isLinked]) {
+            self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+            // Override point for customization after application launch.
+            self.viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+            self.window.rootViewController = self.viewController;
+            [self.window makeKeyAndVisible];
+		}
+		return YES;
+	}
+	
+	return NO;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

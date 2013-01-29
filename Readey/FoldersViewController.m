@@ -8,7 +8,9 @@
 
 #import "FoldersViewController.h"
 #import "ArticleListViewController.h"
+#import "DropboxViewController.h"
 #import "SettingViewController.h"
+#import <DropboxSDK/DropboxSDK.h>
 
 @interface FoldersViewController ()
 
@@ -62,7 +64,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -77,6 +79,10 @@
 			[[cell textLabel] setText:@"Articles"];
 			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 			break;
+        case 1:
+            [[cell textLabel] setText:@"Dropbox"];
+            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            break;
 	}
     return cell;
 }
@@ -85,10 +91,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	ArticleListViewController *articleListViewController = [[ArticleListViewController alloc] init];
-	[articleListViewController setTitle:@"Articles"];
-	[articleListViewController setClient:_client];
-	[[self navigationController] pushViewController:articleListViewController animated:YES];
+    ArticleListViewController *articleListViewController = [[ArticleListViewController alloc] init];
+    DropboxViewController *dropboxViewController = [[DropboxViewController alloc] init];
+	switch ([indexPath row]) {
+		case 0:
+            [articleListViewController setTitle:@"Articles"];
+            [articleListViewController setClient:_client];
+            [[self navigationController] pushViewController:articleListViewController animated:YES];
+			break;
+        case 1:
+            if (![[DBSession sharedSession] isLinked]) {
+                [[DBSession sharedSession] linkFromController:self];
+            } else {
+                [[self navigationController] pushViewController:dropboxViewController animated:YES];
+            }
+            break;
+	}
+    
 }
 
 @end
