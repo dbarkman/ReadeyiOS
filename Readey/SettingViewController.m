@@ -71,8 +71,7 @@ NSString *wpm;
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (buttonIndex == 0) {
 		[_client logout];
-		[[self navigationController] removeFromParentViewController];
-		[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popToRootViewControllerAnimated:YES];
 	}
 }
 

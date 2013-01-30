@@ -7,9 +7,11 @@
 //
 
 #import "FoldersViewController.h"
+#import "LoginViewController.h"
 #import "ArticleListViewController.h"
 #import "DropboxViewController.h"
 #import "SettingViewController.h"
+#import "KeychainItemWrapper.h"
 #import <DropboxSDK/DropboxSDK.h>
 
 @interface FoldersViewController ()
@@ -45,12 +47,49 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSLog(@"View Did Load");
+    
+    _client = [[Client alloc] init];
+    
+    [_client isTokenValid];
 
 	[[self navigationItem] setTitle:@"Readey"];
 
 	UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(tappedSettings)];
 	[settingsButton setImageInsets:UIEdgeInsetsMake(5.0f, 0.0f, 5.0f, 0.0f)];
 	[[self navigationItem] setRightBarButtonItem:settingsButton];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewDidLoad];
+    
+    NSLog(@"View Will Appear");
+    
+    [_client isTokenValid];
+    
+    KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
+    NSString *username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
+    NSString *password = [keychainItem objectForKey:(__bridge id)kSecValueData];
+    
+    NSLog(@"Username: %@ - Password: %@", username, password);
+    
+    if (![_client login:username withPassword:password]) {
+        LoginViewController *loginViewController = [[LoginViewController alloc] init];
+        [loginViewController setClient:_client];
+        [loginViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+        [self presentViewController:loginViewController animated:YES completion:nil];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidLoad];
+    
+    NSLog(@"View Did Appear");
+    
+    [_client isTokenValid];
 }
 
 - (void)tappedSettings

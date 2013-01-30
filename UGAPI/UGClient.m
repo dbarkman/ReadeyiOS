@@ -687,6 +687,12 @@ NSString *g_deviceUUID = nil;
 {
     // clear out auth
     [self setAuth: nil];
+    
+    if ( m_bLogging ) {
+        NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        NSLog(@"Logging Out");
+        NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n\n");
+    }
 }
 
 // general workhorse for auth logins
@@ -702,7 +708,7 @@ NSString *g_deviceUUID = nil;
     // create the post data. For auth functions, we don't use json,
     // but instead use web form style data
     NSMutableString *postData = [NSMutableString new];
-    [postData appendFormat:@"grant_type=%@&%@=%@&%@=%@&ttl=10000", grantType, userKey, escapedUserValue, pwdKey, escapedPwdValue];
+    [postData appendFormat:@"grant_type=%@&%@=%@&%@=%@", grantType, userKey, escapedUserValue, pwdKey, escapedPwdValue];
     
     // fire off the request
     return [self httpTransaction:url op:kUGHTTPPostAuth opData:postData];    

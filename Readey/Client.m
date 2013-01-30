@@ -41,8 +41,21 @@
     }
 }
 
+- (bool)isTokenValid
+{
+    NSString *token = [usergridClient getAccessToken];
+    user = [usergridClient getLoggedInUser];
+    NSString *uuid = user.uuid;
+    NSLog(@"Token: %@ - User: %@", token, uuid);
+//    [usergridClient apiRequest:@"http://api.usergrid.com/management/<org-name>/<app-name>/users/<user>?access_token=<user token>" operation:nil data:nil];
+    return true;
+}
+
 - (void)logout
 {
+	KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
+    [keychainItem resetKeychainItem];
+
 	[usergridClient logOut];
 }
 
@@ -71,7 +84,6 @@
 	KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
 	NSString *username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
 	NSString *password = [keychainItem objectForKey:(__bridge id)kSecValueData];
-	username = @"abc";
 	NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] initWithCapacity:1];
 
 	switch (response.transactionState) {

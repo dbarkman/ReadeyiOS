@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UGUser *user;
 
 - (bool)login:(NSString*)username withPassword:(NSString*)password;
+- (bool)isTokenValid;
 - (void)logout;
 
 - (bool)createUser:(NSString*)username

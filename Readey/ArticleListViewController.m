@@ -41,8 +41,7 @@ NSArray *articles;
 	if ([name isEqualToString:@"logout"]) {
 		[[[UIAlertView alloc] initWithTitle:@"Your session has expired. Please login again." message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
 		[_client logout];
-		[[self navigationController] removeFromParentViewController];
-		[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popToRootViewControllerAnimated:YES];
 	}
 
 	UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(tappedSettings)];

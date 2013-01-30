@@ -13,6 +13,7 @@
 {
 	IBOutlet UITextField *emailTextField;
 	IBOutlet UITextField *passwordTextField;
+    IBOutlet UISwitch *saveLogin;
 }
 
 @property (nonatomic) int alertViewFlag;

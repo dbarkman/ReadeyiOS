@@ -7,7 +7,7 @@
 //
 
 #import "ReadeyAppDelegate.h"
-#import "LoginViewController.h"
+#import "FoldersViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 
 @implementation ReadeyAppDelegate
@@ -19,9 +19,15 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-	self.viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-	self.window.rootViewController = self.viewController;
+    
+    FoldersViewController *foldersViewController = [[FoldersViewController alloc] init];
+            
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:foldersViewController];
+    [navController.navigationBar setTintColor:[UIColor blackColor]];
+            
+    [[self window] setRootViewController:navController];
     [self.window makeKeyAndVisible];
+
     return YES;
 }
 
@@ -29,9 +35,12 @@
 	if ([[DBSession sharedSession] handleOpenURL:url]) {
 		if ([[DBSession sharedSession] isLinked]) {
             self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-            // Override point for customization after application launch.
-            self.viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-            self.window.rootViewController = self.viewController;
+            FoldersViewController *foldersViewController = [[FoldersViewController alloc] init];
+            
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:foldersViewController];
+            [navController.navigationBar setTintColor:[UIColor blackColor]];
+            
+            [[self window] setRootViewController:navController];
             [self.window makeKeyAndVisible];
 		}
 		return YES;

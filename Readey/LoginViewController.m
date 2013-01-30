@@ -53,11 +53,9 @@
 {
     [super viewDidLoad];
 	
-    _client = [[Client alloc] init];
-
 	emailTextField.delegate = self;
 	passwordTextField.delegate = self;
-	[emailTextField becomeFirstResponder];
+//	[emailTextField becomeFirstResponder];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -81,8 +79,8 @@
 	if (username.length == 0 || password.length == 0) {
 		[self alertCredentialsMissing];
 
-	} else if ([_client login:username withPassword:password]){
-		[self launchNextView];
+	} else if ([_client login:username withPassword:password]) {
+		[self previousView];
     
 	} else {
 		[self alertLoginFailed];
@@ -100,45 +98,31 @@
 				   withName:name
 				  withEmail:email
 			   withPassword:password]) {
-		[self launchNextView];
+		[self previousView];
 	} else {
 		[self alertAccountCreateFailed];
 	}
 }
 
-- (void)launchNextView
+- (void)previousView
 {
-	//todo: authtoken may always be available in the client or user object - check api, may not have to store u&p
-    NSString *username = [emailTextField text];
-    NSString *password = [passwordTextField text];
-
-	KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
-	[keychainItem setObject:username forKey:(__bridge id)kSecAttrAccount];
-	[keychainItem setObject:password forKey:(__bridge id)kSecValueData];
-	
-//	NSString *newUsername = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
-//	NSString *newPassword = [keychainItem objectForKey:(__bridge id)kSecValueData];
-//	NSLog(@"login: %@ - password: %@", newUsername, newPassword);
-	
-//	ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
-//	[readeyViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
-//	[self presentViewController:readeyViewController animated:YES completion:nil];
-	
-	FoldersViewController *foldersViewController = [[FoldersViewController alloc] init];
-	[foldersViewController setClient:_client];
-	
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:foldersViewController];
-	[navController.navigationBar setTintColor:[UIColor blackColor]];
-	
-	[navController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
-	[self presentViewController:navController animated:YES completion:nil];
+    KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
+    if ([saveLogin isOn]) {
+        NSString *username = [emailTextField text];
+        NSString *password = [passwordTextField text];
+        
+        [keychainItem setObject:username forKey:(__bridge id)kSecAttrAccount];
+        [keychainItem setObject:password forKey:(__bridge id)kSecValueData];
+    } else {
+        [keychainItem resetKeychainItem];
+    }
+    
+    [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	NSLog(@"Index: %@", alertView.description);
-	
-	switch (buttonIndex) {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 	switch (buttonIndex) {
 		case 0:
 			[emailTextField becomeFirstResponder];
 			break;
