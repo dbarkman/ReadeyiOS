@@ -8,6 +8,7 @@
 
 #import "SettingViewController.h"
 #import "PickerViewController.h"
+#import <DropboxSDK/DropboxSDK.h>
 
 @interface SettingViewController ()
 
@@ -52,8 +53,11 @@ NSString *wpm;
 
 	[[self navigationItem] setTitle:@"Settings"];
 	
+	NSData *calmingBlueData = [[NSUserDefaults standardUserDefaults] objectForKey:@"calmingBlue"];
+	UIColor *calmingBlue = [NSKeyedUnarchiver unarchiveObjectWithData:calmingBlueData];
+
 	[[self tableView] setBackgroundView:nil];
-	[[self tableView] setBackgroundColor:[UIColor colorWithRed:102/255.0f green:102/255.0f blue:102/255.0f alpha:1]];
+	[[self tableView] setBackgroundColor:calmingBlue];
 }
 
 - (void)valueSelected:(NSString *)value
@@ -62,16 +66,38 @@ NSString *wpm;
 	[[self tableView] reloadData];
 }
 
--(IBAction)showActionSheet {
-	UIActionSheet *popupQuery = [[UIActionSheet alloc] initWithTitle:@"Logout?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Logout" otherButtonTitles:nil];
-	popupQuery.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-	[popupQuery showInView:self.view];
+-(IBAction)showActionSheet:(int)actionsheet {
+	UIActionSheet *logoutReadey = [[UIActionSheet alloc] initWithTitle:@"Logout of Readey?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Logout" otherButtonTitles:nil];
+	
+	UIActionSheet *unlinkDropbox = [[UIActionSheet alloc] initWithTitle:@"Unlink Dropbox?" delegate:self cancelButtonTitle:@"No" destructiveButtonTitle:@"Yes" otherButtonTitles:nil];
+	
+	switch (actionsheet) {
+		case 0:
+			[logoutReadey setTag:0];
+			[logoutReadey setActionSheetStyle:UIActionSheetStyleBlackOpaque];
+			[logoutReadey showInView:self.view];
+			break;
+		case 1:
+			[unlinkDropbox setTag:1];
+			[unlinkDropbox setActionSheetStyle:UIActionSheetStyleBlackOpaque];
+			[unlinkDropbox showInView:self.view];
+			break;
+	}
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 0) {
-		[_client logout];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+	switch (actionSheet.tag) {
+		case 0:
+			if (buttonIndex == 0) {
+				[_client logout];
+				[self.navigationController popToRootViewControllerAnimated:YES];
+			}
+			break;
+		case 1:
+			if (buttonIndex == 0) {
+				[[DBSession sharedSession] unlinkAll];
+			}
+			break;
 	}
 }
 
@@ -79,7 +105,7 @@ NSString *wpm;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -109,6 +135,9 @@ NSString *wpm;
 			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 			break;
 		case 1:
+			[[cell textLabel] setText:@"Unlink Dropbox"];
+			break;
+		case 2:
 			[[cell textLabel] setText:@"Logout of Readey"];
 			break;
 	}
@@ -144,7 +173,10 @@ NSString *wpm;
 		[[self navigationController] pushViewController:pickerViewController animated:YES];
 	}
 	if (section == 1 && row == 0) {
-		[self showActionSheet];
+		[self showActionSheet:1];
+	}
+	if (section == 2 && row == 0) {
+		[self showActionSheet:0];
 	}
 }
 

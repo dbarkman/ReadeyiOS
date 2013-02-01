@@ -238,6 +238,12 @@ set the response limit in UGQuery as well.
 // calls. Returns nil if there is no delegate (synch mode)
 -(id) getDelegate;
 
+// returns the stored Organization ID
+-(id) getOrgId;
+
+// returns the stored App ID
+-(id) getAppId;
+
 /*********************** OBLIQUE USAGE ************************/
 // This is a general purpose function for directly accessing the
 // UserGrid service. This is useful if the service has new features 

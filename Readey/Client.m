@@ -29,12 +29,17 @@
     return self;
 }
 
+- (NSString *)accessToken
+{
+	return [usergridClient getAccessToken];
+}
+
 - (bool)login:(NSString*)username withPassword:(NSString*)password
 {
     [usergridClient logInUser:username password:password];
     user = [usergridClient getLoggedInUser];
     
-    if (user.username){
+    if (user.username) {
         return true;
     } else {
         return false;
@@ -43,11 +48,12 @@
 
 - (bool)isTokenValid
 {
+	NSString *orgId = [usergridClient getOrgId];
+	NSString *appId = [usergridClient getAppId];
     NSString *token = [usergridClient getAccessToken];
-    user = [usergridClient getLoggedInUser];
-    NSString *uuid = user.uuid;
-    NSLog(@"Token: %@ - User: %@", token, uuid);
-//    [usergridClient apiRequest:@"http://api.usergrid.com/management/<org-name>/<app-name>/users/<user>?access_token=<user token>" operation:nil data:nil];
+    NSString *uuid = [usergridClient getLoggedInUser].uuid;
+	NSString *url = [NSString stringWithFormat:@"http://api.usergrid.com/management/%@/%@/users/%@?access_token=%@", orgId, appId, uuid, token];
+    [usergridClient apiRequest:url operation:nil data:nil];
     return true;
 }
 
@@ -59,10 +65,7 @@
 	[usergridClient logOut];
 }
 
-- (bool)createUser:(NSString*)username
-         withName:(NSString*)name
-        withEmail:(NSString*)email
-     withPassword:(NSString*)password
+- (bool)createUser:(NSString*)username withName:(NSString*)name withEmail:(NSString*)email withPassword:(NSString*)password
 {
     UGClientResponse *response = [usergridClient addUser:username email:email name:name password:password];
     if (response.transactionState == 0) {
@@ -108,7 +111,6 @@
 			}
 			break;
 	}
-
 	return articles;
 }
 

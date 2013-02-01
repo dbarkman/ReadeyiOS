@@ -30,7 +30,7 @@
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
+    return UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationPortrait;
 }
 
 - (void)viewDidLoad
@@ -48,8 +48,6 @@
 	
 	marker = 0;
 	
-	NSString *article = @"SUMMARY: Until now, the mobile revolution has been about squeezing the desktop internet onto portable devices. Entrepreneur Edward Aten says the real revolution for smartphones is about fulfilling a whole new set of needs that people have in their daily lives.   It was a banner year for mobile in 2012.";
-		
 	NSArray *tempArray = [articleContent componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 	
 	wordArray = [tempArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]];

@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UGClient *usergridClient;
 @property (nonatomic, strong) UGUser *user;
 
+- (NSString *)accessToken;
 - (bool)login:(NSString*)username withPassword:(NSString*)password;
 - (bool)isTokenValid;
 - (void)logout;

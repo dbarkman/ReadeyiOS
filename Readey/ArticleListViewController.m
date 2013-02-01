@@ -8,7 +8,7 @@
 
 #import "ArticleListViewController.h"
 #import "ReadeyViewController.h"
-#import "SettingViewController.h"
+#import "ArticleAddViewController.h"
 
 #define FONT_SIZE 16.0f
 #define CELL_CONTENT_MARGIN 10.0f
@@ -19,6 +19,7 @@
 
 @implementation ArticleListViewController
 
+int articleCount;
 NSArray *articles;
 
 @synthesize client = _client;
@@ -35,32 +36,46 @@ NSArray *articles;
 {
     [super viewDidLoad];
 	
+	UIBarButtonItem *refresh = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addClicked)];
+	[refresh setStyle:UIBarButtonItemStyleBordered];
+	[[self navigationItem] setRightBarButtonItem:refresh];
+
 	articles = [_client getArticles];
+	articleCount = [articles count];
+	
 	NSDictionary *article = [articles objectAtIndex:0];
 	NSString *name = [article objectForKey:@"name"];
 	if ([name isEqualToString:@"logout"]) {
-		[[[UIAlertView alloc] initWithTitle:@"Your session has expired. Please login again." message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
-		[_client logout];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+		articleCount = 0;
+		UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Your session has expired. Please login again." message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		[message show];
 	}
-
-	UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(tappedSettings)];
-	[settingsButton setImageInsets:UIEdgeInsetsMake(5.0f, 0.0f, 5.0f, 0.0f)];
-	[[self navigationItem] setRightBarButtonItem:settingsButton];
 }
 
-- (void)tappedSettings
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	SettingViewController *settingsViewController = [[SettingViewController alloc] init];
-	[settingsViewController setClient:_client];
-	[[self navigationController] pushViewController:settingsViewController animated:YES];
+	[_client logout];
+	[self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	
+	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
+- (IBAction)addClicked
+{
+	ArticleAddViewController *articleAddViewController = [[ArticleAddViewController alloc] init];
+	[[self navigationController] pushViewController:articleAddViewController animated:YES];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [articles count];
+    return articleCount;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;

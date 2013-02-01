@@ -62,6 +62,16 @@ NSString *g_deviceUUID = nil;
     return m_delegate;
 }
 
+-(NSString *) getOrgId
+{
+    return m_orgID;
+}
+
+-(NSString *) getAppId
+{
+    return m_appID;
+}
+
 /******************************* INIT *************************************/
 /******************************* INIT *************************************/
 /******************************* INIT *************************************/
@@ -686,7 +696,10 @@ NSString *g_deviceUUID = nil;
 -(void)logOut
 {
     // clear out auth
-    [self setAuth: nil];
+    [self setAuth:nil];
+	
+	// clear the logged in user
+	m_loggedInUser = nil;
     
     if ( m_bLogging ) {
         NSLog(@"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
@@ -709,6 +722,7 @@ NSString *g_deviceUUID = nil;
     // but instead use web form style data
     NSMutableString *postData = [NSMutableString new];
     [postData appendFormat:@"grant_type=%@&%@=%@&%@=%@", grantType, userKey, escapedUserValue, pwdKey, escapedPwdValue];
+//    [postData appendFormat:@"grant_type=%@&%@=%@&%@=%@&ttl=10000", grantType, userKey, escapedUserValue, pwdKey, escapedPwdValue];
     
     // fire off the request
     return [self httpTransaction:url op:kUGHTTPPostAuth opData:postData];    

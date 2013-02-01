@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Client.h"
 
-@interface ArticleListViewController : UITableViewController
+@interface ArticleListViewController : UITableViewController <UIAlertViewDelegate>
 
 @property (nonatomic, strong) Client *client;
 

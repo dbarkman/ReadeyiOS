@@ -9,9 +9,9 @@
 #import "FoldersViewController.h"
 #import "LoginViewController.h"
 #import "ArticleListViewController.h"
-#import "DropboxViewController.h"
 #import "SettingViewController.h"
 #import "KeychainItemWrapper.h"
+#import "DropboxViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 
 @interface FoldersViewController ()
@@ -52,8 +52,6 @@
     
     _client = [[Client alloc] init];
     
-    [_client isTokenValid];
-
 	[[self navigationItem] setTitle:@"Readey"];
 
 	UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(tappedSettings)];
@@ -63,17 +61,29 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
+    [super viewWillAppear:animated];
     
     NSLog(@"View Will Appear");
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
-    [_client isTokenValid];
-    
+    NSLog(@"View Did Appear");
+	
+	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+	
+	if (![_client accessToken]) {
+		[self retryAuth];
+	}
+}
+
+- (void)retryAuth
+{
     KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
     NSString *username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
     NSString *password = [keychainItem objectForKey:(__bridge id)kSecValueData];
-    
-    NSLog(@"Username: %@ - Password: %@", username, password);
     
     if (![_client login:username withPassword:password]) {
         LoginViewController *loginViewController = [[LoginViewController alloc] init];
@@ -81,15 +91,6 @@
         [loginViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
         [self presentViewController:loginViewController animated:YES completion:nil];
     }
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidLoad];
-    
-    NSLog(@"View Did Appear");
-    
-    [_client isTokenValid];
 }
 
 - (void)tappedSettings
@@ -142,6 +143,7 @@
             if (![[DBSession sharedSession] isLinked]) {
                 [[DBSession sharedSession] linkFromController:self];
             } else {
+				[dropboxViewController setTitle:@"Dropbox"];
                 [[self navigationController] pushViewController:dropboxViewController animated:YES];
             }
             break;

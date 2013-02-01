@@ -10,9 +10,7 @@
 #import "PickerViewController.h"
 #import "Client.h"
 
-@interface SettingViewController : UITableViewController <PickerViewDelegate, UIActionSheetDelegate>
-
--(IBAction)showActionSheet;
+@interface SettingViewController : UITableViewController <PickerViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) Client *client;
 

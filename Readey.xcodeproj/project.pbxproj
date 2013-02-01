@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		638BA0E816BAD05A0005529C /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BA0E716BAD05A0005529C /* DropboxSDK.framework */; };
+		638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA0EF16BB363F0005529C /* ArticleAddViewController.m */; };
+		638BA0F216BB363F0005529C /* ArticleAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638BA0F016BB363F0005529C /* ArticleAddViewController.xib */; };
 		63A2ED26169C8DCD0071D549 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A2ED25169C8DCD0071D549 /* UIKit.framework */; };
 		63A2ED28169C8DCD0071D549 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A2ED27169C8DCD0071D549 /* Foundation.framework */; };
 		63A2ED2A169C8DCD0071D549 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A2ED29169C8DCD0071D549 /* CoreGraphics.framework */; };
@@ -56,6 +59,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		638BA0E716BAD05A0005529C /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
+		638BA0EE16BB363F0005529C /* ArticleAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleAddViewController.h; sourceTree = "<group>"; };
+		638BA0EF16BB363F0005529C /* ArticleAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleAddViewController.m; sourceTree = "<group>"; };
+		638BA0F016BB363F0005529C /* ArticleAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleAddViewController.xib; sourceTree = "<group>"; };
 		63A2ED21169C8DCD0071D549 /* Readey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Readey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63A2ED25169C8DCD0071D549 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		63A2ED27169C8DCD0071D549 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -148,6 +155,7 @@
 				63A2ED26169C8DCD0071D549 /* UIKit.framework in Frameworks */,
 				63A2ED28169C8DCD0071D549 /* Foundation.framework in Frameworks */,
 				63A2ED2A169C8DCD0071D549 /* CoreGraphics.framework in Frameworks */,
+				638BA0E816BAD05A0005529C /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +183,7 @@
 		63A2ED24169C8DCD0071D549 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				638BA0E716BAD05A0005529C /* DropboxSDK.framework */,
 				E4ED32FF16B79E3E00C21480 /* DropboxSDK.framework */,
 				E4A69E5F16B79D51001B1157 /* QuartzCore.framework */,
 				63A2ED5B169E18480071D549 /* Security.framework */,
@@ -214,6 +223,9 @@
 				63F1FD5116A7212100637B23 /* PickerViewController.xib */,
 				E4ED330116B7B0FA00C21480 /* DropboxViewController.h */,
 				E4ED330216B7B0FA00C21480 /* DropboxViewController.m */,
+				638BA0EE16BB363F0005529C /* ArticleAddViewController.h */,
+				638BA0EF16BB363F0005529C /* ArticleAddViewController.m */,
+				638BA0F016BB363F0005529C /* ArticleAddViewController.xib */,
 			);
 			path = Readey;
 			sourceTree = "<group>";
@@ -357,6 +369,7 @@
 				63A2EDBE16A529800071D549 /* settings@2x.png in Resources */,
 				63A2EDC016A529950071D549 /* settings.png in Resources */,
 				63F1FD5316A7212100637B23 /* PickerViewController.xib in Resources */,
+				638BA0F216BB363F0005529C /* ArticleAddViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,6 +410,7 @@
 				63F1FD5216A7212100637B23 /* PickerViewController.m in Sources */,
 				63F1FD6716A73D6400637B23 /* SettingViewController.m in Sources */,
 				E4ED330316B7B0FA00C21480 /* DropboxViewController.m in Sources */,
+				638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,11 +492,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Downloads/dropbox-ios-sdk-1.3.3\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Readey/Readey-Prefix.pch";
 				INFOPLIST_FILE = "Readey/Readey-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -493,11 +510,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Downloads/dropbox-ios-sdk-1.3.3\"",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Readey/Readey-Prefix.pch";
 				INFOPLIST_FILE = "Readey/Readey-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

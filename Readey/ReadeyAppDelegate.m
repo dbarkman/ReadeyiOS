@@ -8,24 +8,30 @@
 
 #import "ReadeyAppDelegate.h"
 #import "FoldersViewController.h"
+#import "DropboxViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 
 @implementation ReadeyAppDelegate
 
+UINavigationController *navigationController;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	UIColor *calmingBlue = [UIColor colorWithRed:21/255.0f green:100/255.0f blue:178/255.0f alpha:1];
+	NSData *calmingBlueData = [NSKeyedArchiver archivedDataWithRootObject:calmingBlue];
+	[[NSUserDefaults standardUserDefaults] setObject:calmingBlueData forKey:@"calmingBlue"];
+
     DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"py9e1yuyy55owpb" appSecret:@"ai5j37a4ss5wz1g" root:kDBRootAppFolder]; // either kDBRootAppFolder or kDBRootDropbox
     [DBSession setSharedSession:dbSession];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     
     FoldersViewController *foldersViewController = [[FoldersViewController alloc] init];
             
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:foldersViewController];
-    [navController.navigationBar setTintColor:[UIColor blackColor]];
+    navigationController = [[UINavigationController alloc] initWithRootViewController:foldersViewController];
+    [navigationController.navigationBar setTintColor:calmingBlue];
             
-    [[self window] setRootViewController:navController];
+    [[self window] setRootViewController:navigationController];
     [self.window makeKeyAndVisible];
 
     return YES;
@@ -34,18 +40,12 @@
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
 	if ([[DBSession sharedSession] handleOpenURL:url]) {
 		if ([[DBSession sharedSession] isLinked]) {
-            self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-            FoldersViewController *foldersViewController = [[FoldersViewController alloc] init];
-            
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:foldersViewController];
-            [navController.navigationBar setTintColor:[UIColor blackColor]];
-            
-            [[self window] setRootViewController:navController];
-            [self.window makeKeyAndVisible];
+			DropboxViewController *dropboxViewController = [[DropboxViewController alloc] init];
+			[dropboxViewController setTitle:@"Dropbox"];
+			[navigationController pushViewController:dropboxViewController animated:YES];
 		}
 		return YES;
 	}
-	
 	return NO;
 }
 
