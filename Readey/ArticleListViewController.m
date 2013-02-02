@@ -20,7 +20,7 @@
 @implementation ArticleListViewController
 
 int articleCount;
-NSArray *articles;
+NSMutableArray *articles;
 
 @synthesize client = _client;
 
@@ -36,20 +36,35 @@ NSArray *articles;
 {
     [super viewDidLoad];
 	
-	UIBarButtonItem *refresh = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addClicked)];
-	[refresh setStyle:UIBarButtonItemStyleBordered];
-	[[self navigationItem] setRightBarButtonItem:refresh];
+	UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addClicked)];
+	[add setStyle:UIBarButtonItemStyleBordered];
+	[[self navigationItem] setRightBarButtonItem:add];
+}
 
-	articles = [_client getArticles];
-	articleCount = [articles count];
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 	
-	NSDictionary *article = [articles objectAtIndex:0];
-	NSString *name = [article objectForKey:@"name"];
-	if ([name isEqualToString:@"logout"]) {
-		articleCount = 0;
-		UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Your session has expired. Please login again." message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		[message show];
+	NSArray *tempArray = [_client getArticles];
+	articles = [[NSMutableArray alloc] initWithArray:tempArray];
+	
+	if ([articles count] == 0) {
+		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"shouldLogout"] boolValue]) {
+			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"shouldLogout"];
+			[self showAlert:@"Your session has expired. Please login again." withMessage:nil];
+		} else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"error"] boolValue]) {
+			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"error"];
+			[self showAlert:@"Error" withMessage:@"There was an error retrieving your articles."];
+		}
 	}
+	
+	[[self tableView] reloadData];
+}
+
+- (void)showAlert:(NSString *)title withMessage:(NSString *)message
+{
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -68,14 +83,32 @@ NSArray *articles;
 - (IBAction)addClicked
 {
 	ArticleAddViewController *articleAddViewController = [[ArticleAddViewController alloc] init];
+	[articleAddViewController setClient:_client];
 	[[self navigationController] pushViewController:articleAddViewController animated:YES];
+}
+
+- (bool)removeArticle:(NSDictionary *)article
+{
+	NSString *articleUUID = [article objectForKey:@"uuid"];
+	if (![_client removeArticle:articleUUID]) {
+		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"shouldLogout"] boolValue]) {
+			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"shouldLogout"];
+			[self showAlert:@"Your session has expired. Please login again." withMessage:nil];
+			return false;
+		} else {
+			[self showAlert:@"Error" withMessage:@"The article could not be removed"];
+			return false;
+		}
+	} else {
+		return true;
+	}
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return articleCount;
+    return [articles count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -112,6 +145,19 @@ NSArray *articles;
 	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if (editingStyle == UITableViewCellEditingStyleDelete) {
+		if ([self removeArticle:[articles objectAtIndex:[indexPath row]]]) {
+			[articles removeObjectAtIndex:[indexPath row]];
+			[tableView beginUpdates];
+			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+			[tableView endUpdates];
+			[tableView reloadData];
+		}
+	}
 }
 
 #pragma mark - Table view delegate

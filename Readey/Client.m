@@ -36,10 +36,9 @@
 
 - (bool)login:(NSString*)username withPassword:(NSString*)password
 {
-    [usergridClient logInUser:username password:password];
-    user = [usergridClient getLoggedInUser];
+    UGClientResponse *response = [usergridClient logInUser:username password:password];
     
-    if (user.username) {
+    if (response.transactionState == 0) {
         return true;
     } else {
         return false;
@@ -76,6 +75,11 @@
 
 - (NSArray *)getArticles
 {
+	KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
+	NSString *username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
+	NSString *password = [keychainItem objectForKey:(__bridge id)kSecValueData];
+
+    user = [usergridClient getLoggedInUser];
 	NSString *userUUID = [user uuid];
 	NSString *userQuery = [NSString stringWithFormat:@"select * where user = %@ order by created desc", userUUID];
 	
@@ -84,10 +88,6 @@
 	UGClientResponse *response = [usergridClient getEntities:@"articles" query:query];
 	
 	NSArray *articles;
-	KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
-	NSString *username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
-	NSString *password = [keychainItem objectForKey:(__bridge id)kSecValueData];
-	NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] initWithCapacity:1];
 
 	switch (response.transactionState) {
 		case 0:
@@ -101,17 +101,90 @@
 						articles = [response.response objectForKey:@"entities"];
 						break;
 					case 1:
-						[tempDict setObject:@"logout" forKey:@"name"];
-						articles = [[NSArray alloc] initWithObjects:tempDict, nil];
+						articles = [[NSArray alloc] init];
+						[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"error"];
 						break;
 				}
 			} else {
-				[tempDict setObject:@"logout" forKey:@"name"];
-				articles = [[NSArray alloc] initWithObjects:tempDict, nil];
+				articles = [[NSArray alloc] init];
+				[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"shouldLogout"];
 			}
 			break;
 	}
 	return articles;
+}
+
+- (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content
+{
+	KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
+	NSString *username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
+	NSString *password = [keychainItem objectForKey:(__bridge id)kSecValueData];
+	
+	NSString *uuid = [user uuid];
+	NSMutableDictionary *articleDictionary = [[NSMutableDictionary alloc] init];
+	
+	[articleDictionary setObject:@"articles" forKey:@"type"];
+	[articleDictionary setObject:name forKey:@"name"];
+	[articleDictionary setObject:source forKey:@"source"];
+	[articleDictionary setObject:content forKey:@"content"];
+	[articleDictionary setObject:uuid forKey:@"user"];
+	
+	UGClientResponse *response = [usergridClient createEntity:articleDictionary];
+	
+	switch (response.transactionState) {
+		case 0:
+			return true;
+			break;
+		case 1:
+			if ([self login:username withPassword:password]) {
+				UGClientResponse *response = [usergridClient createEntity:articleDictionary];
+				switch (response.transactionState) {
+					case 0:
+						return true;
+						break;
+					case 1:
+						return false;
+						break;
+				}
+			} else {
+				[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"shouldLogout"];
+				return false;
+			}
+			break;
+	}
+	return false;
+}
+
+- (bool)removeArticle:(NSString *)uuid
+{
+	KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
+	NSString *username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
+	NSString *password = [keychainItem objectForKey:(__bridge id)kSecValueData];
+	
+	UGClientResponse *response = [usergridClient removeEntity:@"articles" entityID:uuid];
+	
+	switch (response.transactionState) {
+		case 0:
+			return true;
+			break;
+		case 1:
+			if ([self login:username withPassword:password]) {
+				UGClientResponse *response = [usergridClient removeEntity:@"articles" entityID:uuid];
+				switch (response.transactionState) {
+					case 0:
+						return true;
+						break;
+					case 1:
+						return false;
+						break;
+				}
+			} else {
+				[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"shouldLogout"];
+				return false;
+			}
+			break;
+	}
+	return false;
 }
 
 @end

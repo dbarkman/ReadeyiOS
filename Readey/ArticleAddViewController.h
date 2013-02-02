@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Client.h"
 
-@interface ArticleAddViewController : UIViewController
+@interface ArticleAddViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, UIAlertViewDelegate>
 {
-	IBOutlet UITextView *textView;
+	IBOutlet UITextField *articleName;
+	IBOutlet UITextField *articleUrl;
+	IBOutlet UITextView *articleContents;
 }
+
+@property (nonatomic, strong) Client *client;
 
 @end

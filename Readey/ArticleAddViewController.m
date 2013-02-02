@@ -18,11 +18,20 @@
 
 @implementation ArticleAddViewController
 
+@synthesize client = _client;
+
+- (void)setClient:(Client *)c {
+    _client = c;
+}
+
+- (Client *)client {
+    return _client;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -30,80 +39,67 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
+	
+	UIView *emptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+	
+	[articleName setDelegate:self];
+	[articleUrl setDelegate:self];
+	[articleContents setDelegate:self];
+	
+	[articleUrl setInputView:emptyView];
+	[articleContents setInputView:emptyView];
+	
+	UIBarButtonItem *save = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(saveTapped)];
+	[[self navigationItem] setRightBarButtonItem:save];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
 	
-	[self subscribeToKeyboardEvents:YES];
+	[articleContents setClipsToBounds:YES];
+	[[articleContents layer] setCornerRadius:10.0f];
 	
-	[textView setClipsToBounds:YES];
-	[[textView layer] setCornerRadius:10.0f];
+	NSString *alertMessage = @"This form is meant for copy and paste. To type an article yourself, login with your Readey account at speedReadey.com. The keyboard will appear for the Name field only.";
+	UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Paste Only" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[message show];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
-	[super viewWillDisappear:animated];
+	[textField resignFirstResponder];
 	
-    [self subscribeToKeyboardEvents:NO];
+	return YES;
 }
 
-- (void)subscribeToKeyboardEvents:(BOOL)subscribe
+- (IBAction)saveTapped
 {
-    if (subscribe) {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(keyboardDidShow:)
-                                                     name:UIKeyboardDidShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(keyboardWillHide:)
-                                                     name:UIKeyboardWillHideNotification object:nil];
-    } else {
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-    }
+	NSString *name = [articleName text];
+	NSString *url = [articleUrl text];
+	NSString *contents = [articleContents text];
+	
+	if ([_client createArticle:name source:url content:contents]) {
+		[[self navigationController] popViewControllerAnimated:YES];
+	} else {
+		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"shouldLogout"] boolValue]) {
+			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"shouldLogout"];
+			[self showAlert:@"Your session has expired. Please login again." withMessage:nil];
+		} else {
+			[self showAlert:@"Error" withMessage:@"The article could not be saved"];
+		}
+	}
 }
 
-- (void)keyboardDidShow:(NSNotification *)nsNotification
+- (void)showAlert:(NSString *)title withMessage:(NSString *)message
 {
-    NSDictionary * userInfo = [nsNotification userInfo];
-    CGSize kbSize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-	
-    CGRect newFrame = [self.view frame];
-	
-    CGFloat kHeight = kbSize.height;
-	
-    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        kHeight = kbSize.width;
-    }
-	
-    newFrame.size.height -= kHeight;
-	
-    [self.view setFrame:newFrame];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alert show];
 }
 
-- (void)keyboardWillHide:(NSNotification *)nsNotification
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSDictionary * userInfo = [nsNotification userInfo];
-    CGSize kbSize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
-    CGRect newFrame = [self.view frame];
-	
-    CGFloat kHeight = kbSize.height;
-	
-    if(UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)){
-        kHeight = kbSize.width;
-    }
-	
-    newFrame.size.height += kHeight;
-	
-    // set the new frame
-    [self.view setFrame:newFrame];
+	[_client logout];
+	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

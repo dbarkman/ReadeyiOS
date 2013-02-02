@@ -25,5 +25,8 @@
 	 withPassword:(NSString*)password;
 
 - (NSArray *)getArticles;
+- (bool)removeArticle:(NSString *)uuid;
+
+- (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content;
 
 @end
