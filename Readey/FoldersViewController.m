@@ -13,6 +13,7 @@
 #import "KeychainItemWrapper.h"
 #import "DropboxViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "GoogleReaderViewController.h"
 
 @interface FoldersViewController ()
 
@@ -104,7 +105,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -123,6 +124,10 @@
             [[cell textLabel] setText:@"Dropbox"];
             [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             break;
+        case 2:
+            [[cell textLabel] setText:@"Google Reader"];
+            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            break;
 	}
     return cell;
 }
@@ -133,6 +138,7 @@
 {
     ArticleListViewController *articleListViewController = [[ArticleListViewController alloc] init];
     DropboxViewController *dropboxViewController = [[DropboxViewController alloc] init];
+	GoogleReaderViewController *googleReaderViewController = [[GoogleReaderViewController alloc] init];
 	switch ([indexPath row]) {
 		case 0:
             [articleListViewController setTitle:@"Articles"];
@@ -147,8 +153,12 @@
                 [[self navigationController] pushViewController:dropboxViewController animated:YES];
             }
             break;
+		case 2:
+            [googleReaderViewController setTitle:@"Google Reader"];
+//            [googleReaderViewController setClient:_client];
+            [[self navigationController] pushViewController:googleReaderViewController animated:YES];
+			break;
 	}
-    
 }
 
 @end

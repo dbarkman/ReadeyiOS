@@ -10,6 +10,7 @@
 		638BA0E816BAD05A0005529C /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BA0E716BAD05A0005529C /* DropboxSDK.framework */; };
 		638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA0EF16BB363F0005529C /* ArticleAddViewController.m */; };
 		638BA0F216BB363F0005529C /* ArticleAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638BA0F016BB363F0005529C /* ArticleAddViewController.xib */; };
+		638BA12616BE3EAC0005529C /* GoogleReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */; };
 		63A2ED26169C8DCD0071D549 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A2ED25169C8DCD0071D549 /* UIKit.framework */; };
 		63A2ED28169C8DCD0071D549 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A2ED27169C8DCD0071D549 /* Foundation.framework */; };
 		63A2ED2A169C8DCD0071D549 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A2ED29169C8DCD0071D549 /* CoreGraphics.framework */; };
@@ -63,6 +64,8 @@
 		638BA0EE16BB363F0005529C /* ArticleAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleAddViewController.h; sourceTree = "<group>"; };
 		638BA0EF16BB363F0005529C /* ArticleAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleAddViewController.m; sourceTree = "<group>"; };
 		638BA0F016BB363F0005529C /* ArticleAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleAddViewController.xib; sourceTree = "<group>"; };
+		638BA12416BE3EAB0005529C /* GoogleReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderViewController.h; sourceTree = "<group>"; };
+		638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderViewController.m; sourceTree = "<group>"; };
 		63A2ED21169C8DCD0071D549 /* Readey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Readey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63A2ED25169C8DCD0071D549 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		63A2ED27169C8DCD0071D549 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -226,6 +229,8 @@
 				638BA0EE16BB363F0005529C /* ArticleAddViewController.h */,
 				638BA0EF16BB363F0005529C /* ArticleAddViewController.m */,
 				638BA0F016BB363F0005529C /* ArticleAddViewController.xib */,
+				638BA12416BE3EAB0005529C /* GoogleReaderViewController.h */,
+				638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */,
 			);
 			path = Readey;
 			sourceTree = "<group>";
@@ -411,6 +416,7 @@
 				63F1FD6716A73D6400637B23 /* SettingViewController.m in Sources */,
 				E4ED330316B7B0FA00C21480 /* DropboxViewController.m in Sources */,
 				638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */,
+				638BA12616BE3EAC0005529C /* GoogleReaderViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
