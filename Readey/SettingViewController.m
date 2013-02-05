@@ -8,6 +8,7 @@
 
 #import "SettingViewController.h"
 #import "PickerViewController.h"
+#import "GoogleReaderClient.h"
 #import <DropboxSDK/DropboxSDK.h>
 
 @interface SettingViewController ()
@@ -33,11 +34,6 @@ NSString *wpm;
 	self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
 		[[self navigationItem] setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
-		
-		UIBarButtonItem *about = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(aboutClicked)];
-		
-		NSArray *items = [NSArray arrayWithObject:about];
-		self.toolbarItems = items;
 	}
     return self;
 }
@@ -67,35 +63,48 @@ NSString *wpm;
 }
 
 -(IBAction)showActionSheet:(int)actionsheet {
-	UIActionSheet *logoutReadey = [[UIActionSheet alloc] initWithTitle:@"Logout of Readey?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Logout" otherButtonTitles:nil];
-	
 	UIActionSheet *unlinkDropbox = [[UIActionSheet alloc] initWithTitle:@"Unlink Dropbox?" delegate:self cancelButtonTitle:@"No" destructiveButtonTitle:@"Yes" otherButtonTitles:nil];
 	
+	UIActionSheet *logoutGoogleReader = [[UIActionSheet alloc] initWithTitle:@"Logout of Google Reader?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Logout" otherButtonTitles:nil];
+	
+	UIActionSheet *logoutReadey = [[UIActionSheet alloc] initWithTitle:@"Logout of Readey?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Logout" otherButtonTitles:nil];
+	
 	switch (actionsheet) {
-		case 0:
-			[logoutReadey setTag:0];
-			[logoutReadey setActionSheetStyle:UIActionSheetStyleBlackOpaque];
-			[logoutReadey showInView:self.view];
-			break;
 		case 1:
 			[unlinkDropbox setTag:1];
 			[unlinkDropbox setActionSheetStyle:UIActionSheetStyleBlackOpaque];
 			[unlinkDropbox showInView:self.view];
+			break;
+		case 2:
+			[logoutGoogleReader setTag:2];
+			[logoutGoogleReader setActionSheetStyle:UIActionSheetStyleBlackOpaque];
+			[logoutGoogleReader showInView:self.view];
+			break;
+		case 3:
+			[logoutReadey setTag:3];
+			[logoutReadey setActionSheetStyle:UIActionSheetStyleBlackOpaque];
+			[logoutReadey showInView:self.view];
 			break;
 	}
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	switch (actionSheet.tag) {
-		case 0:
-			if (buttonIndex == 0) {
-				[_client logout];
-				[self.navigationController popToRootViewControllerAnimated:YES];
-			}
-			break;
 		case 1:
 			if (buttonIndex == 0) {
 				[[DBSession sharedSession] unlinkAll];
+			}
+			break;
+		case 2:
+			if (buttonIndex == 0) {
+				GoogleReaderClient *grClient = [[GoogleReaderClient alloc] init];
+				[grClient logout];
+			}
+			break;
+		case 3:
+			if (buttonIndex == 0) {
+				[_client logout];
+				[self.navigationController popToRootViewControllerAnimated:YES];
 			}
 			break;
 	}
@@ -105,7 +114,7 @@ NSString *wpm;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -138,6 +147,9 @@ NSString *wpm;
 			[[cell textLabel] setText:@"Unlink Dropbox"];
 			break;
 		case 2:
+			[[cell textLabel] setText:@"Logout of Google Reader"];
+			break;
+		case 3:
 			[[cell textLabel] setText:@"Logout of Readey"];
 			break;
 	}
@@ -176,7 +188,10 @@ NSString *wpm;
 		[self showActionSheet:1];
 	}
 	if (section == 2 && row == 0) {
-		[self showActionSheet:0];
+		[self showActionSheet:2];
+	}
+	if (section == 3 && row == 0) {
+		[self showActionSheet:3];
 	}
 }
 

@@ -52,15 +52,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	NSData *calmingBlueData = [[NSUserDefaults standardUserDefaults] objectForKey:@"calmingBlue"];
-	UIColor *calmingBlue = [NSKeyedUnarchiver unarchiveObjectWithData:calmingBlueData];
-	
-	self.view.backgroundColor = calmingBlue;
-	
-	emailTextField.delegate = self;
-	passwordTextField.delegate = self;
-//	[emailTextField becomeFirstResponder];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

@@ -49,8 +49,6 @@
 {
     [super viewDidLoad];
     
-    NSLog(@"View Did Load");
-    
     _client = [[Client alloc] init];
     
 	[[self navigationItem] setTitle:@"Readey"];
@@ -60,19 +58,10 @@
 	[[self navigationItem] setRightBarButtonItem:settingsButton];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    NSLog(@"View Will Appear");
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    NSLog(@"View Did Appear");
-	
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 	
 	if (![_client accessToken]) {
@@ -155,7 +144,6 @@
             break;
 		case 2:
             [googleReaderViewController setTitle:@"Google Reader"];
-//            [googleReaderViewController setClient:_client];
             [[self navigationController] pushViewController:googleReaderViewController animated:YES];
 			break;
 	}

@@ -1,50 +1,51 @@
 //
-//  GoogleReaderViewController.m
+//  GoogleReaderFeedViewController.m
 //  Readey
 //
-//  Created by David Barkman on 2/2/13.
+//  Created by David Barkman on 2/5/13.
 //  Copyright (c) 2013 RealSimpleApps. All rights reserved.
 //
 
-#import "GoogleReaderViewController.h"
-#import "GoogleReaderClient.h"
 #import "GoogleReaderFeedViewController.h"
-#import "GoogleReaderLoginViewController.h"
+#import "GoogleReaderClient.h"
 
 #define FONT_SIZE 18.0f
 #define CELL_CONTENT_MARGIN 10.0f
 
-@implementation GoogleReaderViewController
+@interface GoogleReaderFeedViewController ()
 
-@synthesize subscriptionTitles;
+@end
+
+@implementation GoogleReaderFeedViewController
+
+@synthesize navTitle, feed, articles;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
-		[[self navigationItem] setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
+        // Custom initialization
     }
     return self;
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewDidLoad
 {
-    [super viewDidAppear:animated];
-    
-	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    [super viewDidLoad];
 	
+	[[self navigationItem] setTitle:navTitle];
+	
+	articles = [[NSMutableArray alloc] init];
+
 	GoogleReaderClient *grClient = [[GoogleReaderClient alloc] init];
-	
-	if ([grClient isLoggedIn]) {
-		NSString *authToken = [grClient getAuthToken];
-		subscriptionTitles = [grClient getSubscriptionList:authToken];
-		
-		[[self tableView] reloadData];
-	} else {
-		GoogleReaderLoginViewController *grLoginViewController = [[GoogleReaderLoginViewController alloc] init];
-		[grLoginViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-		[self presentViewController:grLoginViewController animated:YES completion:nil];
-	}
+	NSString *authToken = [grClient getAuthToken];
+	articles = [grClient getSubscriptionFeed:authToken fromFeed:feed];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
@@ -56,13 +57,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [subscriptionTitles count];
+    return [articles count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-	NSDictionary *tempDict = [subscriptionTitles objectAtIndex:[indexPath row]];
+	NSDictionary *tempDict = [articles objectAtIndex:[indexPath row]];
 	NSString *title = [tempDict objectForKey:@"title"];
+	if (title.length == 0) title = @"(title unknown)";
 	
 	CGSize frameSize = self.view.frame.size;
 	CGSize constraint = CGSizeMake(frameSize.width - 20 - (CELL_CONTENT_MARGIN * 2), 20000.0f);
@@ -81,11 +83,12 @@
 		[[cell textLabel] setFont:[UIFont boldSystemFontOfSize:FONT_SIZE]];
 	}
 	
-	NSDictionary *tempDict = [subscriptionTitles objectAtIndex:[indexPath row]];
+	NSDictionary *tempDict = [articles objectAtIndex:[indexPath row]];
 	NSString *title = [tempDict objectForKey:@"title"];
+	if (title.length == 0) title = @"(title unknown)";
 	
 	[[cell textLabel] setText:title];
-
+	
 	return cell;
 }
 
@@ -93,15 +96,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSDictionary *tempDict = [subscriptionTitles objectAtIndex:[indexPath row]];
-	NSString *feedId = [tempDict objectForKey:@"id"];
-	NSString *title = [tempDict objectForKey:@"title"];
-	
-	GoogleReaderFeedViewController *grFeedViewController = [[GoogleReaderFeedViewController alloc] init];
-	[grFeedViewController setFeed:feedId];
-	[grFeedViewController setNavTitle:title];
-	
-	[[self navigationController] pushViewController:grFeedViewController animated:YES];
 }
 
 @end

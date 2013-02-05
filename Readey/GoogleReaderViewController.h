@@ -10,4 +10,6 @@
 
 @interface GoogleReaderViewController : UITableViewController
 
+@property (nonatomic, retain) NSMutableArray *subscriptionTitles;
+
 @end
