@@ -7,12 +7,14 @@
 //
 
 #import "GoogleReaderViewController.h"
+#import "GoogleReaderClient.h"
 
-@interface GoogleReaderViewController ()
-
-@end
+#define FONT_SIZE 18.0f
+#define CELL_CONTENT_MARGIN 10.0f
 
 @implementation GoogleReaderViewController
+
+NSMutableArray *subscriptionTitles;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -27,70 +29,11 @@
 {
     [super viewDidLoad];
 	
-//	http://stackoverflow.com/questions/3802008/native-google-reader-iphone-application/3829114#3829114
+	GoogleReaderClient *grClient = [[GoogleReaderClient alloc] init];
+	NSString *authToken = [grClient getAuthToken];
+	subscriptionTitles = [grClient getSubscriptionList:authToken];
 	
-	NSString *username = @"speedreadey@gmail.com";
-	NSString *password = @"ads0nepa";
-	NSString *source = @"RealSimpleApps-Readey-1.0";
-
-    NSMutableURLRequest *httpReq = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.google.com/accounts/ClientLogin"] ];
-    [httpReq setTimeoutInterval:30.0];
-    [httpReq setHTTPMethod:@"POST"];
-    [httpReq addValue:@"Content-Type" forHTTPHeaderField:@"application/x-www-form-urlencoded"];
-    NSString *requestBody = [[NSString alloc] initWithFormat:@"Email=%@&Passwd=%@&service=reader&accountType=HOSTED_OR_GOOGLE&source=%@", username, password, source];
-    [httpReq setHTTPBody:[requestBody dataUsingEncoding:NSASCIIStringEncoding]];
-	
-    NSHTTPURLResponse *response = nil;
-    NSError *error = nil;
-    NSData *data = nil;
-    NSString *responseStr = nil;
-    int responseStatus = 0;
-    data = [NSURLConnection sendSynchronousRequest:httpReq returningResponse:&response error:&error];
-	
-	if ([data length] > 0) {
-        responseStr = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        NSLog(@"Response From Google: %@", responseStr);
-		
-		NSArray *responseArray = [responseStr componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"="]];
-		NSLog(@"Auth: %@", [responseArray objectAtIndex:3]);
-		
-        responseStatus = [response statusCode];
-
-        if (responseStatus == 200 ) {
-			NSLog(@"Authentication Successful!!");
-
-            httpReq = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.google.com/reader/api/0/subscription/list?output=json"] ];
-			[httpReq setTimeoutInterval:30.0];
-			[httpReq setHTTPMethod:@"POST"];
-			[httpReq addValue:@"Content-Type" forHTTPHeaderField:@"application/x-www-form-urlencoded"];
-			
-			NSMutableDictionary *headerDict = [[httpReq allHTTPHeaderFields] mutableCopy];
-			[headerDict setObject:[responseArray objectAtIndex:3] forKey:@"Auth"];
-			[httpReq setAllHTTPHeaderFields:headerDict];
-			
-			response = nil;
-			error = nil;
-			data = nil;
-			responseStr = nil;
-			int responseStatus = 0;
-			data = [NSURLConnection sendSynchronousRequest:httpReq returningResponse:&response error:&error];
-			
-			if ([data length] > 0) {
-				responseStr = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-				NSLog(@"Response From Google: %@", responseStr);
-				
-				responseStatus = [response statusCode];
-				
-				if (responseStatus == 200 ) {
-					NSLog(@"Get List Successful!!");
-				} else if (responseStatus == 403) {
-					NSLog(@"get list failed");
-				}
-			}
-		} else if (responseStatus == 403) {
-			NSLog(@"authentication failed");
-		}
-	}
+	[[self tableView] reloadData];
 }
 
 #pragma mark - Table view data source
@@ -102,15 +45,37 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return [subscriptionTitles count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+	NSDictionary *tempDict = [subscriptionTitles objectAtIndex:[indexPath row]];
+	NSString *title = [tempDict objectForKey:@"title"];
+	
+	CGSize frameSize = self.view.frame.size;
+	CGSize constraint = CGSizeMake(frameSize.width - 20 - (CELL_CONTENT_MARGIN * 2), 20000.0f);
+	CGSize size = [title sizeWithFont:[UIFont boldSystemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
+	
+	return size.height + (CELL_CONTENT_MARGIN * 2);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    return cell;
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+	if (cell == nil) {
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+		[[cell textLabel] setLineBreakMode:NSLineBreakByWordWrapping];
+		[[cell textLabel] setNumberOfLines:0];
+		[[cell textLabel] setFont:[UIFont boldSystemFontOfSize:FONT_SIZE]];
+	}
+	
+	NSDictionary *tempDict = [subscriptionTitles objectAtIndex:[indexPath row]];
+	NSString *title = [tempDict objectForKey:@"title"];
+	
+	[[cell textLabel] setText:title];
+
+	return cell;
 }
 
 #pragma mark - Table view delegate

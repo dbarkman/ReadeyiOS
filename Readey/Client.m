@@ -11,6 +11,9 @@
 
 @implementation Client
 
+NSString *username;
+NSString *password;
+
 @synthesize usergridClient, user;
 
 - (id)init
@@ -25,6 +28,10 @@
         //make new client
         usergridClient = [[UGClient alloc]initWithOrganizationId: orgName withApplicationID: appName];
         [usergridClient setLogging:true]; //uncomment to see debug output in console window
+		
+		KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
+		username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
+		password = [keychainItem objectForKey:(__bridge id)kSecValueData];
     }
     return self;
 }
@@ -75,10 +82,6 @@
 
 - (NSArray *)getArticles
 {
-	KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
-	NSString *username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
-	NSString *password = [keychainItem objectForKey:(__bridge id)kSecValueData];
-
     user = [usergridClient getLoggedInUser];
 	NSString *userUUID = [user uuid];
 	NSString *userQuery = [NSString stringWithFormat:@"select * where user = %@ order by created desc", userUUID];
@@ -116,10 +119,6 @@
 
 - (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content
 {
-	KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
-	NSString *username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
-	NSString *password = [keychainItem objectForKey:(__bridge id)kSecValueData];
-	
 	NSString *uuid = [user uuid];
 	NSMutableDictionary *articleDictionary = [[NSMutableDictionary alloc] init];
 	
@@ -157,10 +156,6 @@
 
 - (bool)removeArticle:(NSString *)uuid
 {
-	KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
-	NSString *username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
-	NSString *password = [keychainItem objectForKey:(__bridge id)kSecValueData];
-	
 	UGClientResponse *response = [usergridClient removeEntity:@"articles" entityID:uuid];
 	
 	switch (response.transactionState) {

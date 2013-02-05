@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		633309D516C0CCC3002A88FE /* GoogleReaderClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309D416C0CCC3002A88FE /* GoogleReaderClient.m */; };
 		638BA0E816BAD05A0005529C /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BA0E716BAD05A0005529C /* DropboxSDK.framework */; };
 		638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA0EF16BB363F0005529C /* ArticleAddViewController.m */; };
 		638BA0F216BB363F0005529C /* ArticleAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638BA0F016BB363F0005529C /* ArticleAddViewController.xib */; };
@@ -60,6 +61,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		633309D316C0CCC3002A88FE /* GoogleReaderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderClient.h; sourceTree = "<group>"; };
+		633309D416C0CCC3002A88FE /* GoogleReaderClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderClient.m; sourceTree = "<group>"; };
 		638BA0E716BAD05A0005529C /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		638BA0EE16BB363F0005529C /* ArticleAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleAddViewController.h; sourceTree = "<group>"; };
 		638BA0EF16BB363F0005529C /* ArticleAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleAddViewController.m; sourceTree = "<group>"; };
@@ -210,27 +213,29 @@
 				63A2ED2C169C8DCD0071D549 /* Supporting Files */,
 				63A2ED61169E1B5D0071D549 /* KeychainItemWrapper.h */,
 				63A2ED62169E1B5D0071D549 /* KeychainItemWrapper.m */,
+				63A2EDAD169E98530071D549 /* Client.h */,
+				63A2EDAE169E98530071D549 /* Client.m */,
+				633309D316C0CCC3002A88FE /* GoogleReaderClient.h */,
+				633309D416C0CCC3002A88FE /* GoogleReaderClient.m */,
 				63A2ED64169E1CA00071D549 /* LoginViewController.h */,
 				63A2ED65169E1CA00071D549 /* LoginViewController.m */,
 				63A2ED66169E1CA00071D549 /* LoginViewController.xib */,
-				63A2EDAD169E98530071D549 /* Client.h */,
-				63A2EDAE169E98530071D549 /* Client.m */,
 				63A2EDB616A098940071D549 /* FoldersViewController.h */,
 				63A2EDB716A098940071D549 /* FoldersViewController.m */,
 				63A2EDB916A0AFC50071D549 /* ArticleListViewController.h */,
 				63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */,
+				638BA0EE16BB363F0005529C /* ArticleAddViewController.h */,
+				638BA0EF16BB363F0005529C /* ArticleAddViewController.m */,
+				638BA0F016BB363F0005529C /* ArticleAddViewController.xib */,
+				E4ED330116B7B0FA00C21480 /* DropboxViewController.h */,
+				E4ED330216B7B0FA00C21480 /* DropboxViewController.m */,
+				638BA12416BE3EAB0005529C /* GoogleReaderViewController.h */,
+				638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */,
 				63F1FD6516A73D6300637B23 /* SettingViewController.h */,
 				63F1FD6616A73D6300637B23 /* SettingViewController.m */,
 				63F1FD4F16A7212100637B23 /* PickerViewController.h */,
 				63F1FD5016A7212100637B23 /* PickerViewController.m */,
 				63F1FD5116A7212100637B23 /* PickerViewController.xib */,
-				E4ED330116B7B0FA00C21480 /* DropboxViewController.h */,
-				E4ED330216B7B0FA00C21480 /* DropboxViewController.m */,
-				638BA0EE16BB363F0005529C /* ArticleAddViewController.h */,
-				638BA0EF16BB363F0005529C /* ArticleAddViewController.m */,
-				638BA0F016BB363F0005529C /* ArticleAddViewController.xib */,
-				638BA12416BE3EAB0005529C /* GoogleReaderViewController.h */,
-				638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */,
 			);
 			path = Readey;
 			sourceTree = "<group>";
@@ -417,6 +422,7 @@
 				E4ED330316B7B0FA00C21480 /* DropboxViewController.m in Sources */,
 				638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */,
 				638BA12616BE3EAC0005529C /* GoogleReaderViewController.m in Sources */,
+				633309D516C0CCC3002A88FE /* GoogleReaderClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
