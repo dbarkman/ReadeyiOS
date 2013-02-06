@@ -25,8 +25,9 @@
 	 withPassword:(NSString*)password;
 
 - (NSArray *)getArticles;
+- (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content;
 - (bool)removeArticle:(NSString *)uuid;
 
-- (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content;
+- (bool)createFeedback:(NSString *)feedbackType description:(NSString *)description email:(NSString *)email;
 
 @end

@@ -198,6 +198,7 @@ NSString *wpm;
 	}
 	if (section == 4 && row == 0) {
 		FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
+		[feedbackViewController setClient:_client];
 		[[self navigationController] pushViewController:feedbackViewController animated:YES];
 	}
 }

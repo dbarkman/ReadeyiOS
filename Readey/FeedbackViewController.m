@@ -6,19 +6,25 @@
 //  Copyright (c) 2013 RealSimpleApps. All rights reserved.
 //
 
-#define SCROLLVIEW_CONTENT_HEIGHT [UIScreen mainScreen].bounds.size.height - 44
-#define SCROLLVIEW_CONTENT_WIDTH  320
-
 #import "FeedbackViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @implementation FeedbackViewController
 
+@synthesize client = _client;
+
+- (void)setClient:(Client *)c {
+    _client = c;
+}
+
+- (Client *)client {
+    return _client;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -26,14 +32,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	UIView *emptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
 
+	UIView *emptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+	
 	[feedbackTypeTextField setInputView:emptyView];
 	
 	[feedbackTypeTextField setDelegate:self];
 	[descriptionTextView setDelegate:self];
 	[emailTextField setDelegate:self];
+	
+	if ([UIScreen mainScreen].bounds.size.height > 480) {
+		descriptionHeight.constant += ([UIScreen mainScreen].bounds.size.height - 480);
+	}
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -51,27 +66,50 @@
     [self subscribeToKeyboardEvents:NO];
 }
 
-- (void)valueSelected:(NSString *)value
-{
-	[feedbackTypeTextField setText:value];
-}
-
 - (IBAction)submit
 {
+	NSString *feedback = [feedbackTypeTextField text];
 	NSString *description = [descriptionTextView text];
 	NSString *email = [emailTextField text];
 	
-	NSLog(@"Description: %@ - Email: %@", description, email);
+	if ([_client createFeedback:feedback description:description email:email]) {
+		[[[UIAlertView alloc] initWithTitle:@"Thank you for your feedback!" message:nil delegate:nil cancelButtonTitle:@"Sure" otherButtonTitles:nil] show];
+		[[self navigationController] popViewControllerAnimated:YES];
+	} else {
+		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"shouldLogout"] boolValue]) {
+			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"shouldLogout"];
+			[self showAlert:@"Your session has expired. Please login again." withMessage:nil];
+		} else {
+			[self showAlert:@"Error" withMessage:@"The article could not be saved"];
+		}
+	}
+}
+
+- (void)showAlert:(NSString *)title withMessage:(NSString *)message
+{
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	[_client logout];
+	[self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)valueSelected:(NSString *)value
+{
+	[feedbackTypeTextField setText:value];
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
 	if (textField == feedbackTypeTextField) {
 		PickerViewController *pickerViewController = [[PickerViewController alloc] init];
-		pickerViewController.delegate = self;
+		pickerViewController.delegate = (id)self;
 		pickerViewController.descriptionLabelString = @"I have:";
 		pickerViewController.pickerIndex = 0;
-		pickerViewController.valueArray = [[NSArray alloc] initWithObjects:@"An Issue", @"A Question", @"A Compliment", @"An Idea", nil];
+		pickerViewController.valueArray = [[NSArray alloc] initWithObjects:@"An Idea", @"An Issue", @"A Question", @"A Compliment", nil];
 		[[self navigationController] pushViewController:pickerViewController animated:YES];
 	}
 	
@@ -84,11 +122,8 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	if (textField == emailTextField) {
-		[scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-		[textField resignFirstResponder];
-	}
-
+	[textField resignFirstResponder];
+	
 	return YES;
 }
 
@@ -113,8 +148,8 @@
     }
 }
 
-- (void) keyboardDidShow:(NSNotification *)nsNotification {
-	
+- (void) keyboardDidShow:(NSNotification *)nsNotification
+{
     NSDictionary * userInfo = [nsNotification userInfo];
     CGSize kbSize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
 	
@@ -145,6 +180,8 @@
     }
 	
     newFrame.size.height += kHeight;
+	
+	[self.view setFrame:newFrame];
 }
 
 @end

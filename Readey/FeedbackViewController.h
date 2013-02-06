@@ -8,15 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "PickerViewController.h"
+#import "Client.h"
 
-@interface FeedbackViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, PickerViewDelegate>
+@interface FeedbackViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate>
 {
 	IBOutlet UITextField *feedbackTypeTextField;
 	IBOutlet UITextView *descriptionTextView;
 	IBOutlet UITextField *emailTextField;
 	IBOutlet UIButton *submitButton;
 	IBOutlet UIScrollView *scrollView;
+	
+	IBOutlet NSLayoutConstraint *descriptionHeight;
 }
+
+@property (nonatomic, strong) Client *client;
 
 - (IBAction)submit;
 

@@ -33,6 +33,10 @@
 	
 	[pickerView selectRow:pickerIndex inComponent:0 animated:YES];
 	[valueLabel setText:[valueArray objectAtIndex:[pickerView selectedRowInComponent:0]]];
+
+	if ([delegate respondsToSelector:@selector(valueSelected:)]) {
+		[delegate valueSelected:[valueArray objectAtIndex:[pickerView selectedRowInComponent:0]]];
+	}
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;

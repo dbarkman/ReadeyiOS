@@ -182,4 +182,42 @@ NSString *password;
 	return false;
 }
 
+- (bool)createFeedback:(NSString *)feedbackType description:(NSString *)description email:(NSString *)email
+{
+    user = [usergridClient getLoggedInUser];
+	NSString *uuid = [user uuid];
+	NSMutableDictionary *feedbackDictionary = [[NSMutableDictionary alloc] init];
+	
+	[feedbackDictionary setObject:@"feedbacks" forKey:@"type"];
+	[feedbackDictionary setObject:feedbackType forKey:@"feedbackType"];
+	[feedbackDictionary setObject:description forKey:@"description"];
+	[feedbackDictionary setObject:email forKey:@"email"];
+	[feedbackDictionary setObject:uuid forKey:@"user"];
+	
+	UGClientResponse *response = [usergridClient createEntity:feedbackDictionary];
+	
+	switch (response.transactionState) {
+		case 0:
+			return true;
+			break;
+		case 1:
+			if ([self login:username withPassword:password]) {
+				UGClientResponse *response = [usergridClient createEntity:feedbackDictionary];
+				switch (response.transactionState) {
+					case 0:
+						return true;
+						break;
+					case 1:
+						return false;
+						break;
+				}
+			} else {
+				[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"shouldLogout"];
+				return false;
+			}
+			break;
+	}
+	return false;
+}
+
 @end
