@@ -27,8 +27,8 @@
 {
 	[super viewDidLoad];
 	
-    UIImage *buttonImage = [[UIImage imageNamed:@"buttons/greyButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"buttons/greyButtonHighlight.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
 	
     [loginButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [loginButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];

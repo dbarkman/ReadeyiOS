@@ -12,10 +12,6 @@
 #import "ArticleAddViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface ArticleAddViewController ()
-
-@end
-
 @implementation ArticleAddViewController
 
 @synthesize client = _client;

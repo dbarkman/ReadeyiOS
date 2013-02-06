@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FeedbackViewController : UIViewController
+@interface FeedbackViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate>
+{
+	IBOutlet UITextView *descriptionTextView;
+	IBOutlet UITextField *emailTextField;
+	IBOutlet UIButton *submitButton;
+}
+
+- (IBAction)submit;
 
 @end

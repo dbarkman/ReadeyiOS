@@ -10,10 +10,11 @@
 #import "PickerViewController.h"
 #import "GoogleReaderClient.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "FeedbackViewController.h"
 
-@interface SettingViewController ()
-
-@end
+#define ACTIONSHEET_READEY 0
+#define ACTIONSHEET_DROPBOX 1
+#define ACTIONSHEET_GOOGLE_READER 2
 
 @implementation SettingViewController
 
@@ -70,18 +71,18 @@ NSString *wpm;
 	UIActionSheet *logoutReadey = [[UIActionSheet alloc] initWithTitle:@"Logout of Readey?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Logout" otherButtonTitles:nil];
 	
 	switch (actionsheet) {
-		case 1:
-			[unlinkDropbox setTag:1];
+		case ACTIONSHEET_DROPBOX:
+			[unlinkDropbox setTag:ACTIONSHEET_DROPBOX];
 			[unlinkDropbox setActionSheetStyle:UIActionSheetStyleBlackOpaque];
 			[unlinkDropbox showInView:self.view];
 			break;
-		case 2:
-			[logoutGoogleReader setTag:2];
+		case ACTIONSHEET_GOOGLE_READER:
+			[logoutGoogleReader setTag:ACTIONSHEET_GOOGLE_READER];
 			[logoutGoogleReader setActionSheetStyle:UIActionSheetStyleBlackOpaque];
 			[logoutGoogleReader showInView:self.view];
 			break;
-		case 3:
-			[logoutReadey setTag:3];
+		case ACTIONSHEET_READEY:
+			[logoutReadey setTag:ACTIONSHEET_READEY];
 			[logoutReadey setActionSheetStyle:UIActionSheetStyleBlackOpaque];
 			[logoutReadey showInView:self.view];
 			break;
@@ -90,18 +91,18 @@ NSString *wpm;
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	switch (actionSheet.tag) {
-		case 1:
+		case ACTIONSHEET_DROPBOX:
 			if (buttonIndex == 0) {
 				[[DBSession sharedSession] unlinkAll];
 			}
 			break;
-		case 2:
+		case ACTIONSHEET_GOOGLE_READER:
 			if (buttonIndex == 0) {
 				GoogleReaderClient *grClient = [[GoogleReaderClient alloc] init];
 				[grClient logout];
 			}
 			break;
-		case 3:
+		case ACTIONSHEET_READEY:
 			if (buttonIndex == 0) {
 				[_client logout];
 				[self.navigationController popToRootViewControllerAnimated:YES];
@@ -114,7 +115,7 @@ NSString *wpm;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -152,6 +153,9 @@ NSString *wpm;
 		case 3:
 			[[cell textLabel] setText:@"Logout of Readey"];
 			break;
+		case 4:
+			[[cell textLabel] setText:@"Give Feedback and Report Bugs"];
+			break;
 	}
 
     return cell;
@@ -185,13 +189,17 @@ NSString *wpm;
 		[[self navigationController] pushViewController:pickerViewController animated:YES];
 	}
 	if (section == 1 && row == 0) {
-		[self showActionSheet:1];
+		[self showActionSheet:ACTIONSHEET_DROPBOX];
 	}
 	if (section == 2 && row == 0) {
-		[self showActionSheet:2];
+		[self showActionSheet:ACTIONSHEET_GOOGLE_READER];
 	}
 	if (section == 3 && row == 0) {
-		[self showActionSheet:3];
+		[self showActionSheet:ACTIONSHEET_READEY];
+	}
+	if (section == 4 && row == 0) {
+		FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
+		[[self navigationController] pushViewController:feedbackViewController animated:YES];
 	}
 }
 

@@ -7,10 +7,7 @@
 //
 
 #import "FeedbackViewController.h"
-
-@interface FeedbackViewController ()
-
-@end
+#import <QuartzCore/QuartzCore.h>
 
 @implementation FeedbackViewController
 
@@ -26,13 +23,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
+	[descriptionTextView setDelegate:self];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	[super viewDidAppear:animated];
+	
+	[descriptionTextView setClipsToBounds:YES];
+	[[descriptionTextView layer] setCornerRadius:10.0f];
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField
+{
+	[textField resignFirstResponder];
+	
+	return YES;
+}
+
+- (IBAction)submit
+{
+	
 }
 
 @end
