@@ -7,7 +7,6 @@
 //
 
 #import "SettingViewController.h"
-#import "PickerViewController.h"
 #import "GoogleReaderClient.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "FeedbackViewController.h"

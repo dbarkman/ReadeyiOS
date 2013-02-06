@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PickerViewController.h"
 
-@interface FeedbackViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate>
+@interface FeedbackViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, PickerViewDelegate>
 {
+	IBOutlet UITextField *feedbackTypeTextField;
 	IBOutlet UITextView *descriptionTextView;
 	IBOutlet UITextField *emailTextField;
 	IBOutlet UIButton *submitButton;
+	IBOutlet UIScrollView *scrollView;
 }
 
 - (IBAction)submit;

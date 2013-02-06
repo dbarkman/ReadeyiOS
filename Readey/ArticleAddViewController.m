@@ -6,9 +6,6 @@
 //  Copyright (c) 2013 RealSimpleApps. All rights reserved.
 //
 
-#define SCROLLVIEW_CONTENT_HEIGHT [UIScreen mainScreen].bounds.size.height - 44
-#define SCROLLVIEW_CONTENT_WIDTH  320
-
 #import "ArticleAddViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
