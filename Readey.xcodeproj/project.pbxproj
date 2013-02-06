@@ -11,6 +11,8 @@
 		633309D916C17F68002A88FE /* GoogleReaderFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309D816C17F68002A88FE /* GoogleReaderFeedViewController.m */; };
 		633309E216C18CDA002A88FE /* GoogleReaderLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309E016C18CD9002A88FE /* GoogleReaderLoginViewController.m */; };
 		633309E316C18CDA002A88FE /* GoogleReaderLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633309E116C18CD9002A88FE /* GoogleReaderLoginViewController.xib */; };
+		633309E716C1D2E2002A88FE /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309E516C1D2E1002A88FE /* FeedbackViewController.m */; };
+		633309E816C1D2E2002A88FE /* FeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633309E616C1D2E1002A88FE /* FeedbackViewController.xib */; };
 		638BA0E816BAD05A0005529C /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638BA0E716BAD05A0005529C /* DropboxSDK.framework */; };
 		638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA0EF16BB363F0005529C /* ArticleAddViewController.m */; };
 		638BA0F216BB363F0005529C /* ArticleAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638BA0F016BB363F0005529C /* ArticleAddViewController.xib */; };
@@ -70,6 +72,9 @@
 		633309DF16C18CD9002A88FE /* GoogleReaderLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderLoginViewController.h; sourceTree = "<group>"; };
 		633309E016C18CD9002A88FE /* GoogleReaderLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderLoginViewController.m; sourceTree = "<group>"; };
 		633309E116C18CD9002A88FE /* GoogleReaderLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoogleReaderLoginViewController.xib; sourceTree = "<group>"; };
+		633309E416C1D2E0002A88FE /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		633309E516C1D2E1002A88FE /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
+		633309E616C1D2E1002A88FE /* FeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackViewController.xib; sourceTree = "<group>"; };
 		638BA0E716BAD05A0005529C /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		638BA0EE16BB363F0005529C /* ArticleAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleAddViewController.h; sourceTree = "<group>"; };
 		638BA0EF16BB363F0005529C /* ArticleAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleAddViewController.m; sourceTree = "<group>"; };
@@ -245,6 +250,9 @@
 				63F1FD4F16A7212100637B23 /* PickerViewController.h */,
 				63F1FD5016A7212100637B23 /* PickerViewController.m */,
 				63F1FD5116A7212100637B23 /* PickerViewController.xib */,
+				633309E416C1D2E0002A88FE /* FeedbackViewController.h */,
+				633309E516C1D2E1002A88FE /* FeedbackViewController.m */,
+				633309E616C1D2E1002A88FE /* FeedbackViewController.xib */,
 			);
 			path = Readey;
 			sourceTree = "<group>";
@@ -390,6 +398,7 @@
 				63F1FD5316A7212100637B23 /* PickerViewController.xib in Resources */,
 				638BA0F216BB363F0005529C /* ArticleAddViewController.xib in Resources */,
 				633309E316C18CDA002A88FE /* GoogleReaderLoginViewController.xib in Resources */,
+				633309E816C1D2E2002A88FE /* FeedbackViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +444,7 @@
 				633309D516C0CCC3002A88FE /* GoogleReaderClient.m in Sources */,
 				633309D916C17F68002A88FE /* GoogleReaderFeedViewController.m in Sources */,
 				633309E216C18CDA002A88FE /* GoogleReaderLoginViewController.m in Sources */,
+				633309E716C1D2E2002A88FE /* FeedbackViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
