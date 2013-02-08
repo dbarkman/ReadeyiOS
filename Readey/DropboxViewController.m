@@ -72,6 +72,7 @@
 				NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
 				[tempDict setObject:file.path forKey:@"path"];
 				[tempDict setObject:file.filename forKey:@"name"];
+				[tempDict setObject:file.lastModifiedDate forKey:@"date"];
 				[newFilePaths addObject:tempDict];
 			}
 		}
@@ -100,12 +101,22 @@
 {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
 	if (cell == nil) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
 	}
     
 	NSDictionary *tempDict = [filePaths objectAtIndex:[indexPath row]];
     NSString *name = [tempDict objectForKey:@"name"];
+
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setDateFormat:@"eee MMM dd, yyyy @ h:mm a"];
+//	NSTimeInterval intervaldep = ([[tempDict objectForKey:@"modified"] doubleValue] / 1000);
+//	NSDate *date = [NSDate dateWithTimeIntervalSince1970:intervaldep];
+	NSString *formattedDate = [dateFormatter stringFromDate:[tempDict objectForKey:@"date"]];
+	
     [[cell textLabel] setText:name];
+	[[cell detailTextLabel] setText:formattedDate];
+	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+
     
     return cell;
 }

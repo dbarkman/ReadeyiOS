@@ -80,7 +80,7 @@
 			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"shouldLogout"];
 			[self showAlert:@"Your session has expired. Please login again." withMessage:nil];
 		} else {
-			[self showAlert:@"Error" withMessage:@"The article could not be saved"];
+			[self showAlert:@"Error" withMessage:@"Your feedback could not be saved.  For support, email support@speedReadey.com."];
 		}
 	}
 }

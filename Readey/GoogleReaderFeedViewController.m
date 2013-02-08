@@ -8,9 +8,10 @@
 
 #import "GoogleReaderFeedViewController.h"
 #import "GoogleReaderClient.h"
+#import "ReadeyViewController.h"
 
 #define FONT_SIZE 18.0f
-#define CELL_CONTENT_MARGIN 10.0f
+#define CELL_CONTENT_MARGIN 20.0f
 
 @interface GoogleReaderFeedViewController ()
 
@@ -62,8 +63,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-	NSDictionary *tempDict = [articles objectAtIndex:[indexPath row]];
-	NSString *title = [tempDict objectForKey:@"title"];
+	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
+	NSString *title = [article objectForKey:@"title"];
 	if (title.length == 0) title = @"(title unknown)";
 	
 	CGSize frameSize = self.view.frame.size;
@@ -77,17 +78,24 @@
 {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
 	if (cell == nil) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
 		[[cell textLabel] setLineBreakMode:NSLineBreakByWordWrapping];
 		[[cell textLabel] setNumberOfLines:0];
 		[[cell textLabel] setFont:[UIFont boldSystemFontOfSize:FONT_SIZE]];
 	}
 	
-	NSDictionary *tempDict = [articles objectAtIndex:[indexPath row]];
-	NSString *title = [tempDict objectForKey:@"title"];
+	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
+	NSString *title = [article objectForKey:@"title"];
 	if (title.length == 0) title = @"(title unknown)";
 	
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setDateFormat:@"eee MMM dd, yyyy @ h:mm a"];
+	NSTimeInterval intervaldep = [[article objectForKey:@"updated"] doubleValue];
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:intervaldep];
+	NSString *formattedDate = [dateFormatter stringFromDate:date];
+	
 	[[cell textLabel] setText:title];
+	[[cell detailTextLabel] setText:formattedDate];
 	
 	return cell;
 }
@@ -96,6 +104,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
+	NSDictionary *contentDict = [article objectForKey:@"content"];
+	NSString *content = [contentDict objectForKey:@"content"];
+	ReadeyViewController *readyViewController = [[ReadeyViewController alloc] init];
+	[readyViewController setArticleContent:content];
+	
+	[readyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+	[self presentViewController:readyViewController animated:YES completion:nil];
 }
 
 @end

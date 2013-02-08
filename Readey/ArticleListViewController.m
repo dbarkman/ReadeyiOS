@@ -11,7 +11,7 @@
 #import "ArticleAddViewController.h"
 
 #define FONT_SIZE 16.0f
-#define CELL_CONTENT_MARGIN 10.0f
+#define CELL_CONTENT_MARGIN 20.0f
 
 @interface ArticleListViewController ()
 
@@ -114,11 +114,11 @@ NSMutableArray *articles;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
-	NSString *articleName = [article objectForKey:@"name"];
+	NSString *name = [article objectForKey:@"name"];
 	
 	CGSize frameSize = self.view.frame.size;
 	CGSize constraint = CGSizeMake(frameSize.width - 20 - (CELL_CONTENT_MARGIN * 2), 20000.0f);
-	CGSize size = [articleName sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
+	CGSize size = [name sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
 	
 	return size.height + (CELL_CONTENT_MARGIN * 2);
 }
@@ -127,21 +127,23 @@ NSMutableArray *articles;
 {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
 	if (cell == nil) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UITableViewCell"];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
 		[[cell textLabel] setLineBreakMode:NSLineBreakByWordWrapping];
 		[[cell textLabel] setNumberOfLines:0];
 		[[cell textLabel] setFont:[UIFont systemFontOfSize:FONT_SIZE]];
 	}
 	
-	NSString *wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
-	if (wpm.length == 0) {
-		wpm = @"250";
-		[[NSUserDefaults standardUserDefaults] setObject:wpm forKey:@"wpm"];
-	}
-	
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
-	[[cell textLabel] setText:[article objectForKey:@"name"]];
-//	[[cell detailTextLabel] setText:@"wpm"];
+	NSString *name = [article objectForKey:@"name"];
+
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setDateFormat:@"eee MMM dd, yyyy @ h:mm a"];
+	NSTimeInterval intervaldep = ([[article objectForKey:@"modified"] doubleValue] / 1000);
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:intervaldep];
+	NSString *formattedDate = [dateFormatter stringFromDate:date];
+	
+	[[cell textLabel] setText:name];
+	[[cell detailTextLabel] setText:formattedDate];
 	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 
     return cell;

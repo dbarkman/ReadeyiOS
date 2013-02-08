@@ -42,6 +42,8 @@
 		63330A2116C22299002A88FE /* whiteButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63330A0516C22299002A88FE /* whiteButton@2x.png */; };
 		63330A2216C22299002A88FE /* whiteButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 63330A0616C22299002A88FE /* whiteButtonHighlight.png */; };
 		63330A2316C22299002A88FE /* whiteButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63330A0716C22299002A88FE /* whiteButtonHighlight@2x.png */; };
+		63330A2616C445CA002A88FE /* ReadeyArticleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63330A2516C445C9002A88FE /* ReadeyArticleCell.m */; };
+		63330A2816C446E6002A88FE /* ReadeyArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */; };
 		638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA0EF16BB363F0005529C /* ArticleAddViewController.m */; };
 		638BA0F216BB363F0005529C /* ArticleAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638BA0F016BB363F0005529C /* ArticleAddViewController.xib */; };
 		638BA12616BE3EAC0005529C /* GoogleReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */; };
@@ -131,6 +133,9 @@
 		63330A0516C22299002A88FE /* whiteButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteButton@2x.png"; sourceTree = "<group>"; };
 		63330A0616C22299002A88FE /* whiteButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteButtonHighlight.png; sourceTree = "<group>"; };
 		63330A0716C22299002A88FE /* whiteButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteButtonHighlight@2x.png"; sourceTree = "<group>"; };
+		63330A2416C445C9002A88FE /* ReadeyArticleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadeyArticleCell.h; sourceTree = "<group>"; };
+		63330A2516C445C9002A88FE /* ReadeyArticleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadeyArticleCell.m; sourceTree = "<group>"; };
+		63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReadeyArticleCell.xib; sourceTree = "<group>"; };
 		638BA0EE16BB363F0005529C /* ArticleAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleAddViewController.h; sourceTree = "<group>"; };
 		638BA0EF16BB363F0005529C /* ArticleAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleAddViewController.m; sourceTree = "<group>"; };
 		638BA0F016BB363F0005529C /* ArticleAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleAddViewController.xib; sourceTree = "<group>"; };
@@ -342,6 +347,9 @@
 				633309E416C1D2E0002A88FE /* FeedbackViewController.h */,
 				633309E516C1D2E1002A88FE /* FeedbackViewController.m */,
 				633309E616C1D2E1002A88FE /* FeedbackViewController.xib */,
+				63330A2416C445C9002A88FE /* ReadeyArticleCell.h */,
+				63330A2516C445C9002A88FE /* ReadeyArticleCell.m */,
+				63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */,
 			);
 			path = Readey;
 			sourceTree = "<group>";
@@ -515,6 +523,7 @@
 				63330A2116C22299002A88FE /* whiteButton@2x.png in Resources */,
 				63330A2216C22299002A88FE /* whiteButtonHighlight.png in Resources */,
 				63330A2316C22299002A88FE /* whiteButtonHighlight@2x.png in Resources */,
+				63330A2816C446E6002A88FE /* ReadeyArticleCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +570,7 @@
 				633309D916C17F68002A88FE /* GoogleReaderFeedViewController.m in Sources */,
 				633309E216C18CDA002A88FE /* GoogleReaderLoginViewController.m in Sources */,
 				633309E716C1D2E2002A88FE /* FeedbackViewController.m in Sources */,
+				63330A2616C445CA002A88FE /* ReadeyArticleCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
