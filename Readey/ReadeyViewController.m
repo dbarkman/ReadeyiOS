@@ -7,7 +7,6 @@
 //
 
 #import "ReadeyViewController.h"
-#import "KeychainItemWrapper.h"
 
 @interface ReadeyViewController ()
 

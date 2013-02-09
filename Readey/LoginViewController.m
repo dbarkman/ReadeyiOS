@@ -10,6 +10,7 @@
 #import "FoldersViewController.h"
 #import "ReadeyViewController.h"
 #import "KeychainItemWrapper.h"
+#import "WebViewController.h"
 
 @interface LoginViewController ()
 
@@ -52,6 +53,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	[emailTextField setDelegate:self];
+	[passwordTextField setDelegate:self];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -74,10 +78,10 @@
 	
 	if (username.length == 0 || password.length == 0) {
 		[self alertCredentialsMissing];
-
+		
 	} else if ([_client login:username withPassword:password]) {
 		[self previousView];
-    
+		
 	} else {
 		[self alertLoginFailed];
     }
@@ -102,7 +106,7 @@
 
 - (void)previousView
 {
-    KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
+    KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:@""];
     if ([saveLogin isOn]) {
         NSString *username = [emailTextField text];
         NSString *password = [passwordTextField text];
@@ -118,7 +122,11 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 	switch (buttonIndex) {
+	NSString *url = @"http://api.usergrid.com/reallysimpleapps/readey/users/resetpw";
+	NSString *title = @"Readey Password Reset";
+	WebViewController *webViewController = [[WebViewController alloc] initWithURL:url title:title];
+	
+	switch (buttonIndex) {
 		case 0:
 			[emailTextField becomeFirstResponder];
 			break;
@@ -128,17 +136,16 @@
 					[self createAccount];
 					break;
 				case 2:
-					//send email for reset
-					[self alertEmailSent];
+					[self alertWebView];
 					break;
+				case 3:
+					[webViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+					[self presentViewController:webViewController animated:YES completion:nil];
 				default:
 					break;
 			}
 		default:
 			break;
-	}
-	if (buttonIndex == 0) {
-		[emailTextField becomeFirstResponder];
 	}
 }
 
@@ -175,14 +182,14 @@
 	[alert show];
 }
 
-- (void)alertEmailSent
+- (void)alertWebView
 {
 	alertViewFlag = 3;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Email Sent"
-													message:@"An email was sent to the email address you entered. Follow the instructions in the email to reset your password."
+													message:@"A password reset webpage will now appear.  Enter the email for your Readey account. You will then receive an email from usergrid@apigee.com containing a link for resetting  your password."
 												   delegate:self
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles:nil];
+										  cancelButtonTitle:@"Cancel"
+										  otherButtonTitles:@"OK", nil];
 	[alert show];
 }
 

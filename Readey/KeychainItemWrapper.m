@@ -206,8 +206,6 @@
     
 	// Default data for keychain item.
     [keychainItemData setObject:@"" forKey:(__bridge id)kSecValueData];
-    
-    NSLog(@"Keychain Item Reset");
 }
 
 - (NSMutableDictionary *)dictionaryToSecItemFormat:(NSDictionary *)dictionaryToConvert
