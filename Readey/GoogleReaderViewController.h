@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GoogleReaderClient.h"
 
 @interface GoogleReaderViewController : UITableViewController
 
+@property (nonatomic, strong) GoogleReaderClient *grClient;
 @property (nonatomic, retain) NSMutableArray *subscriptionTitles;
 
 @end

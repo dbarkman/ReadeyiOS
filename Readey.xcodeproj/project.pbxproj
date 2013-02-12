@@ -87,6 +87,7 @@
 		63A2EDBB16A0AFC50071D549 /* ArticleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */; };
 		63A2EDBE16A529800071D549 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A2EDBD16A529800071D549 /* settings@2x.png */; };
 		63A2EDC016A529950071D549 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A2EDBF16A529950071D549 /* settings.png */; };
+		63D8102C16C9ABE000E43E92 /* NSString_stripHtml.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D8102B16C9ABE000E43E92 /* NSString_stripHtml.m */; };
 		63F1FD5216A7212100637B23 /* PickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F1FD5016A7212100637B23 /* PickerViewController.m */; };
 		63F1FD5316A7212100637B23 /* PickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63F1FD5116A7212100637B23 /* PickerViewController.xib */; };
 		63F1FD6716A73D6400637B23 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F1FD6616A73D6300637B23 /* SettingViewController.m */; };
@@ -213,6 +214,10 @@
 		63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleListViewController.m; sourceTree = "<group>"; };
 		63A2EDBD16A529800071D549 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
 		63A2EDBF16A529950071D549 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		63D8102A16C9ABDF00E43E92 /* NSString_stripHtml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSString_stripHtml.h; sourceTree = "<group>"; };
+		63D8102B16C9ABE000E43E92 /* NSString_stripHtml.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_stripHtml.m; sourceTree = "<group>"; };
+		63D8103716CA8FAA00E43E92 /* MBProgressHUD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		63D8103816CA8FAA00E43E92 /* MBProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		63F1FD4F16A7212100637B23 /* PickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerViewController.h; sourceTree = "<group>"; };
 		63F1FD5016A7212100637B23 /* PickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerViewController.m; sourceTree = "<group>"; };
 		63F1FD5116A7212100637B23 /* PickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerViewController.xib; sourceTree = "<group>"; };
@@ -280,6 +285,7 @@
 			children = (
 				63A2ED69169E37370071D549 /* UGAPI */,
 				63A2ED2B169C8DCD0071D549 /* Readey */,
+				63A2ED2C169C8DCD0071D549 /* Supporting Files */,
 				63A2ED24169C8DCD0071D549 /* Frameworks */,
 				63A2ED22169C8DCD0071D549 /* Products */,
 			);
@@ -309,52 +315,15 @@
 		63A2ED2B169C8DCD0071D549 /* Readey */ = {
 			isa = PBXGroup;
 			children = (
-				63A2ED2C169C8DCD0071D549 /* Supporting Files */,
-				633309EB16C22299002A88FE /* buttons */,
-				63A2EDBC16A529610071D549 /* icons */,
 				63A2ED34169C8DCD0071D549 /* ReadeyAppDelegate.h */,
 				63A2ED35169C8DCD0071D549 /* ReadeyAppDelegate.m */,
-				63A2ED3D169C8DCE0071D549 /* ReadeyViewController.h */,
-				63A2ED3E169C8DCE0071D549 /* ReadeyViewController.m */,
-				63A2ED40169C8DCE0071D549 /* ReadeyViewController.xib */,
-				63A2ED61169E1B5D0071D549 /* KeychainItemWrapper.h */,
-				63A2ED62169E1B5D0071D549 /* KeychainItemWrapper.m */,
-				63A2EDAD169E98530071D549 /* Client.h */,
-				63A2EDAE169E98530071D549 /* Client.m */,
-				633309D316C0CCC3002A88FE /* GoogleReaderClient.h */,
-				633309D416C0CCC3002A88FE /* GoogleReaderClient.m */,
-				63A2ED64169E1CA00071D549 /* LoginViewController.h */,
-				63A2ED65169E1CA00071D549 /* LoginViewController.m */,
-				63A2ED66169E1CA00071D549 /* LoginViewController.xib */,
-				63A2EDB616A098940071D549 /* FoldersViewController.h */,
-				63A2EDB716A098940071D549 /* FoldersViewController.m */,
-				63A2EDB916A0AFC50071D549 /* ArticleListViewController.h */,
-				63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */,
-				638BA0EE16BB363F0005529C /* ArticleAddViewController.h */,
-				638BA0EF16BB363F0005529C /* ArticleAddViewController.m */,
-				638BA0F016BB363F0005529C /* ArticleAddViewController.xib */,
-				E4ED330116B7B0FA00C21480 /* DropboxViewController.h */,
-				E4ED330216B7B0FA00C21480 /* DropboxViewController.m */,
-				638BA12416BE3EAB0005529C /* GoogleReaderViewController.h */,
-				638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */,
-				633309DF16C18CD9002A88FE /* GoogleReaderLoginViewController.h */,
-				633309E016C18CD9002A88FE /* GoogleReaderLoginViewController.m */,
-				633309E116C18CD9002A88FE /* GoogleReaderLoginViewController.xib */,
-				633309D716C17F68002A88FE /* GoogleReaderFeedViewController.h */,
-				633309D816C17F68002A88FE /* GoogleReaderFeedViewController.m */,
-				63F1FD6516A73D6300637B23 /* SettingViewController.h */,
-				63F1FD6616A73D6300637B23 /* SettingViewController.m */,
-				63F1FD4F16A7212100637B23 /* PickerViewController.h */,
-				63F1FD5016A7212100637B23 /* PickerViewController.m */,
-				63F1FD5116A7212100637B23 /* PickerViewController.xib */,
-				633309E416C1D2E0002A88FE /* FeedbackViewController.h */,
-				633309E516C1D2E1002A88FE /* FeedbackViewController.m */,
-				633309E616C1D2E1002A88FE /* FeedbackViewController.xib */,
-				63330A2416C445C9002A88FE /* ReadeyArticleCell.h */,
-				63330A2516C445C9002A88FE /* ReadeyArticleCell.m */,
-				63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */,
-				63330A2D16C5BC38002A88FE /* WebViewController.h */,
-				63330A2E16C5BC38002A88FE /* WebViewController.m */,
+				63D8103116CA8D6F00E43E92 /* Clients */,
+				63D8103316CA8DAE00E43E92 /* Tables */,
+				63D8103216CA8DA700E43E92 /* Views */,
+				63D8103416CA8DBC00E43E92 /* Vendor */,
+				633309EB16C22299002A88FE /* buttons */,
+				63A2EDBC16A529610071D549 /* icons */,
+				63D8103616CA8E4E00E43E92 /* CustomCells */,
 			);
 			path = Readey;
 			sourceTree = "<group>";
@@ -371,6 +340,7 @@
 				63A2ED3B169C8DCE0071D549 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			path = Readey;
 			sourceTree = "<group>";
 		};
 		63A2ED69169E37370071D549 /* UGAPI */ = {
@@ -434,6 +404,94 @@
 				63A2EDBD16A529800071D549 /* settings@2x.png */,
 			);
 			name = icons;
+			sourceTree = "<group>";
+		};
+		63D8103116CA8D6F00E43E92 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				63A2EDAD169E98530071D549 /* Client.h */,
+				63A2EDAE169E98530071D549 /* Client.m */,
+				633309D316C0CCC3002A88FE /* GoogleReaderClient.h */,
+				633309D416C0CCC3002A88FE /* GoogleReaderClient.m */,
+			);
+			name = Clients;
+			sourceTree = "<group>";
+		};
+		63D8103216CA8DA700E43E92 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				63A2ED3D169C8DCE0071D549 /* ReadeyViewController.h */,
+				63A2ED3E169C8DCE0071D549 /* ReadeyViewController.m */,
+				63A2ED40169C8DCE0071D549 /* ReadeyViewController.xib */,
+				63A2ED64169E1CA00071D549 /* LoginViewController.h */,
+				63A2ED65169E1CA00071D549 /* LoginViewController.m */,
+				63A2ED66169E1CA00071D549 /* LoginViewController.xib */,
+				633309DF16C18CD9002A88FE /* GoogleReaderLoginViewController.h */,
+				633309E016C18CD9002A88FE /* GoogleReaderLoginViewController.m */,
+				633309E116C18CD9002A88FE /* GoogleReaderLoginViewController.xib */,
+				638BA0EE16BB363F0005529C /* ArticleAddViewController.h */,
+				638BA0EF16BB363F0005529C /* ArticleAddViewController.m */,
+				638BA0F016BB363F0005529C /* ArticleAddViewController.xib */,
+				633309E416C1D2E0002A88FE /* FeedbackViewController.h */,
+				633309E516C1D2E1002A88FE /* FeedbackViewController.m */,
+				633309E616C1D2E1002A88FE /* FeedbackViewController.xib */,
+				63F1FD4F16A7212100637B23 /* PickerViewController.h */,
+				63F1FD5016A7212100637B23 /* PickerViewController.m */,
+				63F1FD5116A7212100637B23 /* PickerViewController.xib */,
+				63330A2D16C5BC38002A88FE /* WebViewController.h */,
+				63330A2E16C5BC38002A88FE /* WebViewController.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		63D8103316CA8DAE00E43E92 /* Tables */ = {
+			isa = PBXGroup;
+			children = (
+				63A2EDB616A098940071D549 /* FoldersViewController.h */,
+				63A2EDB716A098940071D549 /* FoldersViewController.m */,
+				63A2EDB916A0AFC50071D549 /* ArticleListViewController.h */,
+				63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */,
+				E4ED330116B7B0FA00C21480 /* DropboxViewController.h */,
+				E4ED330216B7B0FA00C21480 /* DropboxViewController.m */,
+				638BA12416BE3EAB0005529C /* GoogleReaderViewController.h */,
+				638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */,
+				633309D716C17F68002A88FE /* GoogleReaderFeedViewController.h */,
+				633309D816C17F68002A88FE /* GoogleReaderFeedViewController.m */,
+				63F1FD6516A73D6300637B23 /* SettingViewController.h */,
+				63F1FD6616A73D6300637B23 /* SettingViewController.m */,
+			);
+			name = Tables;
+			sourceTree = "<group>";
+		};
+		63D8103416CA8DBC00E43E92 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				63D8103516CA8DC200E43E92 /* Wrappers */,
+				63D8103716CA8FAA00E43E92 /* MBProgressHUD.h */,
+				63D8103816CA8FAA00E43E92 /* MBProgressHUD.m */,
+				63D8102A16C9ABDF00E43E92 /* NSString_stripHtml.h */,
+				63D8102B16C9ABE000E43E92 /* NSString_stripHtml.m */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
+		63D8103516CA8DC200E43E92 /* Wrappers */ = {
+			isa = PBXGroup;
+			children = (
+				63A2ED61169E1B5D0071D549 /* KeychainItemWrapper.h */,
+				63A2ED62169E1B5D0071D549 /* KeychainItemWrapper.m */,
+			);
+			name = Wrappers;
+			sourceTree = "<group>";
+		};
+		63D8103616CA8E4E00E43E92 /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				63330A2416C445C9002A88FE /* ReadeyArticleCell.h */,
+				63330A2516C445C9002A88FE /* ReadeyArticleCell.m */,
+				63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */,
+			);
+			name = CustomCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -577,6 +635,7 @@
 				633309E716C1D2E2002A88FE /* FeedbackViewController.m in Sources */,
 				63330A2616C445CA002A88FE /* ReadeyArticleCell.m in Sources */,
 				63330A2F16C5BC39002A88FE /* WebViewController.m in Sources */,
+				63D8102C16C9ABE000E43E92 /* NSString_stripHtml.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

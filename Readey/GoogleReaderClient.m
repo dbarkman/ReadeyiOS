@@ -9,9 +9,10 @@
 //
 
 #import "GoogleReaderClient.h"
-#import "KeychainItemWrapper.h"
 
 @implementation GoogleReaderClient
+
+@synthesize username, password;
 
 - (id)init
 {
@@ -34,14 +35,25 @@
     return self;
 }
 
-- (bool)login:(NSString *)grUsername password:(NSString *)grPassword
+- (void)saveLogin
 {
-	username = grUsername;
-	password = grPassword;
+	[keychainItem setObject:@"GoogleReaderLogin" forKey: (__bridge id)kSecAttrService];
+	[keychainItem setObject:username forKey:(__bridge id)kSecAttrAccount];
+	[keychainItem setObject:password forKey:(__bridge id)kSecValueData];
+}
+
+- (void)resetLogin
+{
+	[keychainItem resetKeychainItem];
+	username = @"";
+	password = @"";
+}
+
+- (bool)login
+{
 	NSString *authToken = [self getAuthToken];
 	if (authToken.length > 0) {
-		[keychainItem setObject:username forKey:(__bridge id)kSecAttrAccount];
-		[keychainItem setObject:password forKey:(__bridge id)kSecValueData];
+		[self saveLogin];
 		return true;
 	}
 	return false;
@@ -49,7 +61,7 @@
 
 - (void)logout
 {
-    [keychainItem resetKeychainItem];
+    [self resetLogin];
 }
 
 - (bool)isLoggedIn

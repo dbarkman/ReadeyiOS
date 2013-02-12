@@ -8,21 +8,28 @@
 
 #import <Foundation/Foundation.h>
 #import "UGClient.h"
+#import "KeychainItemWrapper.h"
 
 @interface Client : NSObject
+{
+	NSString *username;
+	NSString *password;
+	KeychainItemWrapper *keychainItem;
+}
 
 @property (nonatomic, strong) UGClient *usergridClient;
 @property (nonatomic, strong) UGUser *user;
+@property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSString *password;
 
+- (void)saveLogin;
+- (void)resetLogin;
 - (NSString *)accessToken;
-- (bool)login:(NSString*)username withPassword:(NSString*)password;
+- (bool)login;
 - (bool)isTokenValid;
 - (void)logout;
 
-- (bool)createUser:(NSString*)username
-		 withName:(NSString*)name
-        withEmail:(NSString*)email
-	 withPassword:(NSString*)password;
+- (bool)createUser;
 
 - (NSArray *)getArticles;
 - (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content;

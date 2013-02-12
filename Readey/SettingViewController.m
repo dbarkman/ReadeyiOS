@@ -7,7 +7,6 @@
 //
 
 #import "SettingViewController.h"
-#import "GoogleReaderClient.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "FeedbackViewController.h"
 
@@ -20,6 +19,7 @@
 NSString *wpm;
 
 @synthesize client = _client;
+@synthesize grClient;
 
 - (void)setClient:(Client *)c {
     _client = c;
@@ -97,7 +97,6 @@ NSString *wpm;
 			break;
 		case ACTIONSHEET_GOOGLE_READER:
 			if (buttonIndex == 0) {
-				GoogleReaderClient *grClient = [[GoogleReaderClient alloc] init];
 				[grClient logout];
 			}
 			break;

@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Client.h"
+#import "GoogleReaderClient.h"
 
 @interface FoldersViewController : UITableViewController
 
 @property (nonatomic, strong) Client *client;
+@property (nonatomic, strong) GoogleReaderClient *grClient;
 
 @end

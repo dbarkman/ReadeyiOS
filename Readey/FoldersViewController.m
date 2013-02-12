@@ -10,7 +10,6 @@
 #import "LoginViewController.h"
 #import "ArticleListViewController.h"
 #import "SettingViewController.h"
-#import "KeychainItemWrapper.h"
 #import "DropboxViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "GoogleReaderViewController.h"
@@ -22,6 +21,7 @@
 @implementation FoldersViewController
 
 @synthesize client = _client;
+@synthesize grClient;
 
 - (void)setClient:(Client *)c {
     _client = c;
@@ -50,6 +50,7 @@
     [super viewDidLoad];
     
     _client = [[Client alloc] init];
+	grClient = [[GoogleReaderClient alloc] init];
     
 	[[self navigationItem] setTitle:@"Readey"];
 
@@ -71,11 +72,7 @@
 
 - (void)retryAuth
 {
-    KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
-    NSString *username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
-    NSString *password = [keychainItem objectForKey:(__bridge id)kSecValueData];
-    
-    if (![_client login:username withPassword:password]) {
+    if (![_client login]) {
         LoginViewController *loginViewController = [[LoginViewController alloc] init];
         [loginViewController setClient:_client];
         [loginViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
@@ -87,6 +84,7 @@
 {
 	SettingViewController *settingsViewController = [[SettingViewController alloc] init];
 	[settingsViewController setClient:_client];
+	[settingsViewController setGrClient:grClient];
 	[[self navigationController] pushViewController:settingsViewController animated:YES];
 }
 
@@ -144,6 +142,7 @@
             break;
 		case 2:
             [googleReaderViewController setTitle:@"Google Reader"];
+			[googleReaderViewController setGrClient:grClient];
             [[self navigationController] pushViewController:googleReaderViewController animated:YES];
 			break;
 	}

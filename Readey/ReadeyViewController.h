@@ -19,6 +19,7 @@
 	IBOutlet UIButton *startReading;
 	IBOutlet UIButton *pause;
     IBOutlet UIButton *back;
+    IBOutlet UIButton *source;
     IBOutlet UIButton *prevWordBtn;
     IBOutlet UIButton *nextWordBtn;
     IBOutlet UIButton *fasterBtn;
@@ -33,6 +34,7 @@
 - (IBAction)faster:(id)sender;
 - (IBAction)slower:(id)sender;
 - (IBAction)back;
+- (IBAction)source;
 
 @property (nonatomic, retain) NSString *articleContent;
 
@@ -47,5 +49,9 @@
 
 @property (nonatomic, retain) NSDate *start;
 @property (nonatomic, retain) NSDate *finish;
+
+@property (nonatomic, retain) NSString *sourceUrl;
+@property (nonatomic, retain) NSString *sourceTitle;
+@property (nonatomic) bool sourceEnabled;
 
 @end

@@ -7,19 +7,17 @@
 //
 
 #import "GoogleReaderFeedViewController.h"
-#import "GoogleReaderClient.h"
 #import "ReadeyViewController.h"
 
 #define FONT_SIZE 18.0f
 #define CELL_CONTENT_MARGIN 20.0f
 
-@interface GoogleReaderFeedViewController ()
-
-@end
-
 @implementation GoogleReaderFeedViewController
 
 @synthesize navTitle, feed, articles;
+@synthesize grClient;
+
+int summariesOnly = 1;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,19 +32,30 @@
 {
     [super viewDidLoad];
 	
-	[[self navigationItem] setTitle:navTitle];
-	
 	articles = [[NSMutableArray alloc] init];
 
-	GoogleReaderClient *grClient = [[GoogleReaderClient alloc] init];
 	NSString *authToken = [grClient getAuthToken];
 	articles = [grClient getSubscriptionFeed:authToken fromFeed:feed];
+	
+	//check for content or summaries
+	
+	NSDictionary *tempDict = [articles objectAtIndex:0];
+	if ([tempDict objectForKey:@"content"]) {
+		NSDictionary *contentDict = [tempDict objectForKey:@"content"];
+		summariesOnly = ([contentDict objectForKey:@"content"]) ? 0 : 1;
+	} else {
+		summariesOnly = 1;
+	}
+	if (summariesOnly == 0) {
+		[[self navigationItem] setTitle:navTitle];
+	} else {
+		[[self navigationItem] setTitle:[NSString stringWithFormat:@"%@ (Summaries Only)", navTitle]];
+	}
 }
 
-- (void)didReceiveMemoryWarning
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	[super viewDidAppear:animated];
 }
 
 #pragma mark - Table view data source
@@ -104,14 +113,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	NSDictionary *contentDict;
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
-	NSDictionary *contentDict = [article objectForKey:@"content"];
+	if (summariesOnly == 0) {
+		contentDict = [article objectForKey:@"content"];
+	} else {
+		contentDict = [article objectForKey:@"summary"];
+	}
 	NSString *content = [contentDict objectForKey:@"content"];
-	ReadeyViewController *readyViewController = [[ReadeyViewController alloc] init];
-	[readyViewController setArticleContent:content];
 	
-	[readyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-	[self presentViewController:readyViewController animated:YES completion:nil];
+	ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
+	[readeyViewController setArticleContent:content];
+	
+	NSArray *alternateArray = [article objectForKey:@"alternate"];
+	NSDictionary *alternateDict = [alternateArray objectAtIndex:0];
+	[readeyViewController setSourceUrl:[alternateDict objectForKey:@"href"]];
+	
+	[readeyViewController setSourceEnabled:true];
+	
+	[readeyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+	[self presentViewController:readeyViewController animated:YES completion:nil];
 }
 
 @end

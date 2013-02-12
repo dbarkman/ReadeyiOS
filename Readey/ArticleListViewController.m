@@ -167,11 +167,12 @@ NSMutableArray *articles;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
-	ReadeyViewController *readyViewController = [[ReadeyViewController alloc] init];
-	[readyViewController setArticleContent:[article objectForKey:@"content"]];
+	ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
+	[readeyViewController setArticleContent:[article objectForKey:@"content"]];
+	[readeyViewController setSourceEnabled:false];
 
-	[readyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-	[self presentViewController:readyViewController animated:YES completion:nil];
+	[readeyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+	[self presentViewController:readeyViewController animated:YES completion:nil];
 }
 
 @end

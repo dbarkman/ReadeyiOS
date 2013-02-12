@@ -7,14 +7,11 @@
 //
 
 #import "Client.h"
-#import "KeychainItemWrapper.h"
+#import "MBP"
 
 @implementation Client
 
-NSString *username;
-NSString *password;
-
-@synthesize usergridClient, user;
+@synthesize usergridClient, user, username, password;
 
 - (id)init
 {
@@ -29,11 +26,25 @@ NSString *password;
         usergridClient = [[UGClient alloc]initWithOrganizationId: orgName withApplicationID: appName];
         [usergridClient setLogging:true]; //uncomment to see debug output in console window
 		
-		KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
+		keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReadeyLogin" accessGroup:nil];
 		username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
 		password = [keychainItem objectForKey:(__bridge id)kSecValueData];
     }
     return self;
+}
+
+- (void)saveLogin
+{
+	[keychainItem setObject:@"ReadeyLogin" forKey: (__bridge id)kSecAttrService];
+	[keychainItem setObject:username forKey:(__bridge id)kSecAttrAccount];
+	[keychainItem setObject:password forKey:(__bridge id)kSecValueData];
+}
+
+- (void)resetLogin
+{
+	[keychainItem resetKeychainItem];
+	username = @"";
+	password = @"";
 }
 
 - (NSString *)accessToken
@@ -41,7 +52,7 @@ NSString *password;
 	return [usergridClient getAccessToken];
 }
 
-- (bool)login:(NSString*)username withPassword:(NSString*)password
+- (bool)login
 {
     UGClientResponse *response = [usergridClient logInUser:username password:password];
     
@@ -65,17 +76,16 @@ NSString *password;
 
 - (void)logout
 {
-	KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:nil];
-    [keychainItem resetKeychainItem];
+	[self resetLogin];
 
 	[usergridClient logOut];
 }
 
-- (bool)createUser:(NSString*)username withName:(NSString*)name withEmail:(NSString*)email withPassword:(NSString*)password
+- (bool)createUser
 {
-    UGClientResponse *response = [usergridClient addUser:username email:email name:name password:password];
+    UGClientResponse *response = [usergridClient addUser:username email:username name:username password:password];
     if (response.transactionState == 0) {
-        return [self login:username withPassword:password];
+        return [self login];
     }
     return false;
 }
@@ -97,7 +107,7 @@ NSString *password;
 			articles = [response.response objectForKey:@"entities"];
 			break;
 		case 1:
-			if ([self login:username withPassword:password]) {
+			if ([self login]) {
 				UGClientResponse *response = [usergridClient getEntities:@"articles" query:query];
 				switch (response.transactionState) {
 					case 0:
@@ -135,7 +145,7 @@ NSString *password;
 			return true;
 			break;
 		case 1:
-			if ([self login:username withPassword:password]) {
+			if ([self login]) {
 				UGClientResponse *response = [usergridClient createEntity:articleDictionary];
 				switch (response.transactionState) {
 					case 0:
@@ -163,7 +173,7 @@ NSString *password;
 			return true;
 			break;
 		case 1:
-			if ([self login:username withPassword:password]) {
+			if ([self login]) {
 				UGClientResponse *response = [usergridClient removeEntity:@"articles" entityID:uuid];
 				switch (response.transactionState) {
 					case 0:
@@ -201,7 +211,7 @@ NSString *password;
 			return true;
 			break;
 		case 1:
-			if ([self login:username withPassword:password]) {
+			if ([self login]) {
 				UGClientResponse *response = [usergridClient createEntity:feedbackDictionary];
 				switch (response.transactionState) {
 					case 0:

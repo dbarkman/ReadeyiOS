@@ -19,7 +19,12 @@
 	KeychainItemWrapper *keychainItem;
 }
 
-- (bool)login:(NSString *)username password:(NSString *)password;
+@property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSString *password;
+
+- (void)saveLogin;
+- (void)resetLogin;
+- (bool)login;
 - (void)logout;
 - (bool)isLoggedIn;
 - (NSString *)getAuthToken;

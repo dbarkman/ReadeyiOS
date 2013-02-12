@@ -7,29 +7,28 @@
 //
 
 #import "ReadeyViewController.h"
-
-@interface ReadeyViewController ()
-
-@end
+#import "NSString_stripHtml.h"
+#import "WebViewController.h"
 
 @implementation ReadeyViewController
 
 @synthesize articleContent, marker, wordArray, wordArraySize;
 @synthesize rate, wordsPerMinute, timer, start, finish;
+@synthesize sourceUrl, sourceTitle, sourceEnabled;
+
+bool jumpBack = false;
+bool jumpForward = false;
 
 - (IBAction)back
 {
 	[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
--(BOOL)shouldAutorotate
+- (IBAction)source
 {
-    return YES;
-}
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationPortrait;
+	WebViewController *webViewController = [[WebViewController alloc] initWithURL:sourceUrl title:sourceTitle];
+	[webViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+	[self presentViewController:webViewController animated:YES completion:nil];
 }
 
 - (void)viewDidLoad
@@ -47,10 +46,47 @@
 	
 	marker = 0;
 	
-	NSArray *tempArray = [articleContent componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	//setup the regex to find and remove easy html
+	NSRegularExpression *regexImageTag = [NSRegularExpression regularExpressionWithPattern:@"<[^>]*>" options:NSRegularExpressionCaseInsensitive error:NULL];
 	
+	//setup the regex to find short-hyphen hyphenated-words and make them into hyphenated- words
+	NSRegularExpression *regexShortHyphen = [NSRegularExpression regularExpressionWithPattern:@"([a-zA-Z]+-)" options:NSRegularExpressionCaseInsensitive error:NULL];
+	
+	//setup the regex to find long—hyphen hyphenated-words and make them into hyphenated- words
+	NSRegularExpression *regexLongHyphen = [NSRegularExpression regularExpressionWithPattern:@"([a-zA-Z]+—)" options:NSRegularExpressionCaseInsensitive error:NULL];
+	
+	NSLog(@"Original Length: %d", [articleContent length]);
+	
+	//apply the above regex for easy html
+	NSString *articlecontent0 = [regexImageTag stringByReplacingMatchesInString:articleContent options:0 range:NSMakeRange(0, [articleContent length]) withTemplate:@""];
+	
+	NSLog(@"Post Step 0 Length: %d", [articlecontent0 length]);
+	
+	//remove all html content with stripHTML - not sureif this is needed
+	NSString *articleContent1 = [articlecontent0 stripHtml];
+	
+	NSLog(@"Post Step 1 Length: %d", [articleContent1 length]);
+	
+	//apply the above regex for short-hyphenated-words
+	NSString *articlecontent2 = [regexShortHyphen stringByReplacingMatchesInString:articleContent1 options:0 range:NSMakeRange(0, [articleContent1 length]) withTemplate:@"$1 "];
+	
+	NSLog(@"Post Step 2 Length: %d", [articlecontent2 length]);
+	
+	//apply the above regex for long-hyphenated-words
+	NSString *articlecontent3 = [regexLongHyphen stringByReplacingMatchesInString:articlecontent2 options:0 range:NSMakeRange(0, [articlecontent2 length]) withTemplate:@"$1 "];
+	
+	NSLog(@"Post Step 3 Length: %d", [articlecontent3 length]);
+	
+	//seperate the results of the above fixes into an array, one word per array entry
+	NSArray *tempArray = [articlecontent3 componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	
+	NSLog(@"Post Step 4 Size: %d", [tempArray count]);
+	
+	//elimenates blank spots in the array
 	wordArray = [tempArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]];
 	wordArraySize = [wordArray count];
+	
+	NSLog(@"Words: %d", wordArraySize);
 	
 	NSString *wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
 	int wpmInt = [wpm integerValue];
@@ -74,19 +110,26 @@
 
 - (IBAction)nextWord:(id)sender
 {
+	jumpBack = true;
+	if (jumpForward == true) {
+		jumpForward = false;
+		marker++;
+	}
 	if (marker < wordArraySize) {
-		int wordLength = 0;
-		NSString *word = @"";
-		while (wordLength == 0) {
-			word = [wordArray objectAtIndex:marker];
-			wordLength = [word length];
-			marker++;
-		}
+		NSString *word = [wordArray objectAtIndex:marker];
+		marker++;
+		if ([word length] == 0) NSLog(@"*************************BLANK*****BLANK*****BLANK*************************"); //flurry todo - log blank words, with article uuid
 		[currentWord setText:word];
         finish = [NSDate date];
 		[self updateCounters];
 	} else if (marker == wordArraySize) {
         [back setHidden:NO];
+		if (sourceEnabled == true) {
+			[source setHidden:NO];
+			[timeRemaining setHidden:YES];
+			[words setHidden:YES];
+			[wpmRate setHidden:YES];
+		}
 		[timer invalidate];
 		
 		[self setToRestart];
@@ -96,24 +139,31 @@
         [timeToRead setHidden:NO];
         [averageSpeed setHidden:NO];
 
-        NSTimeInterval difference = [finish timeIntervalSinceDate:start];
+		NSTimeInterval difference = [finish timeIntervalSinceDate:start];
 		int minutes = floor(difference / 60);
 		int seconds = difference - (minutes * 60);
-		[timeToRead setText:[NSString stringWithFormat:@"Time: %d:%02d", minutes, seconds]];
-		[averageSpeed setText:[NSString stringWithFormat:@"Speed: %.0f wpm", wordArraySize * (60 / difference)]];
+		NSString *timeToReadResult = [NSString stringWithFormat:@"Time: %d:%02d", minutes, seconds];
+		NSString *averageSpeedResult = [NSString stringWithFormat:@"Speed: %.0f wpm", wordArraySize * (60 / difference)];
+        if (start == NULL) {
+			timeToReadResult = @"Time: 0:00";
+			averageSpeedResult = @"Speed: 0 wpm";
+		}
+		[timeToRead setText:timeToReadResult];
+		[averageSpeed setText:averageSpeedResult];
 	}
 }
 
 - (IBAction)prevWord:(id)sender
 {
+	jumpForward = true;
+	if (jumpBack == true) {
+		jumpBack = false;
+		marker--;
+	}
 	if (marker > 0) {
-		int wordLength = 0;
-		NSString *word = @"";
-		while (wordLength == 0) {
-			word = [wordArray objectAtIndex:marker];
-			wordLength = [word length];
-			marker--;
-		}
+		marker--;
+		NSString *word = [wordArray objectAtIndex:marker];
+		if ([word length] == 0) NSLog(@"*************************BLANK*****BLANK*****BLANK*************************"); //flurry todo - log blank words, with article uuid
 		[currentWord setText:word];
         [self updateCounters];
 	}
@@ -140,11 +190,7 @@
 - (void)resetTimer
 {
 	[timer invalidate];
-	timer = [NSTimer scheduledTimerWithTimeInterval:rate
-											 target:self
-										   selector:@selector(nextWord:)
-										   userInfo:nil
-											repeats:YES];
+	timer = [NSTimer scheduledTimerWithTimeInterval:rate target:self selector:@selector(nextWord:) userInfo:nil repeats:YES];
 }
 
 - (IBAction)startReading:(id)sender
@@ -177,6 +223,10 @@
 - (IBAction)restart:(id)sender
 {
     [back setHidden:NO];
+    [source setHidden:YES];
+	[timeRemaining setHidden:NO];
+	[words setHidden:NO];
+	[wpmRate setHidden:NO];
 	[timer invalidate];
 	
 	marker = 0;
@@ -228,6 +278,8 @@
     [pause setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     [back setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [back setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [source setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [source setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     [prevWordBtn setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [prevWordBtn setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     [nextWordBtn setBackgroundImage:buttonImage forState:UIControlStateNormal];

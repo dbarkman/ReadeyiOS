@@ -7,7 +7,6 @@
 //
 
 #import "GoogleReaderViewController.h"
-#import "GoogleReaderClient.h"
 #import "GoogleReaderFeedViewController.h"
 #import "GoogleReaderLoginViewController.h"
 
@@ -16,6 +15,7 @@
 
 @implementation GoogleReaderViewController
 
+@synthesize grClient;
 @synthesize subscriptionTitles;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -33,8 +33,6 @@
     
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 	
-	GoogleReaderClient *grClient = [[GoogleReaderClient alloc] init];
-	
 	if ([grClient isLoggedIn]) {
 		NSString *authToken = [grClient getAuthToken];
 		subscriptionTitles = [grClient getSubscriptionList:authToken];
@@ -42,6 +40,7 @@
 		[[self tableView] reloadData];
 	} else {
 		GoogleReaderLoginViewController *grLoginViewController = [[GoogleReaderLoginViewController alloc] init];
+		[grLoginViewController setGrClient:grClient];
 		[grLoginViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
 		[self presentViewController:grLoginViewController animated:YES completion:nil];
 	}
@@ -98,6 +97,7 @@
 	NSString *title = [tempDict objectForKey:@"title"];
 	
 	GoogleReaderFeedViewController *grFeedViewController = [[GoogleReaderFeedViewController alloc] init];
+	[grFeedViewController setGrClient:grClient];
 	[grFeedViewController setFeed:feedId];
 	[grFeedViewController setNavTitle:title];
 	

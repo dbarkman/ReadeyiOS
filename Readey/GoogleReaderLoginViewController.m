@@ -8,17 +8,14 @@
 
 #import "GoogleReaderLoginViewController.h"
 
-@interface GoogleReaderLoginViewController ()
-
-@end
-
 @implementation GoogleReaderLoginViewController
+
+@synthesize grClient;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-		grClient = [[GoogleReaderClient alloc] init];
     }
     return self;
 }
@@ -51,10 +48,13 @@
     NSString *username = [usernameTextField text];
     NSString *password = [passwordTextField text];
 	
+	[grClient setUsername:username];
+	[grClient setPassword:password];
+	
 	if (username.length == 0 || password.length == 0) {
 		[self alertCredentialsMissing];
 		
-	} else if ([grClient login:username password:password]) {
+	} else if ([grClient login]) {
 		[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 		
 	} else {

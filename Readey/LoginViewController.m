@@ -9,7 +9,6 @@
 #import "LoginViewController.h"
 #import "FoldersViewController.h"
 #import "ReadeyViewController.h"
-#import "KeychainItemWrapper.h"
 #import "WebViewController.h"
 
 @interface LoginViewController ()
@@ -76,10 +75,13 @@
     NSString *username = [emailTextField text];
     NSString *password = [passwordTextField text];
 	
+	[_client setUsername:username];
+	[_client setPassword:password];
+	
 	if (username.length == 0 || password.length == 0) {
 		[self alertCredentialsMissing];
 		
-	} else if ([_client login:username withPassword:password]) {
+	} else if ([_client login]) {
 		[self previousView];
 		
 	} else {
@@ -89,15 +91,10 @@
 
 - (void)createAccount
 {
-    NSString *username = [emailTextField text];
-    NSString *name = [emailTextField text];
-    NSString *email = [emailTextField text];
-    NSString *password = [passwordTextField text];
-	
-	if ([_client createUser:username
-				   withName:name
-				  withEmail:email
-			   withPassword:password]) {
+	[_client setUsername:[emailTextField text]];
+	[_client setPassword:[passwordTextField text]];
+
+	if ([_client createUser]) {
 		[self previousView];
 	} else {
 		[self alertAccountCreateFailed];
@@ -106,15 +103,12 @@
 
 - (void)previousView
 {
-    KeychainItemWrapper *keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReaderAppLogin" accessGroup:@""];
     if ([saveLogin isOn]) {
-        NSString *username = [emailTextField text];
-        NSString *password = [passwordTextField text];
-        
-        [keychainItem setObject:username forKey:(__bridge id)kSecAttrAccount];
-        [keychainItem setObject:password forKey:(__bridge id)kSecValueData];
+		[_client setUsername:[emailTextField text]];
+		[_client setPassword:[passwordTextField text]];
+		[_client saveLogin];
     } else {
-        [keychainItem resetKeychainItem];
+		[_client resetLogin];
     }
     
     [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
@@ -185,7 +179,7 @@
 - (void)alertWebView
 {
 	alertViewFlag = 3;
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Email Sent"
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Password Reset"
 													message:@"A password reset webpage will now appear.  Enter the email for your Readey account. You will then receive an email from usergrid@apigee.com containing a link for resetting  your password."
 												   delegate:self
 										  cancelButtonTitle:@"Cancel"

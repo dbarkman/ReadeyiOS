@@ -133,11 +133,12 @@
 - (void)restClient:(DBRestClient*)client loadedFile:(NSString*)localPath {
 	NSString *fileContents = [[NSString alloc] initWithContentsOfFile:localPath encoding:NSUTF8StringEncoding error:nil];
 
-	ReadeyViewController *readyViewController = [[ReadeyViewController alloc] init];
-	[readyViewController setArticleContent:fileContents];
-	
-	[readyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-	[self presentViewController:readyViewController animated:YES completion:nil];
+	ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
+	[readeyViewController setArticleContent:fileContents];
+	[readeyViewController setSourceEnabled:false];
+
+	[readeyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+	[self presentViewController:readeyViewController animated:YES completion:nil];
 }
 
 - (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error {

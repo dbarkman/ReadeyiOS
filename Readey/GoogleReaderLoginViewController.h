@@ -11,11 +11,12 @@
 
 @interface GoogleReaderLoginViewController : UIViewController <UITextFieldDelegate>
 {
-	GoogleReaderClient *grClient;
 	IBOutlet UITextField *usernameTextField;
 	IBOutlet UITextField *passwordTextField;
 	IBOutlet UIButton *loginButton;
 }
+
+@property (nonatomic, strong) GoogleReaderClient *grClient;
 
 - (IBAction)login;
 
