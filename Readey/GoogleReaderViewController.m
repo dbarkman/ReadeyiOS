@@ -8,7 +8,6 @@
 
 #import "GoogleReaderViewController.h"
 #import "GoogleReaderFeedViewController.h"
-#import "GoogleReaderLoginViewController.h"
 
 #define FONT_SIZE 18.0f
 #define CELL_CONTENT_MARGIN 10.0f
@@ -27,6 +26,13 @@
     return self;
 }
 
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+	
+	
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -40,10 +46,16 @@
 		[[self tableView] reloadData];
 	} else {
 		GoogleReaderLoginViewController *grLoginViewController = [[GoogleReaderLoginViewController alloc] init];
+		grLoginViewController.delegate = self;
 		[grLoginViewController setGrClient:grClient];
 		[grLoginViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
 		[self presentViewController:grLoginViewController animated:YES completion:nil];
 	}
+}
+
+- (void)cancelLogin
+{
+	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source

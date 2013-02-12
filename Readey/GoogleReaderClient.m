@@ -88,8 +88,11 @@
     NSData *data = nil;
     NSString *responseStr = nil;
     int responseStatus = 0;
+
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     data = [NSURLConnection sendSynchronousRequest:authReq returningResponse:&response error:&error];
-	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+
 	if ([data length] > 0) {
         responseStr = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
 		if (logResponses) NSLog(@"Response From Google: %@", responseStr);
@@ -174,7 +177,10 @@
 	NSData *subListData = nil;
 	NSString *subListResponseStr = nil;
 	int subListResponseStatus = 0;
+
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	subListData = [NSURLConnection sendSynchronousRequest:subListReq returningResponse:&subListResponse error:&subListError];
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
 	if ([subListData length] > 0) {
 		subListResponseStr = [[NSString alloc] initWithData:subListData encoding:NSASCIIStringEncoding];
@@ -223,7 +229,9 @@
 	NSData *subFeedData = nil;
 	NSString *subFeedResponseStr = nil;
 	int subFeedResponseStatus = 0;
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	subFeedData = [NSURLConnection sendSynchronousRequest:subFeedReq returningResponse:&subFeedResponse error:&subFeedError];
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
 	if ([subFeedData length] > 0) {
 		subFeedResponseStr = [[NSString alloc] initWithData:subFeedData encoding:NSASCIIStringEncoding];

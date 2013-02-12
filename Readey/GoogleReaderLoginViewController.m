@@ -10,7 +10,7 @@
 
 @implementation GoogleReaderLoginViewController
 
-@synthesize grClient;
+@synthesize delegate, grClient;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,6 +29,8 @@
 	
     [loginButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [loginButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [cancelButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [cancelButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -60,6 +62,15 @@
 	} else {
 		[self alertLoginFailed];
     }
+}
+
+- (IBAction)cancel
+{
+	[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+	
+	if ([delegate respondsToSelector:@selector(cancelLogin)]) {
+		[delegate cancelLogin];
+	}
 }
 
 - (void)alertLoginFailed

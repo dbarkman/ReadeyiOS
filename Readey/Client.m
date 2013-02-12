@@ -7,7 +7,6 @@
 //
 
 #import "Client.h"
-#import "MBP"
 
 @implementation Client
 
@@ -23,7 +22,7 @@
         NSString * appName = @"readey";
 		
         //make new client
-        usergridClient = [[UGClient alloc]initWithOrganizationId: orgName withApplicationID: appName];
+        usergridClient = [[UGClient alloc] initWithOrganizationId: orgName withApplicationID: appName];
         [usergridClient setLogging:true]; //uncomment to see debug output in console window
 		
 		keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReadeyLogin" accessGroup:nil];
@@ -54,7 +53,9 @@
 
 - (bool)login
 {
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     UGClientResponse *response = [usergridClient logInUser:username password:password];
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
     if (response.transactionState == 0) {
         return true;
@@ -71,7 +72,7 @@
     NSString *uuid = [usergridClient getLoggedInUser].uuid;
 	NSString *url = [NSString stringWithFormat:@"http://api.usergrid.com/management/%@/%@/users/%@?access_token=%@", orgId, appId, uuid, token];
     [usergridClient apiRequest:url operation:nil data:nil];
-    return true;
+    return false;
 }
 
 - (void)logout
@@ -83,7 +84,10 @@
 
 - (bool)createUser
 {
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     UGClientResponse *response = [usergridClient addUser:username email:username name:username password:password];
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+	
     if (response.transactionState == 0) {
         return [self login];
     }
@@ -98,8 +102,11 @@
 	
 	UGQuery *query = [[UGQuery alloc] init];
 	[query addURLTerm:@"ql" equals:userQuery];
+
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	UGClientResponse *response = [usergridClient getEntities:@"articles" query:query];
-	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+
 	NSArray *articles;
 
 	switch (response.transactionState) {
@@ -108,7 +115,10 @@
 			break;
 		case 1:
 			if ([self login]) {
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 				UGClientResponse *response = [usergridClient getEntities:@"articles" query:query];
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+
 				switch (response.transactionState) {
 					case 0:
 						articles = [response.response objectForKey:@"entities"];
@@ -138,7 +148,9 @@
 	[articleDictionary setObject:content forKey:@"content"];
 	[articleDictionary setObject:uuid forKey:@"user"];
 	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	UGClientResponse *response = [usergridClient createEntity:articleDictionary];
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
 	switch (response.transactionState) {
 		case 0:
@@ -146,7 +158,10 @@
 			break;
 		case 1:
 			if ([self login]) {
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 				UGClientResponse *response = [usergridClient createEntity:articleDictionary];
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+
 				switch (response.transactionState) {
 					case 0:
 						return true;
@@ -166,7 +181,9 @@
 
 - (bool)removeArticle:(NSString *)uuid
 {
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	UGClientResponse *response = [usergridClient removeEntity:@"articles" entityID:uuid];
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
 	switch (response.transactionState) {
 		case 0:
@@ -174,7 +191,10 @@
 			break;
 		case 1:
 			if ([self login]) {
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 				UGClientResponse *response = [usergridClient removeEntity:@"articles" entityID:uuid];
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+				
 				switch (response.transactionState) {
 					case 0:
 						return true;
@@ -204,7 +224,9 @@
 	[feedbackDictionary setObject:email forKey:@"email"];
 	[feedbackDictionary setObject:uuid forKey:@"user"];
 	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	UGClientResponse *response = [usergridClient createEntity:feedbackDictionary];
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
 	switch (response.transactionState) {
 		case 0:
@@ -212,7 +234,10 @@
 			break;
 		case 1:
 			if ([self login]) {
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 				UGClientResponse *response = [usergridClient createEntity:feedbackDictionary];
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+				
 				switch (response.transactionState) {
 					case 0:
 						return true;

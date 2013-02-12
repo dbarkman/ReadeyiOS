@@ -8,10 +8,6 @@
 
 #import "PickerViewController.h"
 
-@interface PickerViewController ()
-
-@end
-
 @implementation PickerViewController
 
 @synthesize delegate, valueLabelString, descriptionLabelString, valueArray, pickerIndex;

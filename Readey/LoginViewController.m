@@ -55,6 +55,12 @@
 	
 	[emailTextField setDelegate:self];
 	[passwordTextField setDelegate:self];
+
+    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+	
+    [loginButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [loginButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -70,7 +76,7 @@
 	return YES;
 }
 
-- (void)login
+- (IBAction)login
 {
     NSString *username = [emailTextField text];
     NSString *password = [passwordTextField text];
