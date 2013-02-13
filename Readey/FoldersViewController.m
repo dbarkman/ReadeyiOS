@@ -13,6 +13,7 @@
 #import "DropboxViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "GoogleReaderViewController.h"
+#import "FeedbackViewController.h"
 
 @interface FoldersViewController ()
 
@@ -92,7 +93,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -115,6 +116,13 @@
             [[cell textLabel] setText:@"Google Reader"];
             [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             break;
+        case 4:
+            [[cell textLabel] setText:@"More Categories Coming!"];
+            break;
+        case 5:
+            [[cell textLabel] setText:@"Leave Us Some Feedback"];
+            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            break;
 	}
     return cell;
 }
@@ -126,6 +134,7 @@
     ArticleListViewController *articleListViewController = [[ArticleListViewController alloc] init];
     DropboxViewController *dropboxViewController = [[DropboxViewController alloc] init];
 	GoogleReaderViewController *googleReaderViewController = [[GoogleReaderViewController alloc] init];
+	FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
 	switch ([indexPath row]) {
 		case 0:
             [articleListViewController setTitle:@"Articles"];
@@ -144,6 +153,13 @@
             [googleReaderViewController setTitle:@"Google Reader"];
 			[googleReaderViewController setGrClient:grClient];
             [[self navigationController] pushViewController:googleReaderViewController animated:YES];
+			break;
+		case 5:
+			[feedbackViewController setClient:_client];
+			[[self navigationController] pushViewController:feedbackViewController animated:YES];
+			break;
+		default:
+			[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 			break;
 	}
 }

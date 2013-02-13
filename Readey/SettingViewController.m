@@ -56,6 +56,13 @@ NSString *wpm;
 	[[self tableView] setBackgroundColor:calmingBlue];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	
+	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
 - (void)valueSelected:(NSString *)value
 {
 	[[NSUserDefaults standardUserDefaults] setObject:value forKey:@"wpm"];
