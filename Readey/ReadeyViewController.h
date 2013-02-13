@@ -16,25 +16,31 @@
 	IBOutlet UILabel *currentWord;
 	IBOutlet UILabel *timeToRead;
 	IBOutlet UILabel *averageSpeed;
-	IBOutlet UIButton *startReading;
-	IBOutlet UIButton *pause;
+    IBOutlet UIProgressView *progress;
+
     IBOutlet UIButton *back;
     IBOutlet UIButton *source;
-    IBOutlet UIButton *prevWordBtn;
-    IBOutlet UIButton *nextWordBtn;
-    IBOutlet UIButton *fasterBtn;
-    IBOutlet UIButton *slowerBtn;
-    IBOutlet UIProgressView *progress;
+
+	IBOutlet UIButton *startButton;
+	IBOutlet UIButton *backButton;
+	IBOutlet UIButton *slowerButton;
+	IBOutlet UIButton *masterButton;
+	IBOutlet UIButton *fasterButton;
+	IBOutlet UIButton *nextButton;
+	IBOutlet UIButton *endButton;
 }
 
-- (IBAction)startReading:(id)sender;
-- (IBAction)pause:(id)sender;
-- (IBAction)nextWord:(id)sender;
-- (IBAction)prevWord:(id)sender;
-- (IBAction)faster:(id)sender;
-- (IBAction)slower:(id)sender;
 - (IBAction)back;
 - (IBAction)source;
+
+- (IBAction)start:(bool)andGo;
+- (IBAction)prevWord;
+- (IBAction)slower;
+- (IBAction)play;
+- (IBAction)pause;
+- (IBAction)faster;
+- (IBAction)nextWord;
+- (IBAction)end;
 
 @property (nonatomic, retain) NSString *articleContent;
 
@@ -47,8 +53,8 @@
 
 @property (nonatomic, retain) NSTimer *timer;
 
-@property (nonatomic, retain) NSDate *start;
-@property (nonatomic, retain) NSDate *finish;
+@property (nonatomic, retain) NSDate *startTime;
+@property (nonatomic, retain) NSDate *finishTime;
 
 @property (nonatomic, retain) NSString *sourceUrl;
 @property (nonatomic, retain) NSString *sourceTitle;

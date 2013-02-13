@@ -13,7 +13,7 @@
 @implementation ReadeyViewController
 
 @synthesize articleContent, marker, wordArray, wordArraySize;
-@synthesize rate, wordsPerMinute, timer, start, finish;
+@synthesize rate, wordsPerMinute, timer, startTime, finishTime;
 @synthesize sourceUrl, sourceTitle, sourceEnabled;
 
 bool jumpBack = false;
@@ -55,38 +55,24 @@ bool jumpForward = false;
 	//setup the regex to find long—hyphen hyphenated-words and make them into hyphenated- words
 	NSRegularExpression *regexLongHyphen = [NSRegularExpression regularExpressionWithPattern:@"([a-zA-Z]+—)" options:NSRegularExpressionCaseInsensitive error:NULL];
 	
-	NSLog(@"Original Length: %d", [articleContent length]);
-	
 	//apply the above regex for easy html
 	NSString *articlecontent0 = [regexImageTag stringByReplacingMatchesInString:articleContent options:0 range:NSMakeRange(0, [articleContent length]) withTemplate:@""];
-	
-	NSLog(@"Post Step 0 Length: %d", [articlecontent0 length]);
 	
 	//remove all html content with stripHTML - not sureif this is needed
 	NSString *articleContent1 = [articlecontent0 stripHtml];
 	
-	NSLog(@"Post Step 1 Length: %d", [articleContent1 length]);
-	
 	//apply the above regex for short-hyphenated-words
 	NSString *articlecontent2 = [regexShortHyphen stringByReplacingMatchesInString:articleContent1 options:0 range:NSMakeRange(0, [articleContent1 length]) withTemplate:@"$1 "];
-	
-	NSLog(@"Post Step 2 Length: %d", [articlecontent2 length]);
 	
 	//apply the above regex for long-hyphenated-words
 	NSString *articlecontent3 = [regexLongHyphen stringByReplacingMatchesInString:articlecontent2 options:0 range:NSMakeRange(0, [articlecontent2 length]) withTemplate:@"$1 "];
 	
-	NSLog(@"Post Step 3 Length: %d", [articlecontent3 length]);
-	
 	//seperate the results of the above fixes into an array, one word per array entry
 	NSArray *tempArray = [articlecontent3 componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	
-	NSLog(@"Post Step 4 Size: %d", [tempArray count]);
 	
 	//elimenates blank spots in the array
 	wordArray = [tempArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]];
 	wordArraySize = [wordArray count];
-	
-	NSLog(@"Words: %d", wordArraySize);
 	
 	NSString *wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
 	int wpmInt = [wpm integerValue];
@@ -95,65 +81,38 @@ bool jumpForward = false;
 	rate = 60.0 / wordsPerMinute;
 	
 	[wpmRate setText:[NSString stringWithFormat:@"%.0f wpm", wordsPerMinute]];
-	[self updateCounters];
+	[self updateCounters:YES];
 }
 
-- (void)updateCounters
+- (void)updateCounters:(bool)animated
 {
 	float timeRemain = (wordArraySize - marker) * rate;
 	int minutes = floor(timeRemain / 60);
 	int seconds = timeRemain - (minutes * 60);
 	[timeRemaining setText:[NSString stringWithFormat:@"%d:%02d time", minutes, seconds]];
 	[words setText:[NSString stringWithFormat:@"%d words", wordArraySize - marker]];
-    [progress setProgress:(1.0 / wordArraySize) * marker animated:YES];
+    [progress setProgress:(1.0 / wordArraySize) * marker animated:animated];
 }
 
-- (IBAction)nextWord:(id)sender
+- (IBAction)start:(bool)andGo
 {
-	jumpBack = true;
-	if (jumpForward == true) {
-		jumpForward = false;
-		marker++;
-	}
-	if (marker < wordArraySize) {
-		NSString *word = [wordArray objectAtIndex:marker];
-		marker++;
-		if ([word length] == 0) NSLog(@"*************************BLANK*****BLANK*****BLANK*************************"); //flurry todo - log blank words, with article uuid
-		[currentWord setText:word];
-        finish = [NSDate date];
-		[self updateCounters];
-	} else if (marker == wordArraySize) {
-        [back setHidden:NO];
-		if (sourceEnabled == true) {
-			[source setHidden:NO];
-			[timeRemaining setHidden:YES];
-			[words setHidden:YES];
-			[wpmRate setHidden:YES];
-		}
-		[timer invalidate];
-		
-		[self setToRestart];
-		[self setToResume];
-        
-        [currentWord setText:@"Complete!"];
-        [timeToRead setHidden:NO];
-        [averageSpeed setHidden:NO];
+    [back setHidden:NO];
+	[self changeSource:YES];
+    [timeToRead setHidden:YES];
+    [averageSpeed setHidden:YES];
 
-		NSTimeInterval difference = [finish timeIntervalSinceDate:start];
-		int minutes = floor(difference / 60);
-		int seconds = difference - (minutes * 60);
-		NSString *timeToReadResult = [NSString stringWithFormat:@"Time: %d:%02d", minutes, seconds];
-		NSString *averageSpeedResult = [NSString stringWithFormat:@"Speed: %.0f wpm", wordArraySize * (60 / difference)];
-        if (start == NULL) {
-			timeToReadResult = @"Time: 0:00";
-			averageSpeedResult = @"Speed: 0 wpm";
-		}
-		[timeToRead setText:timeToReadResult];
-		[averageSpeed setText:averageSpeedResult];
-	}
+	[timer invalidate];
+	
+	marker = 0;
+    
+    [self updateCounters:!andGo];
+	
+	[self setToPlay];
+	
+	if (!andGo) [currentWord setText:@"Ready?"];
 }
 
-- (IBAction)prevWord:(id)sender
+- (IBAction)prevWord
 {
 	jumpForward = true;
 	if (jumpBack == true) {
@@ -165,129 +124,155 @@ bool jumpForward = false;
 		NSString *word = [wordArray objectAtIndex:marker];
 		if ([word length] == 0) NSLog(@"*************************BLANK*****BLANK*****BLANK*************************"); //flurry todo - log blank words, with article uuid
 		[currentWord setText:word];
-        [self updateCounters];
+        [self updateCounters:YES];
 	}
 }
 
-- (IBAction)faster:(id)sender
-{
-	wordsPerMinute = wordsPerMinute + 5;
-	rate = 60.0 / wordsPerMinute;
-	if ([timer isValid]) [self resetTimer];
-	[wpmRate setText:[NSString stringWithFormat:@"%.0f wpm", wordsPerMinute]];
-	[self updateCounters];
-}
-
-- (IBAction)slower:(id)sender
+- (IBAction)slower
 {
 	wordsPerMinute = wordsPerMinute - 5;
 	rate = 60.0 / wordsPerMinute;
 	if ([timer isValid]) [self resetTimer];
 	[wpmRate setText:[NSString stringWithFormat:@"%.0f wpm", wordsPerMinute]];
-	[self updateCounters];
+	[self updateCounters:YES];
+}
+
+- (IBAction)play
+{
+	if (marker == wordArraySize) {
+		[self start:YES];
+	}
+    [back setHidden:YES];
+	[self resetTimer];
+    if (marker == 0) startTime = [NSDate date];
+	[self setToPause];
+}
+
+- (IBAction)pause
+{
+	if ([timer isValid]) {
+        [back setHidden:NO];
+		[timer invalidate];
+		[self setToPlay];
+	}
+}
+
+- (IBAction)faster
+{
+	wordsPerMinute = wordsPerMinute + 5;
+	rate = 60.0 / wordsPerMinute;
+	if ([timer isValid]) [self resetTimer];
+	[wpmRate setText:[NSString stringWithFormat:@"%.0f wpm", wordsPerMinute]];
+	[self updateCounters:YES];
+}
+
+- (IBAction)nextWord
+{
+	jumpBack = true;
+	if (jumpForward == true) {
+		jumpForward = false;
+		marker++;
+	}
+	if (marker < wordArraySize) {
+		NSString *word = [wordArray objectAtIndex:marker];
+		marker++;
+		if ([word length] == 0) NSLog(@"*************************BLANK*****BLANK*****BLANK*************************"); //flurry todo - log blank words, with article uuid
+		[currentWord setText:word];
+        finishTime = [NSDate date];
+		[self updateCounters:YES];
+	} else if (marker == wordArraySize) {
+		[self end];
+	}
+}
+
+- (IBAction)end
+{
+	if (marker != wordArraySize) {
+		marker = wordArraySize;
+		[self updateCounters:NO];
+	}
+	NSLog(@"Marker: %d - Words: %d", marker, wordArraySize);
+	[back setHidden:NO];
+	if (sourceEnabled == true) {
+		[self changeSource:NO];
+	}
+	[timer invalidate];
+	
+	[progress setProgress:1.0];
+	
+	[self setToPlay];
+	
+	[currentWord setText:@"Complete!"];
+	[timeToRead setHidden:NO];
+	[averageSpeed setHidden:NO];
+	
+	NSTimeInterval difference = [finishTime timeIntervalSinceDate:startTime];
+	int minutes = floor(difference / 60);
+	int seconds = difference - (minutes * 60);
+	NSString *timeToReadResult = [NSString stringWithFormat:@"Time: %d:%02d", minutes, seconds];
+
+	NSString *averageSpeedResult = [NSString stringWithFormat:@"Speed: %.0f wpm", wordArraySize * (60 / difference)];
+	if (startTime == NULL) {
+		timeToReadResult = @"Time: 0:00";
+		averageSpeedResult = @"Speed: 0 wpm";
+	}
+	[timeToRead setText:timeToReadResult];
+	[averageSpeed setText:averageSpeedResult];
+	
 }
 
 - (void)resetTimer
 {
 	[timer invalidate];
-	timer = [NSTimer scheduledTimerWithTimeInterval:rate target:self selector:@selector(nextWord:) userInfo:nil repeats:YES];
-}
-
-- (IBAction)startReading:(id)sender
-{
-    [back setHidden:YES];
-    [timeToRead setHidden:YES];
-    [averageSpeed setHidden:YES];
-	[self resetTimer];
-    start = [NSDate date];
-	[self setToRestart];
-	[self setToPause];
-}
-
-- (IBAction)pause:(id)sender
-{
-	if ([timer isValid]) {
-        [back setHidden:NO];
-		[timer invalidate];
-		[self setToResume];
-	}
-}
-
-- (IBAction)resume:(id)sender
-{
-    [back setHidden:YES];
-	[self resetTimer];
-	[self setToPause];
-}
-
-- (IBAction)restart:(id)sender
-{
-    [back setHidden:NO];
-    [source setHidden:YES];
-	[timeRemaining setHidden:NO];
-	[words setHidden:NO];
-	[wpmRate setHidden:NO];
-	[timer invalidate];
-	
-	marker = 0;
-    
-    [self updateCounters];
-	
-	[self setToStart];
-	[self setToPause];
-	
-	[currentWord setText:@"Ready?"];
+	timer = [NSTimer scheduledTimerWithTimeInterval:rate target:self selector:@selector(nextWord) userInfo:nil repeats:YES];
 }
 
 - (void)setToPause
 {
-	[pause setTitle:@"Pause" forState:UIControlStateNormal];
-	[pause removeTarget:self action:@selector(resume:) forControlEvents:UIControlEventTouchUpInside];
-	[pause addTarget:self action:@selector(pause:) forControlEvents:UIControlEventTouchUpInside];
+	[masterButton setTitle:@"STOP" forState:UIControlStateNormal];
+	[masterButton removeTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
+	[masterButton addTarget:self action:@selector(pause) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)setToResume
+- (void)setToPlay
 {
-	[pause setTitle:@"Resume" forState:UIControlStateNormal];
-	[pause removeTarget:self action:@selector(pause:) forControlEvents:UIControlEventTouchUpInside];
-	[pause addTarget:self action:@selector(resume:) forControlEvents:UIControlEventTouchUpInside];
+	[masterButton setTitle:@"GO" forState:UIControlStateNormal];
+	[masterButton removeTarget:self action:@selector(pause) forControlEvents:UIControlEventTouchUpInside];
+	[masterButton addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)setToStart
+- (void)changeSource:(bool)hide
 {
-	[startReading setTitle:@"Start" forState:UIControlStateNormal];
-	[startReading removeTarget:self action:@selector(restart:) forControlEvents:UIControlEventTouchUpInside];
-	[startReading addTarget:self action:@selector(startReading:) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)setToRestart
-{
-	[startReading setTitle:@"Restart" forState:UIControlStateNormal];
-	[startReading removeTarget:self action:@selector(startReading:) forControlEvents:UIControlEventTouchUpInside];
-	[startReading addTarget:self action:@selector(restart:) forControlEvents:UIControlEventTouchUpInside];
+    [source setHidden:hide];
+	[timeRemaining setHidden:!hide];
+	[words setHidden:!hide];
+	[wpmRate setHidden:!hide];
 }
 
 - (void)updateButton
 {
-    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonBackgroundImage = [[UIImage imageNamed:@"greyButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonBackgroundImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
 	
-    [startReading setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [startReading setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    [pause setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [pause setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    [back setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [back setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    [source setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [source setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    [prevWordBtn setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [prevWordBtn setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    [nextWordBtn setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [nextWordBtn setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    [fasterBtn setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [fasterBtn setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    [slowerBtn setBackgroundImage:buttonImage forState:UIControlStateNormal];
-    [slowerBtn setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [back setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    [back setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
+    [source setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    [source setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
+    
+	[startButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    [startButton setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
+    [backButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    [backButton setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
+    [slowerButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    [slowerButton setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
+    [masterButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    [masterButton setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
+    [fasterButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    [fasterButton setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
+    [nextButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    [nextButton setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
+    [endButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    [endButton setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
 }
 
 @end
