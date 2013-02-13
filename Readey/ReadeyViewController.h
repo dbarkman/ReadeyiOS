@@ -10,6 +10,17 @@
 
 @interface ReadeyViewController : UIViewController
 {
+	int marker;
+	int wordArraySize;
+	float rate;
+	float wordsPerMinute;
+	bool jumpBack;
+	bool jumpForward;
+	NSArray *wordArray;
+	NSTimer *timer;
+	NSDate *startTime;
+	NSDate *finishTime;
+	
 	IBOutlet UILabel *wpmRate;
 	IBOutlet UILabel *timeRemaining;
 	IBOutlet UILabel *words;
@@ -18,8 +29,9 @@
 	IBOutlet UILabel *averageSpeed;
     IBOutlet UIProgressView *progress;
 
-    IBOutlet UIButton *back;
-    IBOutlet UIButton *source;
+    IBOutlet UIButton *navigateBackButton;
+	IBOutlet UIButton *darkLightButton;
+    IBOutlet UIButton *sourceButton;
 
 	IBOutlet UIButton *startButton;
 	IBOutlet UIButton *backButton;
@@ -32,6 +44,7 @@
 
 - (IBAction)back;
 - (IBAction)source;
+- (IBAction)switchColor;
 
 - (IBAction)start:(bool)andGo;
 - (IBAction)prevWord;
@@ -42,22 +55,9 @@
 - (IBAction)nextWord;
 - (IBAction)end;
 
-@property (nonatomic, retain) NSString *articleContent;
-
-@property (nonatomic) int marker;
-@property (nonatomic) int wordArraySize;
-@property (nonatomic, retain) NSArray *wordArray;
-
-@property (nonatomic) float rate;
-@property (nonatomic) float wordsPerMinute;
-
-@property (nonatomic, retain) NSTimer *timer;
-
-@property (nonatomic, retain) NSDate *startTime;
-@property (nonatomic, retain) NSDate *finishTime;
-
+@property (nonatomic) bool sourceEnabled;
 @property (nonatomic, retain) NSString *sourceUrl;
 @property (nonatomic, retain) NSString *sourceTitle;
-@property (nonatomic) bool sourceEnabled;
+@property (nonatomic, retain) NSString *articleContent;
 
 @end

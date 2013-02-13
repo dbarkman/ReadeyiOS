@@ -11,7 +11,9 @@
 #import "GoogleReaderClient.h"
 
 @interface FoldersViewController : UITableViewController
-
+{
+	NSString *readerColor;
+}
 @property (nonatomic, strong) Client *client;
 @property (nonatomic, strong) GoogleReaderClient *grClient;
 

@@ -124,15 +124,14 @@ int summariesOnly = 1;
 	}
 	NSString *content = [contentDict objectForKey:@"content"];
 	
-	ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
-	[readeyViewController setArticleContent:content];
-	
 	NSArray *alternateArray = [article objectForKey:@"alternate"];
 	NSDictionary *alternateDict = [alternateArray objectAtIndex:0];
+	
+	ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
+	[readeyViewController setArticleContent:content];
 	[readeyViewController setSourceUrl:[alternateDict objectForKey:@"href"]];
-	
 	[readeyViewController setSourceEnabled:true];
-	
+
 	[readeyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
 	[self presentViewController:readeyViewController animated:YES completion:nil];
 }

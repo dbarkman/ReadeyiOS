@@ -12,31 +12,17 @@
 
 @implementation ReadeyViewController
 
-@synthesize articleContent, marker, wordArray, wordArraySize;
-@synthesize rate, wordsPerMinute, timer, startTime, finishTime;
-@synthesize sourceUrl, sourceTitle, sourceEnabled;
-
-bool jumpBack = false;
-bool jumpForward = false;
-
-- (IBAction)back
-{
-	[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)source
-{
-	WebViewController *webViewController = [[WebViewController alloc] initWithURL:sourceUrl title:sourceTitle];
-	[webViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
-	[self presentViewController:webViewController animated:YES completion:nil];
-}
+@synthesize articleContent, sourceUrl, sourceTitle, sourceEnabled;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	[self setReaderColor];
     
-    [self updateButton];
-
+	jumpBack = false;
+	jumpForward = false;
+	
 	[timer invalidate];
 	
 	CGFloat height = [[UIScreen mainScreen] bounds].size.height;
@@ -76,12 +62,84 @@ bool jumpForward = false;
 	
 	NSString *wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
 	int wpmInt = [wpm integerValue];
+	wpmInt = 275; //todo remove this!!!
 
 	wordsPerMinute = wpmInt;
 	rate = 60.0 / wordsPerMinute;
 	
 	[wpmRate setText:[NSString stringWithFormat:@"%.0f wpm", wordsPerMinute]];
 	[self updateCounters:YES];
+}
+
+- (IBAction)switchColor
+{
+	NSString *readerColor = [[NSUserDefaults standardUserDefaults] objectForKey:@"readerColor"];
+
+	if ([readerColor isEqualToString:@"dark"]) {
+		readerColor = @"light";
+		[darkLightButton setTitle:@"Dark" forState:UIControlStateNormal];
+	} else {
+		readerColor = @"dark";
+		[darkLightButton setTitle:@"Light" forState:UIControlStateNormal];
+	}
+	
+	[[NSUserDefaults standardUserDefaults] setObject:readerColor forKey:@"readerColor"];
+
+	[self setReaderColor];
+}
+
+- (void)setReaderColor
+{
+	UIColor *offWhite = [UIColor colorWithRed:223/255.0f green:223/255.0f blue:223/255.0f alpha:1];
+	UIColor *lightGray = [UIColor colorWithRed:191/255.0f green:191/255.0f blue:191/255.0f alpha:1];
+	UIColor *offBlack = [UIColor colorWithRed:31/255.0f green:31/255.0f blue:31/255.0f alpha:1];
+	
+	NSArray *buttons = [[NSArray alloc] initWithObjects:navigateBackButton, sourceButton, darkLightButton, startButton, backButton, slowerButton, masterButton, fasterButton, nextButton, endButton, nil];
+	NSArray *labels = [[NSArray alloc] initWithObjects:wpmRate, timeRemaining, words, timeToRead, averageSpeed, nil];
+	
+	NSString *readerColor = [[NSUserDefaults standardUserDefaults] objectForKey:@"readerColor"];
+	
+	if ([readerColor isEqualToString:@"dark"]) {
+		[darkLightButton setTitle:@"Light" forState:UIControlStateNormal];
+		
+		UIImage *buttonBackgroundImage = [[UIImage imageNamed:@"blackButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+		UIImage *buttonBackgroundImageHighlight = [[UIImage imageNamed:@"blackButtonHighlight.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+		
+		[self setButton:buttonBackgroundImage withHightlight:buttonBackgroundImageHighlight];
+		
+		[self.view setBackgroundColor:offBlack];
+		for (UIButton *button in buttons) [button setTitleColor:lightGray forState:UIControlStateNormal];
+		for (UILabel *label in labels) [label setTextColor:lightGray];
+		[currentWord setTextColor:offWhite];
+		[progress setProgressTintColor:[UIColor darkGrayColor]];
+		[progress setTrackTintColor:[UIColor darkGrayColor]];
+	} else {
+		[darkLightButton setTitle:@"Dark" forState:UIControlStateNormal];
+
+		UIImage *buttonBackgroundImage = [[UIImage imageNamed:@"greyButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+		UIImage *buttonBackgroundImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+		
+		[self setButton:buttonBackgroundImage withHightlight:buttonBackgroundImageHighlight];
+		
+		[self.view setBackgroundColor:lightGray];
+		for (UIButton *button in buttons) [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+		for (UILabel *label in labels) [label setTextColor:[UIColor darkGrayColor]];
+		[currentWord setTextColor:[UIColor blackColor]];
+		[progress setProgressTintColor:[UIColor lightGrayColor]];
+		[progress setTrackTintColor:[UIColor lightGrayColor]];
+	}
+}
+
+- (IBAction)back
+{
+	[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)source
+{
+	WebViewController *webViewController = [[WebViewController alloc] initWithURL:sourceUrl title:sourceTitle];
+	[webViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+	[self presentViewController:webViewController animated:YES completion:nil];
 }
 
 - (void)updateCounters:(bool)animated
@@ -96,10 +154,9 @@ bool jumpForward = false;
 
 - (IBAction)start:(bool)andGo
 {
-    [back setHidden:NO];
+    [navigateBackButton setHidden:NO];
 	[self changeSource:YES];
-    [timeToRead setHidden:YES];
-    [averageSpeed setHidden:YES];
+	[self changeDarkLight:NO];
 
 	[timer invalidate];
 	
@@ -142,7 +199,7 @@ bool jumpForward = false;
 	if (marker == wordArraySize) {
 		[self start:YES];
 	}
-    [back setHidden:YES];
+    [navigateBackButton setHidden:YES];
 	[self resetTimer];
     if (marker == 0) startTime = [NSDate date];
 	[self setToPause];
@@ -151,7 +208,7 @@ bool jumpForward = false;
 - (IBAction)pause
 {
 	if ([timer isValid]) {
-        [back setHidden:NO];
+        [navigateBackButton setHidden:NO];
 		[timer invalidate];
 		[self setToPlay];
 	}
@@ -192,7 +249,7 @@ bool jumpForward = false;
 		[self updateCounters:NO];
 	}
 	NSLog(@"Marker: %d - Words: %d", marker, wordArraySize);
-	[back setHidden:NO];
+	[navigateBackButton setHidden:NO];
 	if (sourceEnabled == true) {
 		[self changeSource:NO];
 	}
@@ -203,8 +260,7 @@ bool jumpForward = false;
 	[self setToPlay];
 	
 	[currentWord setText:@"Complete!"];
-	[timeToRead setHidden:NO];
-	[averageSpeed setHidden:NO];
+	[self changeDarkLight:YES];
 	
 	NSTimeInterval difference = [finishTime timeIntervalSinceDate:startTime];
 	int minutes = floor(difference / 60);
@@ -243,21 +299,27 @@ bool jumpForward = false;
 
 - (void)changeSource:(bool)hide
 {
-    [source setHidden:hide];
+    [sourceButton setHidden:hide];
 	[timeRemaining setHidden:!hide];
 	[words setHidden:!hide];
 	[wpmRate setHidden:!hide];
 }
 
-- (void)updateButton
+- (void)changeDarkLight:(bool)hide
 {
-    UIImage *buttonBackgroundImage = [[UIImage imageNamed:@"greyButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-    UIImage *buttonBackgroundImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-	
-    [back setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
-    [back setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
-    [source setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
-    [source setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
+	[darkLightButton setHidden:hide];
+    [timeToRead setHidden:!hide];
+    [averageSpeed setHidden:!hide];
+}
+
+- (void)setButton:(UIImage *)buttonBackgroundImage withHightlight:(UIImage *)buttonBackgroundImageHighlight
+{
+    [navigateBackButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    [navigateBackButton setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
+    [sourceButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    [sourceButton setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
+    [darkLightButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+    [darkLightButton setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
     
 	[startButton setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
     [startButton setBackgroundImage:buttonBackgroundImageHighlight forState:UIControlStateHighlighted];
