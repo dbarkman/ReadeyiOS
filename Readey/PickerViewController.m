@@ -10,13 +10,12 @@
 
 @implementation PickerViewController
 
-@synthesize delegate, valueLabelString, descriptionLabelString, valueArray, pickerIndex;
+@synthesize delegate, pickerTitle, valueArray, pickerIndex;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-		
     }
     return self;
 }
@@ -25,10 +24,9 @@
 {
     [super viewDidLoad];
 	
-	[descriptionLabel setText:descriptionLabelString];
+	[[self navigationItem] setTitle:pickerTitle];
 	
 	[pickerView selectRow:pickerIndex inComponent:0 animated:YES];
-	[valueLabel setText:[valueArray objectAtIndex:[pickerView selectedRowInComponent:0]]];
 
 	if ([delegate respondsToSelector:@selector(valueSelected:)]) {
 		[delegate valueSelected:[valueArray objectAtIndex:[pickerView selectedRowInComponent:0]]];
@@ -42,8 +40,6 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-	[valueLabel setText:[valueArray objectAtIndex:row]];
-
 	if ([delegate respondsToSelector:@selector(valueSelected:)]) {
 		[delegate valueSelected:[valueArray objectAtIndex:row]];
 	}

@@ -5,8 +5,6 @@
 //  Created by David Barkman on 2/4/13.
 //  Copyright (c) 2013 RealSimpleApps. All rights reserved.
 //
-//  http://stackoverflow.com/questions/3802008/native-google-reader-iphone-application/3829114#3829114
-//
 
 #import "GoogleReaderClient.h"
 
@@ -24,12 +22,8 @@
 		username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
 		password = [keychainItem objectForKey:(__bridge id)kSecValueData];
 		
-		//uncomment these to just test the connection
-		//username = @"speedreadey@gmail.com";
-		//password = @"ads0nepa";
-		
 		//set to true to log events
-		logging = true;
+		logging = false;
 		logResponses = false;
     }
     return self;

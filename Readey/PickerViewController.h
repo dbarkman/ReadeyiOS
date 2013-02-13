@@ -16,18 +16,14 @@
 
 @interface PickerViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 {
-	IBOutlet UILabel *valueLabel;
-	IBOutlet UILabel *descriptionLabel;
     IBOutlet UIPickerView *pickerView;
 
 	__weak id <PickerViewDelegate> delegate;
 }
 
 @property (nonatomic, weak)id <PickerViewDelegate> delegate;
-
+@property (nonatomic, retain) NSString *pickerTitle;
 @property (nonatomic) int pickerIndex;
-@property (nonatomic, retain) NSString *valueLabelString;
-@property (nonatomic, retain) NSString *descriptionLabelString;
 @property (nonatomic, retain) NSArray *valueArray;
 
 @end

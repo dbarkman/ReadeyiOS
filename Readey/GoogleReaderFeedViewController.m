@@ -14,10 +14,7 @@
 
 @implementation GoogleReaderFeedViewController
 
-@synthesize navTitle, feed, articles;
-@synthesize grClient;
-
-int summariesOnly = 1;
+@synthesize grClient, navTitle, feed;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -39,18 +36,7 @@ int summariesOnly = 1;
 	
 	//check for content or summaries
 	
-	NSDictionary *tempDict = [articles objectAtIndex:0];
-	if ([tempDict objectForKey:@"content"]) {
-		NSDictionary *contentDict = [tempDict objectForKey:@"content"];
-		summariesOnly = ([contentDict objectForKey:@"content"]) ? 0 : 1;
-	} else {
-		summariesOnly = 1;
-	}
-	if (summariesOnly == 0) {
-		[[self navigationItem] setTitle:navTitle];
-	} else {
-		[[self navigationItem] setTitle:[NSString stringWithFormat:@"%@ (Summaries Only)", navTitle]];
-	}
+	[[self navigationItem] setTitle:navTitle];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -98,6 +84,8 @@ int summariesOnly = 1;
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
 	NSString *title = [article objectForKey:@"title"];
 	if (title.length == 0) title = @"(title unknown)";
+
+	if (![article objectForKey:@"content"]) title = [NSString stringWithFormat:@"%@ (summary only)", title];
 	
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setDateFormat:@"eee MMM dd, yyyy @ h:mm a"];
@@ -117,7 +105,7 @@ int summariesOnly = 1;
 {
 	NSDictionary *contentDict;
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
-	if (summariesOnly == 0) {
+	if ([article objectForKey:@"content"]) {
 		contentDict = [article objectForKey:@"content"];
 	} else {
 		contentDict = [article objectForKey:@"summary"];

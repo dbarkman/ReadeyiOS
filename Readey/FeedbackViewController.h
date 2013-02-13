@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PickerViewController.h"
 #import "Client.h"
 
 @interface FeedbackViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate>
@@ -17,7 +16,6 @@
 	IBOutlet UITextField *emailTextField;
 	IBOutlet UIButton *submitButton;
 	IBOutlet UIScrollView *scrollView;
-	
 	IBOutlet NSLayoutConstraint *descriptionHeight;
 }
 

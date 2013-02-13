@@ -12,6 +12,9 @@
 #import "GoogleReaderClient.h"
 
 @interface SettingViewController : UITableViewController <PickerViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
+{
+	NSString *wpm;
+}
 
 @property (nonatomic, strong) Client *client;
 @property (nonatomic, strong) GoogleReaderClient *grClient;

@@ -10,7 +10,7 @@
 
 @implementation Client
 
-@synthesize usergridClient, user, username, password;
+@synthesize username, password;
 
 - (id)init
 {
@@ -23,7 +23,7 @@
 		
         //make new client
         usergridClient = [[UGClient alloc] initWithOrganizationId: orgName withApplicationID: appName];
-        [usergridClient setLogging:true]; //uncomment to see debug output in console window
+        [usergridClient setLogging:false]; //uncomment to see debug output in console window
 		
 		keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReadeyLogin" accessGroup:nil];
 		username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
@@ -94,6 +94,48 @@
     return false;
 }
 
+- (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content
+{
+	NSString *uuid = [user uuid];
+	NSMutableDictionary *articleDictionary = [[NSMutableDictionary alloc] init];
+	
+	[articleDictionary setObject:@"articles" forKey:@"type"];
+	[articleDictionary setObject:name forKey:@"name"];
+	[articleDictionary setObject:source forKey:@"source"];
+	[articleDictionary setObject:content forKey:@"content"];
+	[articleDictionary setObject:uuid forKey:@"user"];
+	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	UGClientResponse *response = [usergridClient createEntity:articleDictionary];
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+	
+	switch (response.transactionState) {
+		case 0:
+			return true;
+			break;
+		case 1:
+			if ([self login]) {
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+				UGClientResponse *response = [usergridClient createEntity:articleDictionary];
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+				
+				switch (response.transactionState) {
+					case 0:
+						return true;
+						break;
+					case 1:
+						return false;
+						break;
+				}
+			} else {
+				[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"shouldLogout"];
+				return false;
+			}
+			break;
+	}
+	return false;
+}
+
 - (NSArray *)getArticles
 {
     user = [usergridClient getLoggedInUser];
@@ -135,48 +177,6 @@
 			break;
 	}
 	return articles;
-}
-
-- (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content
-{
-	NSString *uuid = [user uuid];
-	NSMutableDictionary *articleDictionary = [[NSMutableDictionary alloc] init];
-	
-	[articleDictionary setObject:@"articles" forKey:@"type"];
-	[articleDictionary setObject:name forKey:@"name"];
-	[articleDictionary setObject:source forKey:@"source"];
-	[articleDictionary setObject:content forKey:@"content"];
-	[articleDictionary setObject:uuid forKey:@"user"];
-	
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	UGClientResponse *response = [usergridClient createEntity:articleDictionary];
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-	
-	switch (response.transactionState) {
-		case 0:
-			return true;
-			break;
-		case 1:
-			if ([self login]) {
-				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-				UGClientResponse *response = [usergridClient createEntity:articleDictionary];
-				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-
-				switch (response.transactionState) {
-					case 0:
-						return true;
-						break;
-					case 1:
-						return false;
-						break;
-				}
-			} else {
-				[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"shouldLogout"];
-				return false;
-			}
-			break;
-	}
-	return false;
 }
 
 - (bool)removeArticle:(NSString *)uuid

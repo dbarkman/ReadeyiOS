@@ -8,8 +8,8 @@
 
 #import "ReadeyAppDelegate.h"
 #import "FoldersViewController.h"
-#import "DropboxViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "DropboxViewController.h"
 
 @implementation ReadeyAppDelegate
 
@@ -21,7 +21,7 @@ UINavigationController *navigationController;
 	NSData *calmingBlueData = [NSKeyedArchiver archivedDataWithRootObject:calmingBlue];
 	[[NSUserDefaults standardUserDefaults] setObject:calmingBlueData forKey:@"calmingBlue"];
 
-    DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"py9e1yuyy55owpb" appSecret:@"ai5j37a4ss5wz1g" root:kDBRootAppFolder]; // either kDBRootAppFolder or kDBRootDropbox
+    DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"py9e1yuyy55owpb" appSecret:@"ai5j37a4ss5wz1g" root:kDBRootAppFolder];
     [DBSession setSharedSession:dbSession];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

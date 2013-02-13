@@ -13,23 +13,16 @@
 #define FONT_SIZE 16.0f
 #define CELL_CONTENT_MARGIN 20.0f
 
-@interface ArticleListViewController ()
-
-@end
-
 @implementation ArticleListViewController
 
-int articleCount;
-NSMutableArray *articles;
-
-@synthesize client = _client;
+@synthesize client;
 
 - (void)setClient:(Client *)c {
-    _client = c;
+    client = c;
 }
 
 - (Client *)client {
-    return _client;
+    return client;
 }
 
 - (void)viewDidLoad
@@ -45,7 +38,7 @@ NSMutableArray *articles;
 {
 	[super viewWillAppear:animated];
 	
-	NSArray *tempArray = [_client getArticles];
+	NSArray *tempArray = [client getArticles];
 	articles = [[NSMutableArray alloc] initWithArray:tempArray];
 	
 	if ([articles count] == 0) {
@@ -69,7 +62,7 @@ NSMutableArray *articles;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	[_client logout];
+	[client logout];
 	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
@@ -83,14 +76,14 @@ NSMutableArray *articles;
 - (IBAction)addClicked
 {
 	ArticleAddViewController *articleAddViewController = [[ArticleAddViewController alloc] init];
-	[articleAddViewController setClient:_client];
+	[articleAddViewController setClient:client];
 	[[self navigationController] pushViewController:articleAddViewController animated:YES];
 }
 
 - (bool)removeArticle:(NSDictionary *)article
 {
 	NSString *articleUUID = [article objectForKey:@"uuid"];
-	if (![_client removeArticle:articleUUID]) {
+	if (![client removeArticle:articleUUID]) {
 		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"shouldLogout"] boolValue]) {
 			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"shouldLogout"];
 			[self showAlert:@"Your session has expired. Please login again." withMessage:nil];

@@ -9,28 +9,13 @@
 #import "FoldersViewController.h"
 #import "LoginViewController.h"
 #import "ArticleListViewController.h"
-#import "SettingViewController.h"
-#import "DropboxViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "DropboxViewController.h"
 #import "GoogleReaderViewController.h"
 #import "FeedbackViewController.h"
-
-@interface FoldersViewController ()
-
-@end
+#import "SettingViewController.h"
 
 @implementation FoldersViewController
-
-@synthesize client = _client;
-@synthesize grClient;
-
-- (void)setClient:(Client *)c {
-    _client = c;
-}
-
-- (Client *)client {
-    return _client;
-}
 
 - (id)init
 {
@@ -50,7 +35,7 @@
 {
     [super viewDidLoad];
     
-    _client = [[Client alloc] init];
+    client = [[Client alloc] init];
 	grClient = [[GoogleReaderClient alloc] init];
     
 	[[self navigationItem] setTitle:@"Readey"];
@@ -66,16 +51,16 @@
     
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 	
-	if (![_client accessToken]) {
+	if (![client accessToken]) {
 		[self retryAuth];
 	}
 }
 
 - (void)retryAuth
 {
-    if (![_client login]) {
+    if (![client login]) {
         LoginViewController *loginViewController = [[LoginViewController alloc] init];
-        [loginViewController setClient:_client];
+        [loginViewController setClient:client];
         [loginViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
         [self presentViewController:loginViewController animated:YES completion:nil];
     }
@@ -84,7 +69,7 @@
 - (void)tappedSettings
 {
 	SettingViewController *settingsViewController = [[SettingViewController alloc] init];
-	[settingsViewController setClient:_client];
+	[settingsViewController setClient:client];
 	[settingsViewController setGrClient:grClient];
 	[[self navigationController] pushViewController:settingsViewController animated:YES];
 }
@@ -117,11 +102,11 @@
             [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             break;
         case 4:
-            [[cell textLabel] setText:@"More Categories Coming!"];
+            [[cell textLabel] setText:@"Feedback"];
+            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
             break;
         case 5:
-            [[cell textLabel] setText:@"Leave Us Some Feedback"];
-            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+            [[cell textLabel] setText:@"More Sources Coming!"];
             break;
 	}
     return cell;
@@ -138,7 +123,7 @@
 	switch ([indexPath row]) {
 		case 0:
             [articleListViewController setTitle:@"Articles"];
-            [articleListViewController setClient:_client];
+            [articleListViewController setClient:client];
             [[self navigationController] pushViewController:articleListViewController animated:YES];
 			break;
         case 1:
@@ -154,8 +139,8 @@
 			[googleReaderViewController setGrClient:grClient];
             [[self navigationController] pushViewController:googleReaderViewController animated:YES];
 			break;
-		case 5:
-			[feedbackViewController setClient:_client];
+		case 4:
+			[feedbackViewController setClient:client];
 			[[self navigationController] pushViewController:feedbackViewController animated:YES];
 			break;
 		default:

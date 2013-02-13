@@ -7,18 +7,19 @@
 //
 
 #import "FeedbackViewController.h"
+#import "PickerViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @implementation FeedbackViewController
 
-@synthesize client = _client;
+@synthesize client;
 
 - (void)setClient:(Client *)c {
-    _client = c;
+    client = c;
 }
 
 - (Client *)client {
-    return _client;
+    return client;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -46,11 +47,6 @@
 	}
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
@@ -72,7 +68,7 @@
 	NSString *description = [descriptionTextView text];
 	NSString *email = [emailTextField text];
 	
-	if ([_client createFeedback:feedback description:description email:email]) {
+	if ([client createFeedback:feedback description:description email:email]) {
 		[[[UIAlertView alloc] initWithTitle:@"Thank you for your feedback!" message:nil delegate:nil cancelButtonTitle:@"Sure" otherButtonTitles:nil] show];
 		[[self navigationController] popViewControllerAnimated:YES];
 	} else {
@@ -93,7 +89,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	[_client logout];
+	[client logout];
 	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
@@ -106,10 +102,10 @@
 {
 	if (textField == feedbackTypeTextField) {
 		PickerViewController *pickerViewController = [[PickerViewController alloc] init];
-		pickerViewController.delegate = (id)self;
-		pickerViewController.descriptionLabelString = @"I have:";
-		pickerViewController.pickerIndex = 0;
-		pickerViewController.valueArray = [[NSArray alloc] initWithObjects:@"An Idea", @"An Issue", @"A Question", @"A Compliment", nil];
+		[pickerViewController setDelegate:(id)self];
+		[pickerViewController setPickerTitle:@"Choose Feedback"];
+		[pickerViewController setPickerIndex:0];
+		[pickerViewController setValueArray:[[NSArray alloc] initWithObjects:@"An Idea", @"An Issue", @"A Question", @"A Compliment", nil]];
 		[[self navigationController] pushViewController:pickerViewController animated:YES];
 	}
 	

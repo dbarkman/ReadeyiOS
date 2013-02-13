@@ -16,17 +16,14 @@
 
 @implementation SettingViewController
 
-NSString *wpm;
-
-@synthesize client = _client;
-@synthesize grClient;
+@synthesize client, grClient;
 
 - (void)setClient:(Client *)c {
-    _client = c;
+    client = c;
 }
 
 - (Client *)client {
-    return _client;
+    return client;
 }
 
 - (id)init
@@ -109,7 +106,7 @@ NSString *wpm;
 			break;
 		case ACTIONSHEET_READEY:
 			if (buttonIndex == 0) {
-				[_client logout];
+				[client logout];
 				[self.navigationController popToRootViewControllerAnimated:YES];
 			}
 			break;
@@ -181,15 +178,14 @@ NSString *wpm;
 			[tempArray addObject:intString];
 		}
 		
-		NSString *wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
+		wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
 		int arrayIndex = ([wpm integerValue] - 50) / 5;
 		
 		PickerViewController *pickerViewController = [[PickerViewController alloc] init];
-		pickerViewController.delegate = self;
-		pickerViewController.valueLabelString = wpm;
-		pickerViewController.descriptionLabelString = @"Words per Minute:";
-		pickerViewController.pickerIndex = arrayIndex;
-		pickerViewController.valueArray = [[NSArray alloc] initWithArray:tempArray];
+		[pickerViewController setDelegate:(id)self];
+		[pickerViewController setPickerTitle:@"Words per Minute"];
+		[pickerViewController setPickerIndex:arrayIndex];
+		[pickerViewController setValueArray:[[NSArray alloc] initWithArray:tempArray]];
 		
 		[[self navigationController] pushViewController:pickerViewController animated:YES];
 	}
@@ -204,7 +200,7 @@ NSString *wpm;
 	}
 	if (section == 4 && row == 0) {
 		FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
-		[feedbackViewController setClient:_client];
+		[feedbackViewController setClient:client];
 		[[self navigationController] pushViewController:feedbackViewController animated:YES];
 	}
 }

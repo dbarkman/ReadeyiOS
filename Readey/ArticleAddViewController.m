@@ -11,14 +11,14 @@
 
 @implementation ArticleAddViewController
 
-@synthesize client = _client;
+@synthesize client;
 
 - (void)setClient:(Client *)c {
-    _client = c;
+    client = c;
 }
 
 - (Client *)client {
-    return _client;
+    return client;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -53,7 +53,7 @@
 	[articleContents setClipsToBounds:YES];
 	[[articleContents layer] setCornerRadius:10.0f];
 	
-	NSString *alertMessage = @"This form is meant for copy and paste. To type an article yourself, login with your Readey account at speedReadey.com. The keyboard will appear for the Name field only.";
+	NSString *alertMessage = @"This form is meant for copy and paste. The keyboard will only appear for the Article Name field.";
 	UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Paste Only" message:alertMessage delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[message show];
 }
@@ -71,7 +71,7 @@
 	NSString *url = [articleUrl text];
 	NSString *contents = [articleContents text];
 	
-	if ([_client createArticle:name source:url content:contents]) {
+	if ([client createArticle:name source:url content:contents]) {
 		[[self navigationController] popViewControllerAnimated:YES];
 	} else {
 		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"shouldLogout"] boolValue]) {
@@ -91,7 +91,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	[_client logout];
+	[client logout];
 	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 

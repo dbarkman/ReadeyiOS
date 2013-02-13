@@ -7,28 +7,20 @@
 //
 
 #import "LoginViewController.h"
-#import "FoldersViewController.h"
-#import "ReadeyViewController.h"
 #import "WebViewController.h"
-
-@interface LoginViewController ()
-
-@end
 
 @implementation LoginViewController
 
-@synthesize alertViewFlag;
-@synthesize client = _client;
-
+@synthesize client;
 
 - (void)setClient:(Client *)c
 {
-    _client = c;
+    client = c;
 }
 
 - (Client *)client
 {
-    return _client;
+    return client;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -37,16 +29,6 @@
     if (self) {
     }
     return self;
-}
-
--(BOOL)shouldAutorotate
-{
-    return YES;
-}
-
-- (NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)viewDidLoad
@@ -81,13 +63,19 @@
     NSString *username = [emailTextField text];
     NSString *password = [passwordTextField text];
 	
-	[_client setUsername:username];
-	[_client setPassword:password];
+	[client setUsername:username];
+	[client setPassword:password];
 	
 	if (username.length == 0 || password.length == 0) {
 		[self alertCredentialsMissing];
 		
-	} else if ([_client login]) {
+	} else if (![self validateEmail:username]) {
+		[self alertEmailNotValid];
+		
+	} else if (![self validatePassword:password]) {
+		[self alertPasswordNotValid];
+		
+	} else if ([client login]) {
 		[self previousView];
 		
 	} else {
@@ -95,12 +83,27 @@
     }
 }
 
+- (bool)validateEmail:(NSString*)email
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:email];
+}
+
+- (bool)validatePassword:(NSString*)password
+{
+	if ([password length] < 6) return false;
+    NSString *passwordRegex = @"[a-zA-Z0-9,.!@#$%^&*()_-]{6,32}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", passwordRegex];
+    return [emailTest evaluateWithObject:password];
+}
+
 - (void)createAccount
 {
-	[_client setUsername:[emailTextField text]];
-	[_client setPassword:[passwordTextField text]];
+	[client setUsername:[emailTextField text]];
+	[client setPassword:[passwordTextField text]];
 
-	if ([_client createUser]) {
+	if ([client createUser]) {
 		[self previousView];
 	} else {
 		[self alertAccountCreateFailed];
@@ -110,11 +113,11 @@
 - (void)previousView
 {
     if ([saveLogin isOn]) {
-		[_client setUsername:[emailTextField text]];
-		[_client setPassword:[passwordTextField text]];
-		[_client saveLogin];
+		[client setUsername:[emailTextField text]];
+		[client setPassword:[passwordTextField text]];
+		[client saveLogin];
     } else {
-		[_client resetLogin];
+		[client resetLogin];
     }
     
     [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
@@ -123,8 +126,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	NSString *url = @"http://api.usergrid.com/reallysimpleapps/readey/users/resetpw";
-	NSString *title = @"Readey Password Reset";
-	WebViewController *webViewController = [[WebViewController alloc] initWithURL:url title:title];
+	WebViewController *webViewController = [[WebViewController alloc] initWithURL:url];
 	
 	switch (buttonIndex) {
 		case 0:
@@ -171,6 +173,28 @@
 	[alert show];
 }
 
+- (void)alertEmailNotValid
+{
+	alertViewFlag = 1;
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Email Not Valid"
+													message:@"Please enter a valid email address."
+												   delegate:self
+										  cancelButtonTitle:@"Try Again"
+										  otherButtonTitles:nil];
+	[alert show];
+}
+
+- (void)alertPasswordNotValid
+{
+	alertViewFlag = 1;
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Password Not Valid"
+													message:@"Please enter a valid password. A password can be between 6 and 32 characters and could contain letters, uper and lower case, numbers and the following symbols: ,.!@#$%^&*()_-"
+												   delegate:self
+										  cancelButtonTitle:@"Try Again"
+										  otherButtonTitles:nil];
+	[alert show];
+}
+
 - (void)alertAccountCreateFailed
 {
 	alertViewFlag = 2;
@@ -186,7 +210,7 @@
 {
 	alertViewFlag = 3;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Password Reset"
-													message:@"A password reset webpage will now appear.  Enter the email for your Readey account. You will then receive an email from usergrid@apigee.com containing a link for resetting  your password."
+													message:@"A password reset webpage will now appear.  Enter the email for your Readey account. You will then receive an email from usergrid@apigee.com containing a link for resetting your password."
 												   delegate:self
 										  cancelButtonTitle:@"Cancel"
 										  otherButtonTitles:@"OK", nil];

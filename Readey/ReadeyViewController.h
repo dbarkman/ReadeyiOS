@@ -57,7 +57,6 @@
 
 @property (nonatomic) bool sourceEnabled;
 @property (nonatomic, retain) NSString *sourceUrl;
-@property (nonatomic, retain) NSString *sourceTitle;
 @property (nonatomic, retain) NSString *articleContent;
 
 @end

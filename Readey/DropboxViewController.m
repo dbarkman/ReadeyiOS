@@ -7,13 +7,7 @@
 //
 
 #import "DropboxViewController.h"
-#import "SettingViewController.h"
 #import "ReadeyViewController.h"
-#import <DropboxSDK/DropboxSDK.h>
-
-@interface DropboxViewController ()
-
-@end
 
 @implementation DropboxViewController
 

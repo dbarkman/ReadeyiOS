@@ -12,7 +12,7 @@
 
 @implementation ReadeyViewController
 
-@synthesize articleContent, sourceUrl, sourceTitle, sourceEnabled;
+@synthesize articleContent, sourceUrl, sourceEnabled;
 
 - (void)viewDidLoad
 {
@@ -61,8 +61,11 @@
 	wordArraySize = [wordArray count];
 	
 	NSString *wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
+	if (wpm.length == 0) {
+		wpm = @"250";
+		[[NSUserDefaults standardUserDefaults] setObject:wpm forKey:@"wpm"];
+	}
 	int wpmInt = [wpm integerValue];
-	wpmInt = 275; //todo remove this!!!
 
 	wordsPerMinute = wpmInt;
 	rate = 60.0 / wordsPerMinute;
@@ -100,6 +103,8 @@
 	NSString *readerColor = [[NSUserDefaults standardUserDefaults] objectForKey:@"readerColor"];
 	
 	if ([readerColor isEqualToString:@"dark"]) {
+		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:NO];
+		
 		[darkLightButton setTitle:@"Light" forState:UIControlStateNormal];
 		
 		UIImage *buttonBackgroundImage = [[UIImage imageNamed:@"blackButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
@@ -114,6 +119,8 @@
 		[progress setProgressTintColor:[UIColor darkGrayColor]];
 		[progress setTrackTintColor:[UIColor darkGrayColor]];
 	} else {
+		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
+		
 		[darkLightButton setTitle:@"Dark" forState:UIControlStateNormal];
 
 		UIImage *buttonBackgroundImage = [[UIImage imageNamed:@"greyButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
@@ -132,12 +139,14 @@
 
 - (IBAction)back
 {
+	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
+	
 	[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)source
 {
-	WebViewController *webViewController = [[WebViewController alloc] initWithURL:sourceUrl title:sourceTitle];
+	WebViewController *webViewController = [[WebViewController alloc] initWithURL:sourceUrl];
 	[webViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
 	[self presentViewController:webViewController animated:YES completion:nil];
 }
@@ -179,7 +188,8 @@
 	if (marker > 0) {
 		marker--;
 		NSString *word = [wordArray objectAtIndex:marker];
-		if ([word length] == 0) NSLog(@"*************************BLANK*****BLANK*****BLANK*************************"); //flurry todo - log blank words, with article uuid
+//		if ([word length] == 0)
+//			//flurry todo - log blank words, with article uuid
 		[currentWord setText:word];
         [self updateCounters:YES];
 	}
@@ -233,7 +243,8 @@
 	if (marker < wordArraySize) {
 		NSString *word = [wordArray objectAtIndex:marker];
 		marker++;
-		if ([word length] == 0) NSLog(@"*************************BLANK*****BLANK*****BLANK*************************"); //flurry todo - log blank words, with article uuid
+//		if ([word length] == 0)
+//			//flurry todo - log blank words, with article uuid
 		[currentWord setText:word];
         finishTime = [NSDate date];
 		[self updateCounters:YES];
@@ -248,7 +259,6 @@
 		marker = wordArraySize;
 		[self updateCounters:NO];
 	}
-	NSLog(@"Marker: %d - Words: %d", marker, wordArraySize);
 	[navigateBackButton setHidden:NO];
 	if (sourceEnabled == true) {
 		[self changeSource:NO];

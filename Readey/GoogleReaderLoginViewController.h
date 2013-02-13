@@ -26,7 +26,6 @@
 }
 
 @property (nonatomic, weak)id <GoogleReaderLoginDelegate> delegate;
-
 @property (nonatomic, strong) GoogleReaderClient *grClient;
 
 - (IBAction)login;

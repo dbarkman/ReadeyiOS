@@ -11,8 +11,10 @@
 #import "GoogleReaderLoginViewController.h"
 
 @interface GoogleReaderViewController : UITableViewController <GoogleReaderLoginDelegate>
+{
+	NSMutableArray *subscriptionTitles;
+}
 
 @property (nonatomic, strong) GoogleReaderClient *grClient;
-@property (nonatomic, retain) NSMutableArray *subscriptionTitles;
 
 @end

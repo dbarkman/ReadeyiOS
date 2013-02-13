@@ -15,7 +15,6 @@
 @implementation GoogleReaderViewController
 
 @synthesize grClient;
-@synthesize subscriptionTitles;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -24,13 +23,6 @@
 		[[self navigationItem] setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
     }
     return self;
-}
-
-- (void)viewDidLoad
-{
-	[super viewDidLoad];
-	
-	
 }
 
 - (void)viewDidAppear:(BOOL)animated

@@ -12,13 +12,11 @@
 
 @interface Client : NSObject
 {
-	NSString *username;
-	NSString *password;
+	UGUser *user;
+	UGClient *usergridClient;
 	KeychainItemWrapper *keychainItem;
 }
 
-@property (nonatomic, strong) UGClient *usergridClient;
-@property (nonatomic, strong) UGUser *user;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *password;
 
@@ -31,8 +29,8 @@
 
 - (bool)createUser;
 
-- (NSArray *)getArticles;
 - (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content;
+- (NSArray *)getArticles;
 - (bool)removeArticle:(NSString *)uuid;
 
 - (bool)createFeedback:(NSString *)feedbackType description:(NSString *)description email:(NSString *)email;

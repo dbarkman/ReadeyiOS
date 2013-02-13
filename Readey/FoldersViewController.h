@@ -12,9 +12,8 @@
 
 @interface FoldersViewController : UITableViewController
 {
-	NSString *readerColor;
+	Client *client;
+	GoogleReaderClient *grClient;
 }
-@property (nonatomic, strong) Client *client;
-@property (nonatomic, strong) GoogleReaderClient *grClient;
 
 @end

@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <DropboxSDK/DropboxSDK.h>
-#import "Client.h"
 
 @interface DropboxViewController : UITableViewController <DBRestClientDelegate>
 {

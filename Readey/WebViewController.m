@@ -9,14 +9,11 @@
 
 @synthesize url, webView;
 
-UIToolbar *toolBar;
-
-- (id)initWithURL:(NSString *)postURL title:(NSString *)postTitle
+- (id)initWithURL:(NSString *)postURL
 {
     self = [super init];
     if (self) {
         url = postURL;
-        self.title = postTitle;
 	}
     return self;
 }

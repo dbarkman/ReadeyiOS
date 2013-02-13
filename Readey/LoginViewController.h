@@ -11,13 +11,13 @@
 
 @interface LoginViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate>
 {
+	int alertViewFlag;
 	IBOutlet UITextField *emailTextField;
 	IBOutlet UITextField *passwordTextField;
     IBOutlet UISwitch *saveLogin;
 	IBOutlet UIButton *loginButton;
 }
 
-@property (nonatomic) int alertViewFlag;
 @property (nonatomic, strong) Client *client;
 
 - (IBAction)login;
