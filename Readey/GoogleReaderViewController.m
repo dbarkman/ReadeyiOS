@@ -9,7 +9,7 @@
 #import "GoogleReaderViewController.h"
 #import "GoogleReaderFeedViewController.h"
 
-#define FONT_SIZE 18.0f
+#define FONT_SIZE 16.0f
 #define CELL_CONTENT_MARGIN 10.0f
 
 @implementation GoogleReaderViewController
@@ -25,6 +25,15 @@
     return self;
 }
 
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+	
+	NSMutableDictionary *feed = [[NSMutableDictionary alloc] init];
+	[feed setObject:@"Loading..." forKey:@"title"];
+	feeds = [[NSMutableArray alloc] initWithObjects:feed, nil];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -33,7 +42,7 @@
 	
 	if ([grClient isLoggedIn]) {
 		NSString *authToken = [grClient getAuthToken];
-		subscriptionTitles = [grClient getSubscriptionList:authToken];
+		feeds = [grClient getSubscriptionList:authToken];
 		
 		[[self tableView] reloadData];
 	} else {
@@ -52,24 +61,19 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [subscriptionTitles count];
+    return [feeds count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-	NSDictionary *tempDict = [subscriptionTitles objectAtIndex:[indexPath row]];
-	NSString *title = [tempDict objectForKey:@"title"];
+	NSDictionary *feed = [feeds objectAtIndex:[indexPath row]];
+	NSString *title = [feed objectForKey:@"title"];
 	
 	CGSize frameSize = self.view.frame.size;
 	CGSize constraint = CGSizeMake(frameSize.width - 20 - (CELL_CONTENT_MARGIN * 2), 20000.0f);
-	CGSize size = [title sizeWithFont:[UIFont boldSystemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
+	CGSize size = [title sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
 	
 	return size.height + (CELL_CONTENT_MARGIN * 2);
 }
@@ -81,12 +85,16 @@
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
 		[[cell textLabel] setLineBreakMode:NSLineBreakByWordWrapping];
 		[[cell textLabel] setNumberOfLines:0];
-		[[cell textLabel] setFont:[UIFont boldSystemFontOfSize:FONT_SIZE]];
+		[[cell textLabel] setFont:[UIFont systemFontOfSize:FONT_SIZE]];
 	}
-	
-	NSDictionary *tempDict = [subscriptionTitles objectAtIndex:[indexPath row]];
-	NSString *title = [tempDict objectForKey:@"title"];
-	
+
+	NSDictionary *feed = [feeds objectAtIndex:[indexPath row]];
+	if ([feed objectForKey:@"id"]) {
+		[cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+	}
+
+	NSString *title = [feed objectForKey:@"title"];
 	[[cell textLabel] setText:title];
 
 	return cell;
@@ -96,16 +104,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSDictionary *tempDict = [subscriptionTitles objectAtIndex:[indexPath row]];
-	NSString *feedId = [tempDict objectForKey:@"id"];
-	NSString *title = [tempDict objectForKey:@"title"];
-	
-	GoogleReaderFeedViewController *grFeedViewController = [[GoogleReaderFeedViewController alloc] init];
-	[grFeedViewController setGrClient:grClient];
-	[grFeedViewController setFeed:feedId];
-	[grFeedViewController setNavTitle:title];
-	
-	[[self navigationController] pushViewController:grFeedViewController animated:YES];
+	NSDictionary *feed = [feeds objectAtIndex:[indexPath row]];
+	if ([feed objectForKey:@"id"]) {
+		NSString *feedId = [feed objectForKey:@"id"];
+		NSString *title = [feed objectForKey:@"title"];
+		
+		GoogleReaderFeedViewController *grFeedViewController = [[GoogleReaderFeedViewController alloc] init];
+		[grFeedViewController setGrClient:grClient];
+		[grFeedViewController setFeed:feedId];
+		[grFeedViewController setNavTitle:title];
+		
+		[[self navigationController] pushViewController:grFeedViewController animated:YES];
+	}
 }
 
 @end

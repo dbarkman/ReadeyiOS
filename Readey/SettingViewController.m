@@ -46,11 +46,8 @@
 
 	[[self navigationItem] setTitle:@"Settings"];
 	
-	NSData *calmingBlueData = [[NSUserDefaults standardUserDefaults] objectForKey:@"calmingBlue"];
-	UIColor *calmingBlue = [NSKeyedUnarchiver unarchiveObjectWithData:calmingBlueData];
-
 	[[self tableView] setBackgroundView:nil];
-	[[self tableView] setBackgroundColor:calmingBlue];
+	[[self tableView] setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -117,12 +114,23 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+	switch (section) {
+		case 0:
+			return 1;
+			break;
+		case 1:
+			return 3;
+			break;
+		case 2:
+			return 1;
+			break;
+	}
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -131,7 +139,8 @@
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UITableViewCell"];
 	}
-	
+	[cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+
 	wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
 	if (wpm.length == 0) {
 		wpm = @"250";
@@ -142,21 +151,34 @@
 
 	switch ([indexPath section]) {
 		case 0:
-			[[cell textLabel] setText:@"Words per Minute"];
-			[[cell detailTextLabel] setText:wpm];
-			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+			switch ([indexPath row]) {
+				case 0:
+					[[cell textLabel] setText:@"Words per Minute"];
+					[[cell detailTextLabel] setText:wpm];
+					[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+					break;
+			}
 			break;
 		case 1:
-			[[cell textLabel] setText:@"Unlink Dropbox"];
+			switch ([indexPath row]) {
+				case 0:
+					[[cell textLabel] setText:@"Unlink Dropbox"];
+					break;
+				case 1:
+					[[cell textLabel] setText:@"Logout of Google Reader"];
+					break;
+				case 2:
+					[[cell textLabel] setText:@"Logout of Readey"];
+					break;
+			}
 			break;
 		case 2:
-			[[cell textLabel] setText:@"Logout of Google Reader"];
-			break;
-		case 3:
-			[[cell textLabel] setText:@"Logout of Readey"];
-			break;
-		case 4:
-			[[cell textLabel] setText:@"Give Feedback and Report Bugs"];
+			switch ([indexPath row]) {
+				case 0:
+					[[cell textLabel] setText:@"Send Feedback and Report Bugs"];
+					[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+					break;
+			}
 			break;
 	}
 
@@ -192,13 +214,13 @@
 	if (section == 1 && row == 0) {
 		[self showActionSheet:ACTIONSHEET_DROPBOX];
 	}
-	if (section == 2 && row == 0) {
+	if (section == 1 && row == 1) {
 		[self showActionSheet:ACTIONSHEET_GOOGLE_READER];
 	}
-	if (section == 3 && row == 0) {
+	if (section == 1 && row == 2) {
 		[self showActionSheet:ACTIONSHEET_READEY];
 	}
-	if (section == 4 && row == 0) {
+	if (section == 2 && row == 0) {
 		FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
 		[feedbackViewController setClient:client];
 		[[self navigationController] pushViewController:feedbackViewController animated:YES];

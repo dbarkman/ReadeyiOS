@@ -64,13 +64,13 @@
 						<int key="IBUITextAlignment">1</int>
 						<int key="IBUILineBreakMode">5</int>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
-							<string key="name">GeezaPro</string>
-							<string key="family">Geeza Pro</string>
+							<string key="name">HelveticaNeue-Light</string>
+							<string key="family">Helvetica Neue</string>
 							<int key="traits">0</int>
 							<double key="pointSize">72</double>
 						</object>
 						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">GeezaPro</string>
+							<string key="NSName">HelveticaNeue-Medium</string>
 							<double key="NSSize">72</double>
 							<int key="NSfFlags">16</int>
 						</object>

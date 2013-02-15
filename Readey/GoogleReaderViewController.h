@@ -12,7 +12,7 @@
 
 @interface GoogleReaderViewController : UITableViewController <GoogleReaderLoginDelegate>
 {
-	NSMutableArray *subscriptionTitles;
+	NSMutableArray *feeds;
 }
 
 @property (nonatomic, strong) GoogleReaderClient *grClient;

@@ -17,9 +17,7 @@ UINavigationController *navigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	UIColor *calmingBlue = [UIColor colorWithRed:21/255.0f green:100/255.0f blue:178/255.0f alpha:1];
-	NSData *calmingBlueData = [NSKeyedArchiver archivedDataWithRootObject:calmingBlue];
-	[[NSUserDefaults standardUserDefaults] setObject:calmingBlueData forKey:@"calmingBlue"];
+	UIColor *offBlack = [UIColor colorWithRed:31/255.0f green:31/255.0f blue:31/255.0f alpha:1];
 
     DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"py9e1yuyy55owpb" appSecret:@"ai5j37a4ss5wz1g" root:kDBRootAppFolder];
     [DBSession setSharedSession:dbSession];
@@ -29,7 +27,7 @@ UINavigationController *navigationController;
     FoldersViewController *foldersViewController = [[FoldersViewController alloc] init];
             
     navigationController = [[UINavigationController alloc] initWithRootViewController:foldersViewController];
-    [navigationController.navigationBar setTintColor:calmingBlue];
+    [navigationController.navigationBar setTintColor:offBlack];
             
     [[self window] setRootViewController:navigationController];
     [self.window makeKeyAndVisible];

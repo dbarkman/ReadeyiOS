@@ -12,7 +12,7 @@
 @interface DropboxViewController : UITableViewController <DBRestClientDelegate>
 {
     DBRestClient *restClient;
-	NSArray *filePaths;
+	NSArray *articles;
 }
 
 @end

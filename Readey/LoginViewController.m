@@ -137,6 +137,9 @@
 				case 0:
 					[self createAccount];
 					break;
+				case 1:
+					[self alertWebView];
+					break;
 				case 2:
 					[self alertWebView];
 					break;
@@ -166,16 +169,15 @@
 {
 	alertViewFlag = 1;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Information Missing"
-													message:@"Your email or password may have been left blank."
+													message:@"Your email or password may have been left blank. Would you like to reset your password or reenter your information?"
 												   delegate:self
 										  cancelButtonTitle:@"Try Again"
-										  otherButtonTitles:nil];
+										  otherButtonTitles:@"Reset Password", nil];
 	[alert show];
 }
 
 - (void)alertEmailNotValid
 {
-	alertViewFlag = 1;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Email Not Valid"
 													message:@"Please enter a valid email address."
 												   delegate:self
@@ -186,7 +188,6 @@
 
 - (void)alertPasswordNotValid
 {
-	alertViewFlag = 1;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Password Not Valid"
 													message:@"Please enter a valid password. A password can be between 6 and 32 characters and could contain letters, uper and lower case, numbers and the following symbols: ,.!@#$%^&*()_-"
 												   delegate:self

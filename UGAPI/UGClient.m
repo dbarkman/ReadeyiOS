@@ -142,6 +142,8 @@ NSString *g_deviceUUID = nil;
     {
         return NO;
     }
+	
+	NSLog(@"Delegate is a GO!");
     
     // if we're here, it means the delegate is valid
     [m_delegateLock lock];

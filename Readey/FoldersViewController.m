@@ -19,7 +19,7 @@
 
 - (id)init
 {
-	self = [super initWithStyle:UITableViewStylePlain];
+	self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
 		[[self navigationItem] setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
     }
@@ -39,6 +39,9 @@
 	grClient = [[GoogleReaderClient alloc] init];
     
 	[[self navigationItem] setTitle:@"Readey"];
+
+	[[self tableView] setBackgroundView:nil];
+	[[self tableView] setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
 
 	UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(tappedSettings)];
 	[settingsButton setImageInsets:UIEdgeInsetsMake(5.0f, 0.0f, 5.0f, 0.0f)];
@@ -76,9 +79,22 @@
 
 #pragma mark - Table view data source
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6;
+	switch (section) {
+		case 0:
+			return 3;
+			break;
+		case 1:
+			return 2;
+			break;
+	}
+	return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -86,28 +102,35 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+		[cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 	}
-	
-	switch ([indexPath row]) {
+	switch ([indexPath section]) {
 		case 0:
-			[[cell textLabel] setText:@"Articles"];
-			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+			switch ([indexPath row]) {
+				case 0:
+					[[cell textLabel] setText:@"Your Saved Articles"];
+					break;
+				case 1:
+					[[cell textLabel] setText:@"Files from Dropbox"];
+					break;
+				case 2:
+					[[cell textLabel] setText:@"Google Reader Feeds"];
+					break;
+			}
 			break;
-        case 1:
-            [[cell textLabel] setText:@"Dropbox"];
-            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-            break;
-        case 2:
-            [[cell textLabel] setText:@"Google Reader"];
-            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-            break;
-        case 4:
-            [[cell textLabel] setText:@"Feedback"];
-            [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-            break;
-        case 5:
-            [[cell textLabel] setText:@"More Sources Coming!"];
-            break;
+		case 1:
+			switch ([indexPath row]) {
+				case 0:
+					[[cell textLabel] setText:@"Feedback"];
+					break;
+				case 1:
+					[[cell textLabel] setText:@"More Sources Coming!"];
+					[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+					[cell setAccessoryType:UITableViewCellAccessoryNone];
+					break;
+			}
+			break;
 	}
     return cell;
 }
@@ -120,31 +143,39 @@
     DropboxViewController *dropboxViewController = [[DropboxViewController alloc] init];
 	GoogleReaderViewController *googleReaderViewController = [[GoogleReaderViewController alloc] init];
 	FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
-	switch ([indexPath row]) {
+	switch ([indexPath section]) {
 		case 0:
-            [articleListViewController setTitle:@"Articles"];
-            [articleListViewController setClient:client];
-            [[self navigationController] pushViewController:articleListViewController animated:YES];
+			switch ([indexPath row]) {
+				case 0:
+					[articleListViewController setTitle:@"Articles"];
+					[articleListViewController setClient:client];
+					[[self navigationController] pushViewController:articleListViewController animated:YES];
+					break;
+				case 1:
+					if (![[DBSession sharedSession] isLinked]) {
+						[[DBSession sharedSession] linkFromController:self];
+					} else {
+						[dropboxViewController setTitle:@"Dropbox"];
+						[[self navigationController] pushViewController:dropboxViewController animated:YES];
+					}
+					break;
+				case 2:
+					[googleReaderViewController setTitle:@"Google Reader"];
+					[googleReaderViewController setGrClient:grClient];
+					[[self navigationController] pushViewController:googleReaderViewController animated:YES];
+					break;
+			}
 			break;
-        case 1:
-            if (![[DBSession sharedSession] isLinked]) {
-                [[DBSession sharedSession] linkFromController:self];
-            } else {
-				[dropboxViewController setTitle:@"Dropbox"];
-                [[self navigationController] pushViewController:dropboxViewController animated:YES];
-            }
-            break;
-		case 2:
-            [googleReaderViewController setTitle:@"Google Reader"];
-			[googleReaderViewController setGrClient:grClient];
-            [[self navigationController] pushViewController:googleReaderViewController animated:YES];
-			break;
-		case 4:
-			[feedbackViewController setClient:client];
-			[[self navigationController] pushViewController:feedbackViewController animated:YES];
-			break;
-		default:
-			[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+		case 1:
+			switch ([indexPath row]) {
+				case 0:
+					[feedbackViewController setClient:client];
+					[[self navigationController] pushViewController:feedbackViewController animated:YES];
+					break;
+				default:
+					[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+					break;
+			}
 			break;
 	}
 }

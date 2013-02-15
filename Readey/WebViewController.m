@@ -50,10 +50,8 @@
 	[toolBar setItems:items];
 	[self.view addSubview:toolBar];
 	
-	NSData *calmingBlueData = [[NSUserDefaults standardUserDefaults] objectForKey:@"calmingBlue"];
-	UIColor *calmingBlue = [NSKeyedUnarchiver unarchiveObjectWithData:calmingBlueData];
-	
-	[toolBar setTintColor:calmingBlue];
+	UIColor *offBlack = [UIColor colorWithRed:31/255.0f green:31/255.0f blue:31/255.0f alpha:1];
+	[toolBar setTintColor:offBlack];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation

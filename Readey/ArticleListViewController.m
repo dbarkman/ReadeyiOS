@@ -32,12 +32,18 @@
 	UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addClicked)];
 	[add setStyle:UIBarButtonItemStyleBordered];
 	[[self navigationItem] setRightBarButtonItem:add];
+	
+	NSMutableDictionary *article = [[NSMutableDictionary alloc] init];
+	[article setObject:@"Loading..." forKey:@"name"];
+	articles = [[NSMutableArray alloc] initWithObjects:article, nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];
+	[super viewDidAppear:animated];
 	
+	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+
 	NSArray *tempArray = [client getArticles];
 	articles = [[NSMutableArray alloc] initWithArray:tempArray];
 	
@@ -64,13 +70,6 @@
 {
 	[client logout];
 	[self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-	[super viewDidAppear:animated];
-	
-	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (IBAction)addClicked
@@ -127,17 +126,23 @@
 	}
 	
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
-	NSString *name = [article objectForKey:@"name"];
+	if ([article objectForKey:@"content"]) {
+		[cell setSelectionStyle:UITableViewCellSelectionStyleGray];
+		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+	}
 
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-	[dateFormatter setDateFormat:@"eee MMM dd, yyyy @ h:mm a"];
-	NSTimeInterval intervaldep = ([[article objectForKey:@"modified"] doubleValue] / 1000);
-	NSDate *date = [NSDate dateWithTimeIntervalSince1970:intervaldep];
-	NSString *formattedDate = [dateFormatter stringFromDate:date];
-	
+	NSString *name = [article objectForKey:@"name"];
 	[[cell textLabel] setText:name];
-	[[cell detailTextLabel] setText:formattedDate];
-	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+
+	if ([article objectForKey:@"modified"]) {
+		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateFormat:@"eee MMM dd, yyyy @ h:mm a"];
+		NSTimeInterval intervaldep = ([[article objectForKey:@"modified"] doubleValue] / 1000);
+		NSDate *date = [NSDate dateWithTimeIntervalSince1970:intervaldep];
+		NSString *formattedDate = [dateFormatter stringFromDate:date];
+		
+		[[cell detailTextLabel] setText:formattedDate];
+	}
 
     return cell;
 }
@@ -160,12 +165,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
-	ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
-	[readeyViewController setArticleContent:[article objectForKey:@"content"]];
-	[readeyViewController setSourceEnabled:false];
-
-	[readeyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-	[self presentViewController:readeyViewController animated:YES completion:nil];
+	if ([article objectForKey:@"content"]) {
+		ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
+		[readeyViewController setArticleContent:[article objectForKey:@"content"]];
+		[readeyViewController setSourceEnabled:false];
+		
+		[readeyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+		[self presentViewController:readeyViewController animated:YES completion:nil];
+	}
 }
 
 @end
