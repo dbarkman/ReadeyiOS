@@ -32,6 +32,10 @@
 	NSMutableDictionary *feed = [[NSMutableDictionary alloc] init];
 	[feed setObject:@"Loading..." forKey:@"title"];
 	feeds = [[NSMutableArray alloc] initWithObjects:feed, nil];
+
+	UIBarButtonItem *refresh = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshClicked)];
+	[refresh setStyle:UIBarButtonItemStyleBordered];
+	[[self navigationItem] setRightBarButtonItem:refresh];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -41,10 +45,7 @@
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 	
 	if ([grClient isLoggedIn]) {
-		NSString *authToken = [grClient getAuthToken];
-		feeds = [grClient getSubscriptionList:authToken];
-		
-		[[self tableView] reloadData];
+		[self refreshClicked];
 	} else {
 		GoogleReaderLoginViewController *grLoginViewController = [[GoogleReaderLoginViewController alloc] init];
 		grLoginViewController.delegate = self;
@@ -57,6 +58,14 @@
 - (void)cancelLogin
 {
 	[self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (IBAction)refreshClicked
+{
+	NSString *authToken = [grClient getAuthToken];
+	feeds = [grClient getSubscriptionList:authToken];
+	
+	[[self tableView] reloadData];
 }
 
 #pragma mark - Table view data source

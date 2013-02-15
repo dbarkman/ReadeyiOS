@@ -122,12 +122,10 @@
 		case 1:
 			switch ([indexPath row]) {
 				case 0:
-					[[cell textLabel] setText:@"Feedback"];
+					[[cell textLabel] setText:@"Settings"];
 					break;
 				case 1:
-					[[cell textLabel] setText:@"More Sources Coming!"];
-					[cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-					[cell setAccessoryType:UITableViewCellAccessoryNone];
+					[[cell textLabel] setText:@"Feedback"];
 					break;
 			}
 			break;
@@ -143,6 +141,7 @@
     DropboxViewController *dropboxViewController = [[DropboxViewController alloc] init];
 	GoogleReaderViewController *googleReaderViewController = [[GoogleReaderViewController alloc] init];
 	FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
+	SettingViewController *settingsViewController = [[SettingViewController alloc] init];
 	switch ([indexPath section]) {
 		case 0:
 			switch ([indexPath row]) {
@@ -169,11 +168,13 @@
 		case 1:
 			switch ([indexPath row]) {
 				case 0:
+					[settingsViewController setClient:client];
+					[settingsViewController setGrClient:grClient];
+					[[self navigationController] pushViewController:settingsViewController animated:YES];
+					break;
+				case 1:
 					[feedbackViewController setClient:client];
 					[[self navigationController] pushViewController:feedbackViewController animated:YES];
-					break;
-				default:
-					[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 					break;
 			}
 			break;

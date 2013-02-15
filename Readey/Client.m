@@ -94,13 +94,17 @@
     return false;
 }
 
-- (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content
+- (bool)createArticle:(NSString *)articleName source:(NSString *)source content:(NSString *)content
 {
 	NSString *uuid = [user uuid];
 	NSMutableDictionary *articleDictionary = [[NSMutableDictionary alloc] init];
 	
+	NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+	NSString *name = [NSString stringWithFormat:@"%@--%@--%d", articleName, uuid, (int)timeStamp];
+
 	[articleDictionary setObject:@"articles" forKey:@"type"];
 	[articleDictionary setObject:name forKey:@"name"];
+	[articleDictionary setObject:articleName forKey:@"articleName"];
 	[articleDictionary setObject:source forKey:@"source"];
 	[articleDictionary setObject:content forKey:@"content"];
 	[articleDictionary setObject:uuid forKey:@"user"];

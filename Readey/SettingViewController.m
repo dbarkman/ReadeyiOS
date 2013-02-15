@@ -10,6 +10,9 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "FeedbackViewController.h"
 
+#define FONT_SIZE 16.0f
+#define CELL_CONTENT_MARGIN 20.0f
+
 #define ACTIONSHEET_READEY 0
 #define ACTIONSHEET_DROPBOX 1
 #define ACTIONSHEET_GOOGLE_READER 2
@@ -175,7 +178,7 @@
 		case 2:
 			switch ([indexPath row]) {
 				case 0:
-					[[cell textLabel] setText:@"Send Feedback and Report Bugs"];
+					[[cell textLabel] setText:@"Send Feedback or Report Bugs"];
 					[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 					break;
 			}
@@ -195,13 +198,13 @@
 	if (section == 0 && row == 0) {
 		NSString *intString;
 		NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-		for (int i = 50; i < 805; i = i + 5) {
+		for (int i = 5; i < 805; i = i + 5) {
 			intString = [NSString stringWithFormat:@"%d", i];
 			[tempArray addObject:intString];
 		}
 		
 		wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
-		int arrayIndex = ([wpm integerValue] - 50) / 5;
+		int arrayIndex = ([wpm integerValue] - 5) / 5;
 		
 		PickerViewController *pickerViewController = [[PickerViewController alloc] init];
 		[pickerViewController setDelegate:(id)self];

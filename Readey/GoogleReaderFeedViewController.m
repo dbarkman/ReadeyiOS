@@ -34,18 +34,27 @@
 	NSMutableDictionary *article = [[NSMutableDictionary alloc] init];
 	[article setObject:@"Loading..." forKey:@"title"];
 	articles = [[NSMutableArray alloc] initWithObjects:article, nil];
+
+	UIBarButtonItem *refresh = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshClicked)];
+	[refresh setStyle:UIBarButtonItemStyleBordered];
+	[[self navigationItem] setRightBarButtonItem:refresh];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
+	
+	[self refreshClicked];
 
+	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
+- (IBAction)refreshClicked
+{
 	NSString *authToken = [grClient getAuthToken];
 	articles = [grClient getSubscriptionFeed:authToken fromFeed:feed];
 	
-	[self.tableView reloadData];
-	
-	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+	[[self tableView] reloadData];
 }
 
 #pragma mark - Table view data source

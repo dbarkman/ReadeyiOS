@@ -29,13 +29,17 @@
 {
     [super viewDidLoad];
 	
+	NSMutableDictionary *article = [[NSMutableDictionary alloc] init];
+	[article setObject:@"Loading..." forKey:@"articleName"];
+	articles = [[NSMutableArray alloc] initWithObjects:article, nil];
+	
 	UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addClicked)];
 	[add setStyle:UIBarButtonItemStyleBordered];
 	[[self navigationItem] setRightBarButtonItem:add];
 	
-	NSMutableDictionary *article = [[NSMutableDictionary alloc] init];
-	[article setObject:@"Loading..." forKey:@"name"];
-	articles = [[NSMutableArray alloc] initWithObjects:article, nil];
+	UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
+	[refresh addTarget:self action:@selector(refreshPulled) forControlEvents:UIControlEventValueChanged];
+	self.refreshControl = refresh;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -43,7 +47,12 @@
 	[super viewDidAppear:animated];
 	
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+	
+	[self refreshPulled];
+}
 
+- (void)refreshPulled
+{
 	NSArray *tempArray = [client getArticles];
 	articles = [[NSMutableArray alloc] initWithArray:tempArray];
 	
@@ -58,6 +67,8 @@
 	}
 	
 	[[self tableView] reloadData];
+	
+	if ([[self refreshControl] isRefreshing]) [[self refreshControl] endRefreshing];
 }
 
 - (void)showAlert:(NSString *)title withMessage:(NSString *)message
@@ -106,11 +117,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
-	NSString *name = [article objectForKey:@"name"];
+	NSString *articleName = [article objectForKey:@"articleName"];
 	
 	CGSize frameSize = self.view.frame.size;
 	CGSize constraint = CGSizeMake(frameSize.width - 20 - (CELL_CONTENT_MARGIN * 2), 20000.0f);
-	CGSize size = [name sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
+	CGSize size = [articleName sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
 	
 	return size.height + (CELL_CONTENT_MARGIN * 2);
 }
@@ -131,8 +142,8 @@
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 	}
 
-	NSString *name = [article objectForKey:@"name"];
-	[[cell textLabel] setText:name];
+	NSString *articleName = [article objectForKey:@"articleName"];
+	[[cell textLabel] setText:articleName];
 
 	if ([article objectForKey:@"modified"]) {
 		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

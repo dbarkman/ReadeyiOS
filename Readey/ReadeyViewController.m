@@ -74,6 +74,14 @@
 	[self updateCounters:YES];
 }
 
+- (void) viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+	
+	NSString *wpmString = [NSString stringWithFormat:@"%d", (int)wordsPerMinute];
+	[[NSUserDefaults standardUserDefaults] setObject:wpmString forKey:@"wpm"];
+}
+
 - (IBAction)switchColor
 {
 	NSString *readerColor = [[NSUserDefaults standardUserDefaults] objectForKey:@"readerColor"];
@@ -197,11 +205,13 @@
 
 - (IBAction)slower
 {
-	wordsPerMinute = wordsPerMinute - 5;
-	rate = 60.0 / wordsPerMinute;
-	if ([timer isValid]) [self resetTimer];
-	[wpmRate setText:[NSString stringWithFormat:@"%.0f wpm", wordsPerMinute]];
-	[self updateCounters:YES];
+	if (wordsPerMinute > 5) {
+		wordsPerMinute = wordsPerMinute - 5;
+		rate = 60.0 / wordsPerMinute;
+		if ([timer isValid]) [self resetTimer];
+		[wpmRate setText:[NSString stringWithFormat:@"%.0f wpm", wordsPerMinute]];
+		[self updateCounters:YES];
+	}
 }
 
 - (IBAction)play
@@ -226,11 +236,13 @@
 
 - (IBAction)faster
 {
-	wordsPerMinute = wordsPerMinute + 5;
-	rate = 60.0 / wordsPerMinute;
-	if ([timer isValid]) [self resetTimer];
-	[wpmRate setText:[NSString stringWithFormat:@"%.0f wpm", wordsPerMinute]];
-	[self updateCounters:YES];
+	if (wordsPerMinute < 800) {
+		wordsPerMinute = wordsPerMinute + 5;
+		rate = 60.0 / wordsPerMinute;
+		if ([timer isValid]) [self resetTimer];
+		[wpmRate setText:[NSString stringWithFormat:@"%.0f wpm", wordsPerMinute]];
+		[self updateCounters:YES];
+	}
 }
 
 - (IBAction)nextWord

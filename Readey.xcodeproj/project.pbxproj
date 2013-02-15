@@ -48,6 +48,7 @@
 		638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA0EF16BB363F0005529C /* ArticleAddViewController.m */; };
 		638BA0F216BB363F0005529C /* ArticleAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638BA0F016BB363F0005529C /* ArticleAddViewController.xib */; };
 		638BA12616BE3EAC0005529C /* GoogleReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */; };
+		639CA63616CEDB400052EC91 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 639CA63516CEDB400052EC91 /* libFlurry.a */; };
 		63A2ED26169C8DCD0071D549 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A2ED25169C8DCD0071D549 /* UIKit.framework */; };
 		63A2ED28169C8DCD0071D549 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A2ED27169C8DCD0071D549 /* Foundation.framework */; };
 		63A2ED2A169C8DCD0071D549 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A2ED29169C8DCD0071D549 /* CoreGraphics.framework */; };
@@ -146,6 +147,8 @@
 		638BA0F016BB363F0005529C /* ArticleAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleAddViewController.xib; sourceTree = "<group>"; };
 		638BA12416BE3EAB0005529C /* GoogleReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderViewController.h; sourceTree = "<group>"; };
 		638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderViewController.m; sourceTree = "<group>"; };
+		639CA63316CEDAB90052EC91 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		639CA63516CEDB400052EC91 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 		63A2ED21169C8DCD0071D549 /* Readey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Readey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63A2ED25169C8DCD0071D549 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		63A2ED27169C8DCD0071D549 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -240,6 +243,7 @@
 				63A2ED28169C8DCD0071D549 /* Foundation.framework in Frameworks */,
 				63A2ED2A169C8DCD0071D549 /* CoreGraphics.framework in Frameworks */,
 				633309EA16C22193002A88FE /* DropboxSDK.framework in Frameworks */,
+				639CA63616CEDB400052EC91 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +472,8 @@
 			isa = PBXGroup;
 			children = (
 				63D8103516CA8DC200E43E92 /* Wrappers */,
+				639CA63316CEDAB90052EC91 /* Flurry.h */,
+				639CA63516CEDB400052EC91 /* libFlurry.a */,
 				63D8102A16C9ABDF00E43E92 /* NSString_stripHtml.h */,
 				63D8102B16C9ABE000E43E92 /* NSString_stripHtml.m */,
 				63D8108316CBEAB700E43E92 /* DTCustomColoredAccessory.h */,
@@ -724,6 +730,10 @@
 				GCC_PREFIX_HEADER = "Readey/Readey-Prefix.pch";
 				INFOPLIST_FILE = "Readey/Readey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Readey\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -741,6 +751,10 @@
 				GCC_PREFIX_HEADER = "Readey/Readey-Prefix.pch";
 				INFOPLIST_FILE = "Readey/Readey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Readey\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
