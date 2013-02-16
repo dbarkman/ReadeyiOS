@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "WebViewController.h"
+#import "Flurry.h"
 
 @implementation LoginViewController
 
@@ -27,6 +28,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+		[Flurry logEvent:@"LoginView"];
     }
     return self;
 }
@@ -104,6 +106,7 @@
 	[client setPassword:[passwordTextField text]];
 
 	if ([client createUser]) {
+		[Flurry logEvent:@"Created User"];
 		[self previousView];
 	} else {
 		[self alertAccountCreateFailed];
@@ -112,13 +115,17 @@
 
 - (void)previousView
 {
+	NSMutableDictionary *saveLoginDict = [[NSMutableDictionary alloc] init];
     if ([saveLogin isOn]) {
+		[saveLoginDict setObject:@"yes" forKey:@"saveLogin"];
 		[client setUsername:[emailTextField text]];
 		[client setPassword:[passwordTextField text]];
 		[client saveLogin];
     } else {
+		[saveLoginDict setObject:@"no" forKey:@"saveLogin"];
 		[client resetLogin];
     }
+	[Flurry logEvent:@"Login User" withParameters:saveLoginDict];
     
     [[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 }
@@ -156,9 +163,10 @@
 
 - (void)alertLoginFailed
 {
+	[Flurry logEvent:@"Login User Failed"];
 	alertViewFlag = 0;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Create Account?"
-													message:@"A Readey account was not found. Would you like to create a free account or reenter your information?"
+													message:@"A Readey account was not found. Would you like to create a Readey account or reenter your information?"
 												   delegate:self
 										  cancelButtonTitle:@"Reenter Info"
 										  otherButtonTitles:@"Create Account", nil];
@@ -167,6 +175,7 @@
 
 - (void)alertCredentialsMissing
 {
+	[Flurry logEvent:@"Login Information Missing"];
 	alertViewFlag = 1;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Information Missing"
 													message:@"Your email or password may have been left blank. Would you like to reset your password or reenter your information?"
@@ -178,6 +187,7 @@
 
 - (void)alertEmailNotValid
 {
+	[Flurry logEvent:@"Invalid Email"];
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Email Not Valid"
 													message:@"Please enter a valid email address."
 												   delegate:self
@@ -188,6 +198,7 @@
 
 - (void)alertPasswordNotValid
 {
+	[Flurry logEvent:@"Invalid Password"];
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Password Not Valid"
 													message:@"Please enter a valid password. A password can be between 6 and 32 characters and could contain letters, uper and lower case, numbers and the following symbols: ,.!@#$%^&*()_-"
 												   delegate:self
@@ -198,6 +209,7 @@
 
 - (void)alertAccountCreateFailed
 {
+	[Flurry logEvent:@"Create User Failed"];
 	alertViewFlag = 2;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account Create Failed"
 													message:@"An account could not be created. Would you like to reset your password or reenter your information?"
@@ -209,6 +221,7 @@
 
 - (void)alertWebView
 {
+	[Flurry logEvent:@"Reset Password"];
 	alertViewFlag = 3;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Password Reset"
 													message:@"A password reset webpage will now appear.  Enter the email for your Readey account. You will then receive an email from usergrid@apigee.com containing a link for resetting your password."

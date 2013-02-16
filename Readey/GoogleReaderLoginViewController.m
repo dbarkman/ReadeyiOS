@@ -7,6 +7,7 @@
 //
 
 #import "GoogleReaderLoginViewController.h"
+#import "Flurry.h"
 
 @implementation GoogleReaderLoginViewController
 
@@ -16,6 +17,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+		[Flurry logEvent:@"GoogleReaderLoginView"];
     }
     return self;
 }
@@ -57,6 +59,9 @@
 		[self alertCredentialsMissing];
 		
 	} else if ([grClient login]) {
+		NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:@"yes", @"Authed", nil];
+		[Flurry logEvent:@"Google Reader Authed" withParameters:flurryParams];
+		
 		[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 		
 	} else {
@@ -66,6 +71,9 @@
 
 - (IBAction)cancel
 {
+	NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:@"no", @"Authed", nil];
+	[Flurry logEvent:@"Google Reader Authed" withParameters:flurryParams];
+
 	[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 	
 	if ([delegate respondsToSelector:@selector(cancelLogin)]) {
@@ -75,6 +83,7 @@
 
 - (void)alertLoginFailed
 {
+	[Flurry logEvent:@"Google Reader Login User Failed"];
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed"
 													message:@"Login to Google Reader failed.  Please check your username and password and try again."
 												   delegate:self
@@ -85,6 +94,7 @@
 
 - (void)alertCredentialsMissing
 {
+	[Flurry logEvent:@"Google Reader Login Information Missing"];
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Information Missing"
 													message:@"Your username or password may have been left blank."
 												   delegate:self

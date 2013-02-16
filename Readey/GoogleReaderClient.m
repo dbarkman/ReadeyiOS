@@ -7,6 +7,7 @@
 //
 
 #import "GoogleReaderClient.h"
+#import "Flurry.h"
 
 @implementation GoogleReaderClient
 
@@ -84,7 +85,9 @@
     int responseStatus = 0;
 
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[Flurry logEvent:@"Google Reader Authentication" timed:YES];
     data = [NSURLConnection sendSynchronousRequest:authReq returningResponse:&response error:&error];
+	[Flurry endTimedEvent:@"Google Reader Authentication" withParameters:nil];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 
 	if ([data length] > 0) {
@@ -150,9 +153,12 @@
                 authMessage = @"The service is not available; please try again later.";
             }
 			if (logging) NSLog(@"%@", authMessage);
+			NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:authMessage, @"authMessage", nil];
+			[Flurry logEvent:@"Google Reader Auth Failed" withParameters:flurryParams];
 		}
 	} else {
 		if (logging) NSLog(@"No Auth Data Returned");
+		[Flurry logEvent:@"No Google Reader Auth Data Returned"];
 	}
 	return authToken;
 }
@@ -173,7 +179,9 @@
 	int subListResponseStatus = 0;
 
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[Flurry logEvent:@"Google Reader Get Subscription List" timed:YES];
 	subListData = [NSURLConnection sendSynchronousRequest:subListReq returningResponse:&subListResponse error:&subListError];
+	[Flurry endTimedEvent:@"Google Reader Get Subscription List" withParameters:nil];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
 	if ([subListData length] > 0) {
@@ -205,6 +213,7 @@
 		}
 	} else {
 		if (logging) NSLog(@"No Subscription List Data Returned");
+		[Flurry logEvent:@"No Google Reader Subscription List Data Returned"];
 	}
 	return subscriptionList;
 }
@@ -223,8 +232,11 @@
 	NSData *subFeedData = nil;
 	NSString *subFeedResponseStr = nil;
 	int subFeedResponseStatus = 0;
+	
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[Flurry logEvent:@"Google Reader Get Subscription Feed" timed:YES];
 	subFeedData = [NSURLConnection sendSynchronousRequest:subFeedReq returningResponse:&subFeedResponse error:&subFeedError];
+	[Flurry endTimedEvent:@"Google Reader Get Subscription Feed" withParameters:nil];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
 	if ([subFeedData length] > 0) {
@@ -256,6 +268,7 @@
 		}
 	} else {
 		if (logging) NSLog(@"No Subscription Feed Data Returned");
+		[Flurry logEvent:@"No Google Reader Subscription Feed Data Returned"];
 	}
 	return subscriptionFeed;
 }

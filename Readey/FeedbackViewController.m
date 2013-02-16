@@ -9,6 +9,7 @@
 #import "FeedbackViewController.h"
 #import "PickerViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Flurry.h"
 
 @implementation FeedbackViewController
 
@@ -26,6 +27,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+		[Flurry logEvent:@"FeedbackView"];
     }
     return self;
 }
@@ -68,6 +70,8 @@
 	NSString *description = [descriptionTextView text];
 	NSString *email = [emailTextField text];
 	
+	if ([email length] > 0) [Flurry logEvent:@"Email Included with Feedback"];
+	
 	if ([client createFeedback:feedback description:description email:email]) {
 		[[[UIAlertView alloc] initWithTitle:@"Thank you for your feedback!" message:nil delegate:nil cancelButtonTitle:@"Sure" otherButtonTitles:nil] show];
 		[[self navigationController] popViewControllerAnimated:YES];
@@ -96,6 +100,8 @@
 - (void)valueSelected:(NSString *)value
 {
 	[feedbackTypeTextField setText:value];
+	NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:value, @"Value", nil];
+	[Flurry logEvent:@"FeedbackType" withParameters:flurryParams];
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField

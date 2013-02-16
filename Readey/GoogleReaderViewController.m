@@ -8,6 +8,7 @@
 
 #import "GoogleReaderViewController.h"
 #import "GoogleReaderFeedViewController.h"
+#import "Flurry.h"
 
 #define FONT_SIZE 16.0f
 #define CELL_CONTENT_MARGIN 10.0f
@@ -16,13 +17,20 @@
 
 @synthesize grClient;
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)init
 {
-    self = [super initWithStyle:style];
+	self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
 		[[self navigationItem] setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
+		
+		[Flurry logEvent:@"GoogleReaderView"];
     }
     return self;
+}
+
+- (id)initWithStyle:(UITableViewStyle)style
+{
+	return [self init];
 }
 
 - (void)viewDidLoad
@@ -45,8 +53,12 @@
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 	
 	if ([grClient isLoggedIn]) {
-		[self refreshClicked];
+		NSString *authToken = [grClient getAuthToken];
+		feeds = [grClient getSubscriptionList:authToken];
+		
+		[[self tableView] reloadData];
 	} else {
+		[Flurry logEvent:@"Google Reader Requesting User Login"];
 		GoogleReaderLoginViewController *grLoginViewController = [[GoogleReaderLoginViewController alloc] init];
 		grLoginViewController.delegate = self;
 		[grLoginViewController setGrClient:grClient];
@@ -66,12 +78,18 @@
 	feeds = [grClient getSubscriptionList:authToken];
 	
 	[[self tableView] reloadData];
+	
+	[Flurry logEvent:@"Google Reader Feeds Refreshed"];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+	NSString *feedCountString = [NSString stringWithFormat:@"%d", [feeds count]];
+	NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:feedCountString, @"Feed Count", nil];
+	[Flurry logEvent:@"Get Google Reader Feeds" withParameters:flurryParams];
+
     return [feeds count];
 }
 
@@ -118,6 +136,9 @@
 		NSString *feedId = [feed objectForKey:@"id"];
 		NSString *title = [feed objectForKey:@"title"];
 		
+		NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:title, @"Feed", nil];
+		[Flurry logEvent:@"Google Reader Feed Selected" withParameters:flurryParams];
+
 		GoogleReaderFeedViewController *grFeedViewController = [[GoogleReaderFeedViewController alloc] init];
 		[grFeedViewController setGrClient:grClient];
 		[grFeedViewController setFeed:feedId];

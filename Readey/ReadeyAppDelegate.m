@@ -40,11 +40,16 @@ UINavigationController *navigationController;
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
 	if ([[DBSession sharedSession] handleOpenURL:url]) {
+		NSMutableDictionary *flurryParams = [[NSMutableDictionary alloc] init];
 		if ([[DBSession sharedSession] isLinked]) {
+			[flurryParams setObject:@"yes" forKey:@"Authed"];
 			DropboxViewController *dropboxViewController = [[DropboxViewController alloc] init];
 			[dropboxViewController setTitle:@"Dropbox"];
 			[navigationController pushViewController:dropboxViewController animated:YES];
+		} else {
+			[flurryParams setObject:@"no" forKey:@"Authed"];
 		}
+		[Flurry logEvent:@"Dropbox Authed" withParameters:flurryParams];
 		return YES;
 	}
 	return NO;

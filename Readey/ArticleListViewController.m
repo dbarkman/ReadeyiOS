@@ -9,6 +9,7 @@
 #import "ArticleListViewController.h"
 #import "ReadeyViewController.h"
 #import "ArticleAddViewController.h"
+#import "Flurry.h"
 
 #define FONT_SIZE 16.0f
 #define CELL_CONTENT_MARGIN 20.0f
@@ -23,6 +24,22 @@
 
 - (Client *)client {
     return client;
+}
+
+- (id)init
+{
+	self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+		[[self navigationItem] setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
+		
+		[Flurry logEvent:@"ArticleListView"];
+    }
+    return self;
+}
+
+- (id)initWithStyle:(UITableViewStyle)style
+{
+	return [self init];
 }
 
 - (void)viewDidLoad
@@ -61,6 +78,7 @@
 			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"shouldLogout"];
 			[self showAlert:@"Your session has expired. Please login again." withMessage:nil];
 		} else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"error"] boolValue]) {
+			[Flurry logEvent:@"Get Articles Failed"];
 			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"error"];
 			[self showAlert:@"Error" withMessage:@"There was an error retrieving your articles."];
 		}
@@ -68,19 +86,14 @@
 	
 	[[self tableView] reloadData];
 	
-	if ([[self refreshControl] isRefreshing]) [[self refreshControl] endRefreshing];
-}
-
-- (void)showAlert:(NSString *)title withMessage:(NSString *)message
-{
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alert show];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	[client logout];
-	[self.navigationController popToRootViewControllerAnimated:YES];
+	NSString *articleCountString = [NSString stringWithFormat:@"%d", [articles count]];
+	NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:articleCountString, @"Article Count", nil];
+	[Flurry logEvent:@"Get Articles" withParameters:flurryParams];
+	
+	if ([[self refreshControl] isRefreshing]) {
+		[[self refreshControl] endRefreshing];
+		[Flurry logEvent:@"Articles Refreshed"];
+	}
 }
 
 - (IBAction)addClicked
@@ -99,10 +112,12 @@
 			[self showAlert:@"Your session has expired. Please login again." withMessage:nil];
 			return false;
 		} else {
+			[Flurry logEvent:@"Remove Article Failed"];
 			[self showAlert:@"Error" withMessage:@"The article could not be removed"];
 			return false;
 		}
 	} else {
+		[Flurry logEvent:@"Removed Article"];
 		return true;
 	}
 }
@@ -184,6 +199,18 @@
 		[readeyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
 		[self presentViewController:readeyViewController animated:YES completion:nil];
 	}
+}
+
+- (void)showAlert:(NSString *)title withMessage:(NSString *)message
+{
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	[client logout];
+	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

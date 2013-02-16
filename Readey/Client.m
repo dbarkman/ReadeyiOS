@@ -7,6 +7,7 @@
 //
 
 #import "Client.h"
+#import "Flurry.h"
 
 @implementation Client
 
@@ -54,7 +55,9 @@
 - (bool)login
 {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[Flurry logEvent:@"Apigee Login User" timed:YES];
     UGClientResponse *response = [usergridClient logInUser:username password:password];
+	[Flurry endTimedEvent:@"Apigee Login User" withParameters:nil];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
     if (response.transactionState == 0) {
@@ -85,7 +88,9 @@
 - (bool)createUser
 {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[Flurry logEvent:@"Apigee Create User" timed:YES];
     UGClientResponse *response = [usergridClient addUser:username email:username name:username password:password];
+	[Flurry endTimedEvent:@"Apigee Create User" withParameters:nil];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
     if (response.transactionState == 0) {
@@ -110,7 +115,9 @@
 	[articleDictionary setObject:uuid forKey:@"user"];
 	
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[Flurry logEvent:@"Apigee Create Article" timed:YES];
 	UGClientResponse *response = [usergridClient createEntity:articleDictionary];
+	[Flurry endTimedEvent:@"Apigee Create Article" withParameters:nil];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
 	switch (response.transactionState) {
@@ -118,9 +125,12 @@
 			return true;
 			break;
 		case 1:
+			[Flurry logEvent:@"TokeExpired"];
 			if ([self login]) {
 				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+				[Flurry logEvent:@"Apigee Create Article - Post Token Expire" timed:YES];
 				UGClientResponse *response = [usergridClient createEntity:articleDictionary];
+				[Flurry endTimedEvent:@"Apigee Create Article - Post Token Expire" withParameters:nil];
 				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 				
 				switch (response.transactionState) {
@@ -132,6 +142,7 @@
 						break;
 				}
 			} else {
+				[Flurry logEvent:@"Create Article Forced Logout"];
 				[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"shouldLogout"];
 				return false;
 			}
@@ -150,7 +161,9 @@
 	[query addURLTerm:@"ql" equals:userQuery];
 
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[Flurry logEvent:@"Apigee Get Articles" timed:YES];
 	UGClientResponse *response = [usergridClient getEntities:@"articles" query:query];
+	[Flurry endTimedEvent:@"Apigee Get Articles" withParameters:nil];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 
 	NSArray *articles;
@@ -160,9 +173,12 @@
 			articles = [response.response objectForKey:@"entities"];
 			break;
 		case 1:
+			[Flurry logEvent:@"TokeExpired"];
 			if ([self login]) {
 				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+				[Flurry logEvent:@"Apigee Get Articles - Post Token Expire" timed:YES];
 				UGClientResponse *response = [usergridClient getEntities:@"articles" query:query];
+				[Flurry endTimedEvent:@"Apigee Get Articles - Post Token Expire" withParameters:nil];
 				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 
 				switch (response.transactionState) {
@@ -175,6 +191,7 @@
 						break;
 				}
 			} else {
+				[Flurry logEvent:@"Get Articles Forced Logout"];
 				articles = [[NSArray alloc] init];
 				[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"shouldLogout"];
 			}
@@ -186,7 +203,9 @@
 - (bool)removeArticle:(NSString *)uuid
 {
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[Flurry logEvent:@"Apigee Remove Article" timed:YES];
 	UGClientResponse *response = [usergridClient removeEntity:@"articles" entityID:uuid];
+	[Flurry endTimedEvent:@"Apigee Remove Article" withParameters:nil];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
 	switch (response.transactionState) {
@@ -194,9 +213,12 @@
 			return true;
 			break;
 		case 1:
+			[Flurry logEvent:@"TokeExpired"];
 			if ([self login]) {
 				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+				[Flurry logEvent:@"Apigee Remove Article - Post Token Expire" timed:YES];
 				UGClientResponse *response = [usergridClient removeEntity:@"articles" entityID:uuid];
+				[Flurry endTimedEvent:@"Apigee Remove Article - Post Token Expire" withParameters:nil];
 				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 				
 				switch (response.transactionState) {
@@ -208,6 +230,7 @@
 						break;
 				}
 			} else {
+				[Flurry logEvent:@"Remove Article Forced Logout"];
 				[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"shouldLogout"];
 				return false;
 			}
@@ -229,7 +252,9 @@
 	[feedbackDictionary setObject:uuid forKey:@"user"];
 	
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[Flurry logEvent:@"Apigee Create Feedback" timed:YES];
 	UGClientResponse *response = [usergridClient createEntity:feedbackDictionary];
+	[Flurry endTimedEvent:@"Apigee Create Feedback" withParameters:nil];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
 	switch (response.transactionState) {
@@ -237,9 +262,12 @@
 			return true;
 			break;
 		case 1:
+			[Flurry logEvent:@"TokeExpired"];
 			if ([self login]) {
 				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+				[Flurry logEvent:@"Apigee Create Feedback - Post Token Expire" timed:YES];
 				UGClientResponse *response = [usergridClient createEntity:feedbackDictionary];
+				[Flurry endTimedEvent:@"Apigee Create Feedback - Post Token Expire" withParameters:nil];
 				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 				
 				switch (response.transactionState) {
@@ -251,6 +279,7 @@
 						break;
 				}
 			} else {
+				[Flurry logEvent:@"Create Feedback Forced Logout"];
 				[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"shouldLogout"];
 				return false;
 			}

@@ -8,6 +8,7 @@
 
 #import "DropboxViewController.h"
 #import "ReadeyViewController.h"
+#import "Flurry.h"
 
 #define FONT_SIZE 16.0f
 
@@ -18,6 +19,8 @@
 	self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
 		[[self navigationItem] setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
+		
+		[Flurry logEvent:@"DropboxView"];
     }
     return self;
 }
@@ -45,9 +48,9 @@
 
     [[self restClient] loadMetadata:@"/"];
 	
-	NSMutableDictionary *article = [[NSMutableDictionary alloc] init];
-	[article setObject:@"Loading..." forKey:@"name"];
-	articles = [[NSMutableArray alloc] initWithObjects:article, nil];
+	NSMutableDictionary *file = [[NSMutableDictionary alloc] init];
+	[file setObject:@"Loading..." forKey:@"name"];
+	files = [[NSMutableArray alloc] initWithObjects:file, nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -60,6 +63,8 @@
 - (IBAction)refreshClicked
 {
     [[self restClient] loadMetadata:@"/"];
+	
+	[Flurry logEvent:@"Dropbox Refreshed"];
 }
 
 - (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
@@ -69,18 +74,22 @@
 		for (DBMetadata *file in metadata.contents) {
 			NSString *extension = [[file.path pathExtension] lowercaseString];
 			if (!file.isDirectory && [validExtensions indexOfObject:extension] != NSNotFound) {
-				NSMutableDictionary *article = [[NSMutableDictionary alloc] init];
-				[article setObject:file.path forKey:@"path"];
-				[article setObject:file.filename forKey:@"name"];
-				[article setObject:file.lastModifiedDate forKey:@"date"];
-				[newFilePaths addObject:article];
+				NSMutableDictionary *tempFile = [[NSMutableDictionary alloc] init];
+				[tempFile setObject:file.path forKey:@"path"];
+				[tempFile setObject:file.filename forKey:@"name"];
+				[tempFile setObject:file.lastModifiedDate forKey:@"date"];
+				[newFilePaths addObject:file];
 			}
 		}
 	}
-    articles = newFilePaths;
+    files = newFilePaths;
 	[[self tableView] reloadData];
 	
-	if ([articles count] == 0) {
+	NSString *dbFilesCountString = [NSString stringWithFormat:@"%d", [files count]];
+	NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:dbFilesCountString, @"File Count", nil];
+	[Flurry logEvent:@"Get Dropbox Files" withParameters:flurryParams];
+	
+	if ([files count] == 0) {
 		UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"No Files!" message:@"Put some .txt files in your Apps/Readey folder.  :)" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[message show];
 	}
@@ -94,7 +103,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [articles count];
+    return [files count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -106,19 +115,19 @@
 		[[cell textLabel] setFont:[UIFont systemFontOfSize:FONT_SIZE]];
 	}
 	
-	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
-	if ([article objectForKey:@"path"]) {
+	NSDictionary *file = [files objectAtIndex:[indexPath row]];
+	if ([file objectForKey:@"path"]) {
 		[cell setSelectionStyle:UITableViewCellSelectionStyleGray];
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 	}
 
-    NSString *name = [article objectForKey:@"name"];
+    NSString *name = [file objectForKey:@"name"];
 	[[cell textLabel] setText:name];
     
-	if ([article objectForKey:@"date"]) {
+	if ([file objectForKey:@"date"]) {
 		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 		[dateFormatter setDateFormat:@"eee MMM dd, yyyy @ h:mm a"];
-		NSString *formattedDate = [dateFormatter stringFromDate:[article objectForKey:@"date"]];
+		NSString *formattedDate = [dateFormatter stringFromDate:[file objectForKey:@"date"]];
 
 		[[cell detailTextLabel] setText:formattedDate];
 	}
@@ -130,9 +139,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
-	if ([article objectForKey:@"path"]) {
-		NSString *path = [article objectForKey:@"path"];
+	NSDictionary *file = [files objectAtIndex:[indexPath row]];
+	if ([file objectForKey:@"path"]) {
+		NSString *path = [file objectForKey:@"path"];
 		[restClient loadFile:path intoPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"file.txt"]];
 	}
 }

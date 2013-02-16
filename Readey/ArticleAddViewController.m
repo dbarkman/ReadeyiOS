@@ -8,6 +8,7 @@
 
 #import "ArticleAddViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Flurry.h"
 
 @implementation ArticleAddViewController
 
@@ -25,6 +26,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+		[Flurry logEvent:@"ArticleAddView"];
     }
     return self;
 }
@@ -72,21 +74,19 @@
 	NSString *contents = [articleContents text];
 	
 	if ([client createArticle:name source:url content:contents]) {
+		[Flurry logEvent:@"Created Article"];
 		[[self navigationController] popViewControllerAnimated:YES];
 	} else {
 		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"shouldLogout"] boolValue]) {
 			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"shouldLogout"];
-			[self showAlert:@"Your session has expired. Please login again." withMessage:nil];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Your session has expired. Please login again." message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+			[alert show];
 		} else {
-			[self showAlert:@"Error" withMessage:@"The article could not be saved"];
+			[Flurry logEvent:@"Create Article Failed"];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"The article could not be saved" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+			[alert show];
 		}
 	}
-}
-
-- (void)showAlert:(NSString *)title withMessage:(NSString *)message
-{
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

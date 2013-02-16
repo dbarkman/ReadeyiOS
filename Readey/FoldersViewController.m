@@ -14,6 +14,7 @@
 #import "GoogleReaderViewController.h"
 #import "FeedbackViewController.h"
 #import "SettingViewController.h"
+#import "Flurry.h"
 
 @implementation FoldersViewController
 
@@ -22,6 +23,8 @@
 	self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
 		[[self navigationItem] setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
+		
+		[Flurry logEvent:@"FoldersView"];
     }
     return self;
 }
@@ -62,6 +65,7 @@
 - (void)retryAuth
 {
     if (![client login]) {
+		[Flurry logEvent:@"Requesting User Login"];
         LoginViewController *loginViewController = [[LoginViewController alloc] init];
         [loginViewController setClient:client];
         [loginViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
@@ -71,6 +75,9 @@
 
 - (void)tappedSettings
 {
+	NSDictionary *pickedFrom = [NSDictionary dictionaryWithObjectsAndKeys:@"NavBar", @"From", nil];
+	[Flurry logEvent:@"Settings Picked From" withParameters:pickedFrom];
+	
 	SettingViewController *settingsViewController = [[SettingViewController alloc] init];
 	[settingsViewController setClient:client];
 	[settingsViewController setGrClient:grClient];
@@ -142,15 +149,21 @@
 	GoogleReaderViewController *googleReaderViewController = [[GoogleReaderViewController alloc] init];
 	FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
 	SettingViewController *settingsViewController = [[SettingViewController alloc] init];
+
+	NSMutableDictionary *folderPicked = [[NSMutableDictionary alloc] init];
+	NSDictionary *pickedFrom = [NSDictionary dictionaryWithObjectsAndKeys:@"Folders", @"From", nil];
+
 	switch ([indexPath section]) {
 		case 0:
 			switch ([indexPath row]) {
 				case 0:
+					[folderPicked setObject:@"Articles" forKey:@"Folder"];
 					[articleListViewController setTitle:@"Articles"];
 					[articleListViewController setClient:client];
 					[[self navigationController] pushViewController:articleListViewController animated:YES];
 					break;
 				case 1:
+					[folderPicked setObject:@"Dropbox" forKey:@"Folder"];
 					if (![[DBSession sharedSession] isLinked]) {
 						[[DBSession sharedSession] linkFromController:self];
 					} else {
@@ -159,20 +172,24 @@
 					}
 					break;
 				case 2:
+					[folderPicked setObject:@"GoogleReader" forKey:@"Folder"];
 					[googleReaderViewController setTitle:@"Google Reader"];
 					[googleReaderViewController setGrClient:grClient];
 					[[self navigationController] pushViewController:googleReaderViewController animated:YES];
 					break;
 			}
 			break;
+			[Flurry logEvent:@"Folder Picked" withParameters:folderPicked];
 		case 1:
 			switch ([indexPath row]) {
 				case 0:
+					[Flurry logEvent:@"Settings Picked From" withParameters:pickedFrom];
 					[settingsViewController setClient:client];
 					[settingsViewController setGrClient:grClient];
 					[[self navigationController] pushViewController:settingsViewController animated:YES];
 					break;
 				case 1:
+					[Flurry logEvent:@"Feedback Picked From" withParameters:pickedFrom];
 					[feedbackViewController setClient:client];
 					[[self navigationController] pushViewController:feedbackViewController animated:YES];
 					break;

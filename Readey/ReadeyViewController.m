@@ -9,6 +9,7 @@
 #import "ReadeyViewController.h"
 #import "NSString_stripHtml.h"
 #import "WebViewController.h"
+#import "Flurry.h"
 
 @implementation ReadeyViewController
 

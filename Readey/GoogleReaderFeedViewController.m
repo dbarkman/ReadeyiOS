@@ -8,6 +8,7 @@
 
 #import "GoogleReaderFeedViewController.h"
 #import "ReadeyViewController.h"
+#import "Flurry.h"
 
 #define FONT_SIZE 16.0f
 #define CELL_CONTENT_MARGIN 20.0f
@@ -16,13 +17,20 @@
 
 @synthesize grClient, navTitle, feed;
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)init
 {
-    self = [super initWithStyle:style];
+	self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        // Custom initialization
+		[[self navigationItem] setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
+		
+		[Flurry logEvent:@"GoogleReaderFeedView"];
     }
     return self;
+}
+
+- (id)initWithStyle:(UITableViewStyle)style
+{
+	return [self init];
 }
 
 - (void)viewDidLoad
@@ -44,7 +52,8 @@
 {
 	[super viewDidAppear:animated];
 	
-	[self refreshClicked];
+	NSString *authToken = [grClient getAuthToken];
+	articles = [grClient getSubscriptionFeed:authToken fromFeed:feed];
 
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
@@ -55,6 +64,8 @@
 	articles = [grClient getSubscriptionFeed:authToken fromFeed:feed];
 	
 	[[self tableView] reloadData];
+	
+	[Flurry logEvent:@"Google Reader Feed Articles Refreshed"];
 }
 
 #pragma mark - Table view data source
@@ -119,21 +130,28 @@
 {
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
 	if ([article objectForKey:@"content"] || [article objectForKey:@"summary"]) {
-		NSDictionary *contentDict;
-
+		NSDictionary *contentDict = [[NSDictionary alloc] init];
+		NSMutableDictionary *flurryParamsArticleContent = [[NSMutableDictionary alloc] init];
 		if ([article objectForKey:@"content"]) {
 			contentDict = [article objectForKey:@"content"];
+			[flurryParamsArticleContent setObject:@"content" forKey:@"contentOrSummary"];
 		} else {
 			contentDict = [article objectForKey:@"summary"];
+			[flurryParamsArticleContent setObject:@"summary" forKey:@"contentOrSummary"];
 		}
 		NSString *content = [contentDict objectForKey:@"content"];
+		[Flurry logEvent:@"Google Reader Feed Article Content or Summary" withParameters:flurryParamsArticleContent];
 		
 		NSArray *alternateArray = [article objectForKey:@"alternate"];
 		NSDictionary *alternateDict = [alternateArray objectAtIndex:0];
+		NSString *sourceUrl = [alternateDict objectForKey:@"href"];
+		
+		NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:sourceUrl, @"Article", nil];
+		[Flurry logEvent:@"Google Reader Feed Article Selected" withParameters:flurryParams];
 		
 		ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
 		[readeyViewController setArticleContent:content];
-		[readeyViewController setSourceUrl:[alternateDict objectForKey:@"href"]];
+		[readeyViewController setSourceUrl:sourceUrl];
 		[readeyViewController setSourceEnabled:true];
 		
 		[readeyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];

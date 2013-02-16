@@ -9,6 +9,7 @@
 #import "SettingViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "FeedbackViewController.h"
+#import "Flurry.h"
 
 #define FONT_SIZE 16.0f
 #define CELL_CONTENT_MARGIN 20.0f
@@ -34,6 +35,8 @@
 	self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
 		[[self navigationItem] setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
+		
+		[Flurry logEvent:@"SettingView"];
 	}
     return self;
 }
@@ -64,6 +67,9 @@
 {
 	[[NSUserDefaults standardUserDefaults] setObject:value forKey:@"wpm"];
 	[[self tableView] reloadData];
+
+	NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:value, @"Value", nil];
+	[Flurry logEvent:@"Words Per Minute" withParameters:flurryParams];
 }
 
 -(IBAction)showActionSheet:(int)actionsheet {
@@ -93,24 +99,29 @@
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	NSMutableDictionary *flurryParams = [[NSMutableDictionary alloc] init];
 	switch (actionSheet.tag) {
 		case ACTIONSHEET_DROPBOX:
 			if (buttonIndex == 0) {
+				[flurryParams setObject:@"Dropbox" forKey:@"Service"];
 				[[DBSession sharedSession] unlinkAll];
 			}
 			break;
 		case ACTIONSHEET_GOOGLE_READER:
 			if (buttonIndex == 0) {
+				[flurryParams setObject:@"Google Reader" forKey:@"Service"];
 				[grClient logout];
 			}
 			break;
 		case ACTIONSHEET_READEY:
 			if (buttonIndex == 0) {
+				[flurryParams setObject:@"Readey" forKey:@"Service"];
 				[client logout];
 				[self.navigationController popToRootViewControllerAnimated:YES];
 			}
 			break;
 	}
+	[Flurry logEvent:@"Logged Out Of Service" withParameters:flurryParams];
 }
 
 #pragma mark - Table view data source
@@ -196,6 +207,7 @@
 	int row = [indexPath row];
 	
 	if (section == 0 && row == 0) {
+		[Flurry logEvent:@"WPM Tapped"];
 		NSString *intString;
 		NSMutableArray *tempArray = [[NSMutableArray alloc] init];
 		for (int i = 5; i < 805; i = i + 5) {
@@ -224,6 +236,9 @@
 		[self showActionSheet:ACTIONSHEET_READEY];
 	}
 	if (section == 2 && row == 0) {
+		NSDictionary *feedbackPickedFrom = [NSDictionary dictionaryWithObjectsAndKeys:@"Settings", @"From", nil];
+		[Flurry logEvent:@"Feedback Picked From" withParameters:feedbackPickedFrom];
+
 		FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
 		[feedbackViewController setClient:client];
 		[[self navigationController] pushViewController:feedbackViewController animated:YES];

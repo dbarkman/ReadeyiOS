@@ -7,6 +7,7 @@
 //
 
 #import "PickerViewController.h"
+#import "Flurry.h"
 
 @implementation PickerViewController
 
@@ -16,6 +17,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+		NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:pickerTitle, @"Title", nil];
+		[Flurry logEvent:@"PickerView" withParameters:flurryParams];
     }
     return self;
 }

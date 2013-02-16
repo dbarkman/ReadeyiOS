@@ -4,6 +4,7 @@
 //
 
 #import "WebViewController.h"
+#import "Flurry.h"
 
 @implementation WebViewController
 
@@ -14,6 +15,9 @@
     self = [super init];
     if (self) {
         url = postURL;
+
+		NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:url, @"url", nil];
+		[Flurry logEvent:@"WebView" withParameters:flurryParams];
 	}
     return self;
 }
@@ -29,10 +33,12 @@
 	toolBar = [[UIToolbar alloc] init];
 
     if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+		[Flurry logEvent:@"WebView Started in Landscape"];
 		[webView setFrame:CGRectMake(0, 32, self.view.frame.size.height, self.view.frame.size.width - 32)];
 		[toolBar setFrame:CGRectMake(0, 0, self.view.frame.size.height, 32)];
     }
 	if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+		[Flurry logEvent:@"WebView Started in Portrait"];
 		[webView setFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height - 44)];
 		[toolBar setFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
 	}
@@ -57,10 +63,12 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+		[Flurry logEvent:@"WebView Rotated to Landscape"];
 		[webView setFrame:CGRectMake(0, 32, self.view.frame.size.height, self.view.frame.size.width - 32)];
 		[toolBar setFrame:CGRectMake(0, 0, self.view.frame.size.height, 32)];
     }
 	if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+		[Flurry logEvent:@"WebView Rotated to Portrait"];
 		[webView setFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height - 44)];
 		[toolBar setFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
 	}
@@ -68,11 +76,13 @@
 
 - (IBAction)done
 {
+	[Flurry logEvent:@"WebView Done Tapped"];
 	[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)back
 {
+	[Flurry logEvent:@"WebView Back Tapped"];
 	[webView goBack];
 }
 
