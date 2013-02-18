@@ -193,9 +193,14 @@
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];
 	if ([article objectForKey:@"content"]) {
 		ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
-		[readeyViewController setArticleContent:[article objectForKey:@"content"]];
+		[readeyViewController setClient:client];
 		[readeyViewController setSourceEnabled:false];
+		[readeyViewController setArticleContent:[article objectForKey:@"content"]];
+		[readeyViewController setArticleIdentifier:[article objectForKey:@"uuid"]];
 		
+		NSDictionary *flurryParamsSource = [[NSDictionary alloc] initWithObjectsAndKeys:@"Article", @"Source", nil];
+		[Flurry logEvent:@"Source Read" withParameters:flurryParamsSource];
+
 		[readeyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
 		[self presentViewController:readeyViewController animated:YES completion:nil];
 	}

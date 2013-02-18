@@ -24,7 +24,7 @@
 		
         //make new client
         usergridClient = [[UGClient alloc] initWithOrganizationId: orgName withApplicationID: appName];
-        [usergridClient setLogging:false]; //uncomment to see debug output in console window
+        [usergridClient setLogging:true]; //uncomment to see debug output in console window
 		
 		keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReadeyLogin" accessGroup:nil];
 		username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
@@ -286,6 +286,38 @@
 			break;
 	}
 	return false;
+}
+
+- (void)createReadLogWithSpeed:(float)speed andWords:(int)words
+{
+	NSNumber *speedNumber = [NSNumber numberWithFloat:speed];
+	NSNumber *wordsNumber = [NSNumber numberWithFloat:words];
+
+    user = [usergridClient getLoggedInUser];
+	NSString *uuid = [user uuid];
+	NSMutableDictionary *readLogDictionary = [[NSMutableDictionary alloc] init];
+	
+	[readLogDictionary setObject:@"readLogs" forKey:@"type"];
+	[readLogDictionary setObject:speedNumber forKey:@"speed"];
+	[readLogDictionary setObject:wordsNumber forKey:@"words"];
+	[readLogDictionary setObject:uuid forKey:@"user"];
+	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[Flurry logEvent:@"Apigee Create ReadLog" timed:YES];
+	UGClientResponse *response = [usergridClient createEntity:readLogDictionary];
+	[Flurry endTimedEvent:@"Apigee Create ReadLog" withParameters:nil];
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+	
+	if (response.transactionState == 1) {
+		[Flurry logEvent:@"TokeExpired"];
+		if ([self login]) {
+			[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+			[Flurry logEvent:@"Apigee Create ReadLog - Post Token Expire" timed:YES];
+			[usergridClient createEntity:readLogDictionary];
+			[Flurry endTimedEvent:@"Apigee Create ReadLog - Post Token Expire" withParameters:nil];
+			[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+		}
+	}
 }
 
 @end

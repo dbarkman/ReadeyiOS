@@ -14,6 +14,16 @@
 
 @implementation DropboxViewController
 
+@synthesize client;
+
+- (void)setClient:(Client *)c {
+    client = c;
+}
+
+- (Client *)client {
+    return client;
+}
+
 - (id)init
 {
 	self = [super initWithStyle:UITableViewStylePlain];
@@ -48,9 +58,9 @@
 
     [[self restClient] loadMetadata:@"/"];
 	
-	NSMutableDictionary *file = [[NSMutableDictionary alloc] init];
-	[file setObject:@"Loading..." forKey:@"name"];
-	files = [[NSMutableArray alloc] initWithObjects:file, nil];
+	NSMutableDictionary *article = [[NSMutableDictionary alloc] init];
+	[article setObject:@"Loading..." forKey:@"name"];
+	files = [[NSMutableArray alloc] initWithObjects:article, nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -74,11 +84,11 @@
 		for (DBMetadata *file in metadata.contents) {
 			NSString *extension = [[file.path pathExtension] lowercaseString];
 			if (!file.isDirectory && [validExtensions indexOfObject:extension] != NSNotFound) {
-				NSMutableDictionary *tempFile = [[NSMutableDictionary alloc] init];
-				[tempFile setObject:file.path forKey:@"path"];
-				[tempFile setObject:file.filename forKey:@"name"];
-				[tempFile setObject:file.lastModifiedDate forKey:@"date"];
-				[newFilePaths addObject:file];
+				NSMutableDictionary *article = [[NSMutableDictionary alloc] init];
+				[article setObject:file.path forKey:@"path"];
+				[article setObject:file.filename forKey:@"name"];
+				[article setObject:file.lastModifiedDate forKey:@"date"];
+				[newFilePaths addObject:article];
 			}
 		}
 	}
@@ -115,19 +125,19 @@
 		[[cell textLabel] setFont:[UIFont systemFontOfSize:FONT_SIZE]];
 	}
 	
-	NSDictionary *file = [files objectAtIndex:[indexPath row]];
-	if ([file objectForKey:@"path"]) {
+	NSDictionary *article = [files objectAtIndex:[indexPath row]];
+	if ([article objectForKey:@"path"]) {
 		[cell setSelectionStyle:UITableViewCellSelectionStyleGray];
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 	}
 
-    NSString *name = [file objectForKey:@"name"];
+    NSString *name = [article objectForKey:@"name"];
 	[[cell textLabel] setText:name];
     
-	if ([file objectForKey:@"date"]) {
+	if ([article objectForKey:@"date"]) {
 		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 		[dateFormatter setDateFormat:@"eee MMM dd, yyyy @ h:mm a"];
-		NSString *formattedDate = [dateFormatter stringFromDate:[file objectForKey:@"date"]];
+		NSString *formattedDate = [dateFormatter stringFromDate:[article objectForKey:@"date"]];
 
 		[[cell detailTextLabel] setText:formattedDate];
 	}
@@ -139,20 +149,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSDictionary *file = [files objectAtIndex:[indexPath row]];
-	if ([file objectForKey:@"path"]) {
-		NSString *path = [file objectForKey:@"path"];
+	NSDictionary *article = [files objectAtIndex:[indexPath row]];
+	if ([article objectForKey:@"path"]) {
+		NSString *path = [article objectForKey:@"path"];
 		[restClient loadFile:path intoPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"file.txt"]];
 	}
 }
 
-- (void)restClient:(DBRestClient*)client loadedFile:(NSString*)localPath {
+- (void)restClient:(DBRestClient*)restClient loadedFile:(NSString*)localPath {
 	NSString *fileContents = [[NSString alloc] initWithContentsOfFile:localPath encoding:NSUTF8StringEncoding error:nil];
 
 	ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
-	[readeyViewController setArticleContent:fileContents];
+	[readeyViewController setClient:client];
 	[readeyViewController setSourceEnabled:false];
+	[readeyViewController setArticleContent:fileContents];
+	[readeyViewController setArticleIdentifier:@"Dropbox"];
 
+	NSDictionary *flurryParamsSource = [[NSDictionary alloc] initWithObjectsAndKeys:@"Dropbox", @"Source", nil];
+	[Flurry logEvent:@"Source Read" withParameters:flurryParamsSource];
+	
 	[readeyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
 	[self presentViewController:readeyViewController animated:YES completion:nil];
 }

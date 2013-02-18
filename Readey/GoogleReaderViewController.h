@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "GoogleReaderClient.h"
 #import "GoogleReaderLoginViewController.h"
+#import "Client.h"
 
 @interface GoogleReaderViewController : UITableViewController <GoogleReaderLoginDelegate>
 {
 	NSMutableArray *feeds;
 }
 
+@property (nonatomic, strong) Client *client;
 @property (nonatomic, strong) GoogleReaderClient *grClient;
 
 @end

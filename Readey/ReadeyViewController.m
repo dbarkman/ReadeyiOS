@@ -13,13 +13,26 @@
 
 @implementation ReadeyViewController
 
-@synthesize articleContent, sourceUrl, sourceEnabled;
+@synthesize sourceUrl, sourceEnabled, articleContent, articleIdentifier;
+@synthesize client;
+
+- (void)setClient:(Client *)c {
+    client = c;
+}
+
+- (Client *)client {
+    return client;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	
+	[Flurry logEvent:@"ReadeyView"];
+	
 	[self setReaderColor];
+	
+	[currentWord setTag:101];
     
 	jumpBack = false;
 	jumpForward = false;
@@ -71,6 +84,8 @@
 	wordsPerMinute = wpmInt;
 	rate = 60.0 / wordsPerMinute;
 	
+	startingWPM = wpmInt;
+	
 	[wpmRate setText:[NSString stringWithFormat:@"%.0f wpm", wordsPerMinute]];
 	[self updateCounters:YES];
 }
@@ -78,6 +93,17 @@
 - (void) viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
+	
+	NSMutableDictionary *flurryParams = [[NSMutableDictionary alloc] init];
+	float wpmDifference = startingWPM - wordsPerMinute;
+	if (wpmDifference > 0) {
+		[flurryParams setObject:@"slowed" forKey:@"change"];
+	} else if (wpmDifference < 0) {
+		[flurryParams setObject:@"sped up" forKey:@"change"];
+	} else {
+		[flurryParams setObject:@"no change" forKey:@"change"];
+	}
+	[Flurry logEvent:@"WPM Change When Article Complete" withParameters:flurryParams];
 	
 	NSString *wpmString = [NSString stringWithFormat:@"%d", (int)wordsPerMinute];
 	[[NSUserDefaults standardUserDefaults] setObject:wpmString forKey:@"wpm"];
@@ -95,6 +121,9 @@
 		[darkLightButton setTitle:@"Light" forState:UIControlStateNormal];
 	}
 	
+	NSDictionary *flurryParams = [[NSDictionary alloc] initWithObjectsAndKeys:readerColor, @"Color", nil];
+	[Flurry logEvent:@"Changed Reader Color" withParameters:flurryParams];
+	
 	[[NSUserDefaults standardUserDefaults] setObject:readerColor forKey:@"readerColor"];
 
 	[self setReaderColor];
@@ -110,6 +139,9 @@
 	NSArray *labels = [[NSArray alloc] initWithObjects:wpmRate, timeRemaining, words, timeToRead, averageSpeed, nil];
 	
 	NSString *readerColor = [[NSUserDefaults standardUserDefaults] objectForKey:@"readerColor"];
+
+	NSDictionary *flurryParams = [[NSDictionary alloc] initWithObjectsAndKeys:readerColor, @"Color", nil];
+	[Flurry logEvent:@"Starting Reader Color" withParameters:flurryParams];
 	
 	if ([readerColor isEqualToString:@"dark"]) {
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:NO];
@@ -146,8 +178,24 @@
 	}
 }
 
+-(void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event
+{
+	UITouch *touch = [touches anyObject];
+	
+	if (touch.view.tag == 101) {
+		[Flurry logEvent:@"Tapped Current Word"];
+		if ([timer isValid]) {
+			[self pause];
+		} else {
+			[self play];
+		}
+	}
+}
+
 - (IBAction)back
 {
+	[Flurry logEvent:@"Tapped Back"];
+	
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
 	
 	[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
@@ -155,6 +203,8 @@
 
 - (IBAction)source
 {
+	[Flurry logEvent:@"Tapped Source"];
+	
 	WebViewController *webViewController = [[WebViewController alloc] initWithURL:sourceUrl];
 	[webViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
 	[self presentViewController:webViewController animated:YES completion:nil];
@@ -172,6 +222,8 @@
 
 - (IBAction)start:(bool)andGo
 {
+	[Flurry logEvent:@"Tapped Start"];
+	
     [navigateBackButton setHidden:NO];
 	[self changeSource:YES];
 	[self changeDarkLight:NO];
@@ -189,6 +241,8 @@
 
 - (IBAction)prevWord
 {
+	[Flurry logEvent:@"Tapped Previous"];
+	
 	jumpForward = true;
 	if (jumpBack == true) {
 		jumpBack = false;
@@ -197,8 +251,10 @@
 	if (marker > 0) {
 		marker--;
 		NSString *word = [wordArray objectAtIndex:marker];
-//		if ([word length] == 0)
-//			//flurry todo - log blank words, with article uuid
+		if ([word length] == 0) {
+			NSDictionary *flurryParams = [[NSDictionary alloc] initWithObjectsAndKeys:articleIdentifier, @"Identifier", marker, @"Marker", nil];
+			[Flurry logEvent:@"Blank Word on Next" withParameters:flurryParams];
+		}
 		[currentWord setText:word];
         [self updateCounters:YES];
 	}
@@ -207,16 +263,22 @@
 - (IBAction)slower
 {
 	if (wordsPerMinute > 5) {
+		[Flurry logEvent:@"Tapped Slower"];
+		
 		wordsPerMinute = wordsPerMinute - 5;
 		rate = 60.0 / wordsPerMinute;
 		if ([timer isValid]) [self resetTimer];
 		[wpmRate setText:[NSString stringWithFormat:@"%.0f wpm", wordsPerMinute]];
 		[self updateCounters:YES];
+	} else {
+		[Flurry logEvent:@"Tapped Slower - At 0"];
 	}
 }
 
 - (IBAction)play
 {
+	[Flurry logEvent:@"Tapped Play"];
+	
 	if (marker == wordArraySize) {
 		[self start:YES];
 	}
@@ -229,6 +291,8 @@
 - (IBAction)pause
 {
 	if ([timer isValid]) {
+		[Flurry logEvent:@"Tapped Pause"];
+		
         [navigateBackButton setHidden:NO];
 		[timer invalidate];
 		[self setToPlay];
@@ -238,16 +302,21 @@
 - (IBAction)faster
 {
 	if (wordsPerMinute < 800) {
+		[Flurry logEvent:@"Tapped Faster"];
 		wordsPerMinute = wordsPerMinute + 5;
 		rate = 60.0 / wordsPerMinute;
 		if ([timer isValid]) [self resetTimer];
 		[wpmRate setText:[NSString stringWithFormat:@"%.0f wpm", wordsPerMinute]];
 		[self updateCounters:YES];
+	} else {
+		[Flurry logEvent:@"Tapped Faster - At 800"];
 	}
 }
 
 - (IBAction)nextWord
 {
+	[Flurry logEvent:@"Tapped Next"];
+
 	jumpBack = true;
 	if (jumpForward == true) {
 		jumpForward = false;
@@ -256,8 +325,10 @@
 	if (marker < wordArraySize) {
 		NSString *word = [wordArray objectAtIndex:marker];
 		marker++;
-//		if ([word length] == 0)
-//			//flurry todo - log blank words, with article uuid
+		if ([word length] == 0) {
+			NSDictionary *flurryParams = [[NSDictionary alloc] initWithObjectsAndKeys:articleIdentifier, @"Identifier", marker, @"Marker", nil];
+			[Flurry logEvent:@"Blank Word on Next" withParameters:flurryParams];
+		}
 		[currentWord setText:word];
         finishTime = [NSDate date];
 		[self updateCounters:YES];
@@ -268,6 +339,8 @@
 
 - (IBAction)end
 {
+	[Flurry logEvent:@"Tapped End"];
+	
 	if (marker != wordArraySize) {
 		marker = wordArraySize;
 		[self updateCounters:NO];
@@ -290,14 +363,27 @@
 	int seconds = difference - (minutes * 60);
 	NSString *timeToReadResult = [NSString stringWithFormat:@"Time: %d:%02d", minutes, seconds];
 
-	NSString *averageSpeedResult = [NSString stringWithFormat:@"Speed: %.0f wpm", wordArraySize * (60 / difference)];
+	float speed = wordArraySize * (60 / difference);
+	NSString *averageSpeedResult = [NSString stringWithFormat:@"Speed: %.0f wpm", speed];
 	if (startTime == NULL) {
 		timeToReadResult = @"Time: 0:00";
 		averageSpeedResult = @"Speed: 0 wpm";
+		difference = 0;
+		speed = 0.0;
 	}
 	[timeToRead setText:timeToReadResult];
 	[averageSpeed setText:averageSpeedResult];
 	
+	NSDictionary *flurryParamsTimeRead = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%d", (int)difference], @"Time", nil];
+	[Flurry logEvent:@"Time Read" withParameters:flurryParamsTimeRead];
+	
+	NSDictionary *flurryParamsSpeedRead = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%f", speed], @"Speed", nil];
+	[Flurry logEvent:@"Speed Read" withParameters:flurryParamsSpeedRead];
+	
+	NSDictionary *flurryParamsWords = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%d", wordArraySize], @"Words", nil];
+	[Flurry logEvent:@"Words Read" withParameters:flurryParamsWords];
+	
+	[client createReadLogWithSpeed:speed andWords:wordArraySize];
 }
 
 - (void)resetTimer

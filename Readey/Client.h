@@ -35,4 +35,6 @@
 
 - (bool)createFeedback:(NSString *)feedbackType description:(NSString *)description email:(NSString *)email;
 
+- (void)createReadLogWithSpeed:(float)speed andWords:(int)words;
+
 @end

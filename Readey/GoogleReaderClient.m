@@ -190,7 +190,7 @@
 		
 		subListResponseStatus = [subListResponse statusCode];
 		
-		if (subListResponseStatus == 200 ) {
+		if (subListResponseStatus == 200) {
 			if (logging) NSLog(@"Get List Successful");
 			
 			
@@ -210,6 +210,7 @@
 			
 		} else {
 			if (logging) NSLog(@"Get List Failed - %d", subListResponseStatus);
+			[Flurry logEvent:@"Google Reader Get Subscription List Failed"];
 		}
 	} else {
 		if (logging) NSLog(@"No Subscription List Data Returned");
@@ -265,6 +266,7 @@
 			
 		} else {
 			if (logging) NSLog(@"Get Feeds Failed - %d", subFeedResponseStatus);
+			[Flurry logEvent:@"Google Reader Get Subscription Feeds Failed"];
 		}
 	} else {
 		if (logging) NSLog(@"No Subscription Feed Data Returned");

@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "GoogleReaderClient.h"
+#import "Client.h"
 
 @interface GoogleReaderFeedViewController : UITableViewController
 {
 	NSMutableArray *articles;
 }
 
+@property (nonatomic, strong) Client *client;
 @property (nonatomic, strong) GoogleReaderClient *grClient;
 @property (nonatomic, retain) NSString *navTitle;
 @property (nonatomic, retain) NSString *feed;

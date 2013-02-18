@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Client.h"
 
 @interface ReadeyViewController : UIViewController
 {
@@ -14,6 +15,7 @@
 	int wordArraySize;
 	float rate;
 	float wordsPerMinute;
+	float startingWPM;
 	bool jumpBack;
 	bool jumpForward;
 	NSArray *wordArray;
@@ -55,8 +57,12 @@
 - (IBAction)nextWord;
 - (IBAction)end;
 
+-(void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event;
+
+@property (nonatomic, strong) Client *client;
 @property (nonatomic) bool sourceEnabled;
 @property (nonatomic, retain) NSString *sourceUrl;
 @property (nonatomic, retain) NSString *articleContent;
+@property (nonatomic, retain) NSString *articleIdentifier;
 
 @end

@@ -17,6 +17,16 @@
 
 @synthesize grClient, navTitle, feed;
 
+@synthesize client;
+
+- (void)setClient:(Client *)c {
+    client = c;
+}
+
+- (Client *)client {
+    return client;
+}
+
 - (id)init
 {
 	self = [super initWithStyle:UITableViewStylePlain];
@@ -55,6 +65,8 @@
 	NSString *authToken = [grClient getAuthToken];
 	articles = [grClient getSubscriptionFeed:authToken fromFeed:feed];
 
+	[[self tableView] reloadData];
+	
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
@@ -150,9 +162,14 @@
 		[Flurry logEvent:@"Google Reader Feed Article Selected" withParameters:flurryParams];
 		
 		ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
-		[readeyViewController setArticleContent:content];
-		[readeyViewController setSourceUrl:sourceUrl];
+		[readeyViewController setClient:client];
 		[readeyViewController setSourceEnabled:true];
+		[readeyViewController setSourceUrl:sourceUrl];
+		[readeyViewController setArticleContent:content];
+		[readeyViewController setArticleIdentifier:sourceUrl];
+		
+		NSDictionary *flurryParamsSource = [[NSDictionary alloc] initWithObjectsAndKeys:@"Google Reader", @"Source", nil];
+		[Flurry logEvent:@"Source Read" withParameters:flurryParamsSource];
 		
 		[readeyViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
 		[self presentViewController:readeyViewController animated:YES completion:nil];

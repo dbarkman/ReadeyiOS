@@ -167,12 +167,14 @@
 					if (![[DBSession sharedSession] isLinked]) {
 						[[DBSession sharedSession] linkFromController:self];
 					} else {
+						[dropboxViewController setClient:client];
 						[dropboxViewController setTitle:@"Dropbox"];
 						[[self navigationController] pushViewController:dropboxViewController animated:YES];
 					}
 					break;
 				case 2:
 					[folderPicked setObject:@"GoogleReader" forKey:@"Folder"];
+					[googleReaderViewController setClient:client];
 					[googleReaderViewController setTitle:@"Google Reader"];
 					[googleReaderViewController setGrClient:grClient];
 					[[self navigationController] pushViewController:googleReaderViewController animated:YES];

@@ -17,6 +17,16 @@
 
 @synthesize grClient;
 
+@synthesize client;
+
+- (void)setClient:(Client *)c {
+    client = c;
+}
+
+- (Client *)client {
+    return client;
+}
+
 - (id)init
 {
 	self = [super initWithStyle:UITableViewStylePlain];
@@ -140,6 +150,7 @@
 		[Flurry logEvent:@"Google Reader Feed Selected" withParameters:flurryParams];
 
 		GoogleReaderFeedViewController *grFeedViewController = [[GoogleReaderFeedViewController alloc] init];
+		[grFeedViewController setClient:client];
 		[grFeedViewController setGrClient:grClient];
 		[grFeedViewController setFeed:feedId];
 		[grFeedViewController setNavTitle:title];
