@@ -158,7 +158,6 @@
 		case 0:
 			switch ([indexPath row]) {
 				case 0:
-					[[Crashlytics sharedInstance] crash];
 					[folderPicked setObject:@"Articles" forKey:@"Folder"];
 					[articleListViewController setTitle:@"Articles"];
 					[articleListViewController setClient:client];
