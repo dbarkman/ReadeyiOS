@@ -50,6 +50,7 @@
 		638BA12616BE3EAC0005529C /* GoogleReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */; };
 		639CA63616CEDB400052EC91 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 639CA63516CEDB400052EC91 /* libFlurry.a */; };
 		639CA63816CF0D940052EC91 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639CA63716CF0D940052EC91 /* SystemConfiguration.framework */; };
+		639CA63B16D1E5BD0052EC91 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639CA63A16D1E5BD0052EC91 /* Crashlytics.framework */; };
 		63A2ED26169C8DCD0071D549 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A2ED25169C8DCD0071D549 /* UIKit.framework */; };
 		63A2ED28169C8DCD0071D549 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A2ED27169C8DCD0071D549 /* Foundation.framework */; };
 		63A2ED2A169C8DCD0071D549 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A2ED29169C8DCD0071D549 /* CoreGraphics.framework */; };
@@ -151,6 +152,7 @@
 		639CA63316CEDAB90052EC91 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		639CA63516CEDB400052EC91 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 		639CA63716CF0D940052EC91 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		639CA63A16D1E5BD0052EC91 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		63A2ED21169C8DCD0071D549 /* Readey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Readey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63A2ED25169C8DCD0071D549 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		63A2ED27169C8DCD0071D549 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -247,6 +249,7 @@
 				63A2ED2A169C8DCD0071D549 /* CoreGraphics.framework in Frameworks */,
 				633309EA16C22193002A88FE /* DropboxSDK.framework in Frameworks */,
 				639CA63616CEDB400052EC91 /* libFlurry.a in Frameworks */,
+				639CA63B16D1E5BD0052EC91 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +313,7 @@
 		63A2ED24169C8DCD0071D549 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				639CA63A16D1E5BD0052EC91 /* Crashlytics.framework */,
 				639CA63716CF0D940052EC91 /* SystemConfiguration.framework */,
 				633309E916C22193002A88FE /* DropboxSDK.framework */,
 				E4A69E5F16B79D51001B1157 /* QuartzCore.framework */,
@@ -515,6 +519,7 @@
 				63A2ED1D169C8DCD0071D549 /* Sources */,
 				63A2ED1E169C8DCD0071D549 /* Frameworks */,
 				63A2ED1F169C8DCD0071D549 /* Resources */,
+				639CA63916D1E5750052EC91 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -602,6 +607,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		639CA63916D1E5750052EC91 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run a01dfebdcb52c4fba6676ae21ccf86c043992c3c";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		63A2ED1D169C8DCD0071D549 /* Sources */ = {

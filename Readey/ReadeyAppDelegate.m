@@ -11,6 +11,7 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "DropboxViewController.h"
 #import "Flurry.h"
+#import <Crashlytics/Crashlytics.h>
 
 @implementation ReadeyAppDelegate
 
@@ -25,7 +26,9 @@ UINavigationController *navigationController;
     DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"py9e1yuyy55owpb" appSecret:@"ai5j37a4ss5wz1g" root:kDBRootAppFolder];
     [DBSession setSharedSession:dbSession];
     
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	[Crashlytics startWithAPIKey:@"a01dfebdcb52c4fba6676ae21ccf86c043992c3c"];
+    
+	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     FoldersViewController *foldersViewController = [[FoldersViewController alloc] init];
             

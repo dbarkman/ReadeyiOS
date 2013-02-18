@@ -15,6 +15,7 @@
 #import "FeedbackViewController.h"
 #import "SettingViewController.h"
 #import "Flurry.h"
+#import <Crashlytics/Crashlytics.h>
 
 @implementation FoldersViewController
 
@@ -157,6 +158,7 @@
 		case 0:
 			switch ([indexPath row]) {
 				case 0:
+					[[Crashlytics sharedInstance] crash];
 					[folderPicked setObject:@"Articles" forKey:@"Folder"];
 					[articleListViewController setTitle:@"Articles"];
 					[articleListViewController setClient:client];

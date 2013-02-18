@@ -24,7 +24,7 @@
 		
         //make new client
         usergridClient = [[UGClient alloc] initWithOrganizationId: orgName withApplicationID: appName];
-        [usergridClient setLogging:true]; //uncomment to see debug output in console window
+        [usergridClient setLogging:false]; //uncomment to see debug output in console window
 		
 		keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"ReadeyLogin" accessGroup:nil];
 		username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
