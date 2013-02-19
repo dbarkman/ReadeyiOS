@@ -48,14 +48,14 @@
 - (IBAction)source;
 - (IBAction)switchColor;
 
-- (IBAction)start:(bool)andGo;
+- (IBAction)startTapped;
 - (IBAction)prevWord;
 - (IBAction)slower;
-- (IBAction)play;
-- (IBAction)pause;
+- (IBAction)playTapped;
+- (IBAction)pauseTapped;
 - (IBAction)faster;
-- (IBAction)nextWord;
-- (IBAction)end;
+- (IBAction)nextWordTapped;
+- (IBAction)endTapped;
 
 -(void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event;
 

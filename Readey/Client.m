@@ -94,7 +94,13 @@
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
     if (response.transactionState == 0) {
-        return [self login];
+		if ([self login]) {
+			NSArray *articles = [self getMasterArticles];
+			for (NSDictionary *article in articles) {
+				[self createArticle:[article objectForKey:@"articleName"] source:@"masterArticle" content:[article objectForKey:@"content"]];
+			}
+			return true;
+		}
     }
     return false;
 }
@@ -105,7 +111,7 @@
 	NSMutableDictionary *articleDictionary = [[NSMutableDictionary alloc] init];
 	
 	NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
-	NSString *name = [NSString stringWithFormat:@"%@--%@--%d", articleName, uuid, (int)timeStamp];
+	NSString *name = [NSString stringWithFormat:@"%@--%d", uuid, (int)timeStamp];
 
 	[articleDictionary setObject:@"articles" forKey:@"type"];
 	[articleDictionary setObject:name forKey:@"name"];
@@ -151,6 +157,30 @@
 	return false;
 }
 
+- (NSArray *)getMasterArticles
+{
+    user = [usergridClient getLoggedInUser];
+	NSString *userUUID = @"3804212c-7ada-11e2-b6ef-02e81ac5a17b";
+	NSString *userQuery = [NSString stringWithFormat:@"select * where user = %@ order by created desc", userUUID];
+	
+	UGQuery *query = [[UGQuery alloc] init];
+	[query addURLTerm:@"ql" equals:userQuery];
+	[query addURLTerm:@"limit" equals:@"999"];
+	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	[Flurry logEvent:@"Apigee Get Master Articles" timed:YES];
+	UGClientResponse *response = [usergridClient getEntities:@"articles" query:query];
+	[Flurry endTimedEvent:@"Apigee Get Master Articles" withParameters:nil];
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+	
+	NSArray *articles;
+	
+	if (response.transactionState == 0) {
+		articles = [response.response objectForKey:@"entities"];
+	}
+	return articles;
+}
+
 - (NSArray *)getArticles
 {
     user = [usergridClient getLoggedInUser];
@@ -159,6 +189,7 @@
 	
 	UGQuery *query = [[UGQuery alloc] init];
 	[query addURLTerm:@"ql" equals:userQuery];
+	[query addURLTerm:@"limit" equals:@"999"];
 
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	[Flurry logEvent:@"Apigee Get Articles" timed:YES];

@@ -71,95 +71,106 @@
 {
 	NSString *authToken = @"";
 	
-    NSMutableURLRequest *authReq = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.google.com/accounts/ClientLogin"]];
-    [authReq setTimeoutInterval:30.0];
-    [authReq setHTTPMethod:@"POST"];
-    [authReq addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    NSString *authRequestBody = [[NSString alloc] initWithFormat:@"Email=%@&Passwd=%@&service=reader&accountType=HOSTED_OR_GOOGLE&source=%@", username, password, source];
-    [authReq setHTTPBody:[authRequestBody dataUsingEncoding:NSASCIIStringEncoding]];
-	
-    NSHTTPURLResponse *response = nil;
-    NSError *error = nil;
-    NSData *data = nil;
-    NSString *responseStr = nil;
-    int responseStatus = 0;
-
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	[Flurry logEvent:@"Google Reader Authentication" timed:YES];
-    data = [NSURLConnection sendSynchronousRequest:authReq returningResponse:&response error:&error];
-	[Flurry endTimedEvent:@"Google Reader Authentication" withParameters:nil];
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-
-	if ([data length] > 0) {
-        responseStr = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-		if (logResponses) NSLog(@"Response From Google: %@", responseStr);
-
-        responseStatus = [response statusCode];
-		
-        if (responseStatus == 200 ) {
-			if (logging) NSLog(@"Authentication Successful");
-			
-			NSArray *responseArray = [responseStr componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"="]];
-			NSString *auth = [responseArray objectAtIndex:3];
-			NSString *authEncoded1 = [auth stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-			NSString *authEncoded2 = [authEncoded1 stringByReplacingOccurrencesOfString:@"%0A" withString:@""];
-			authToken = [[NSString alloc]initWithFormat:@"GoogleLogin auth=%@", authEncoded2];
-		} else {
-			if (logging) NSLog(@"Authentication Failed");
-			
-			NSArray *responseLines  = [responseStr componentsSeparatedByString:@"\n"];
-			NSString *errorString;
-			NSString *authMessage = @"No Auth Message Provided";
-
-            int i;
-            for (i =0; i < [responseLines count]; i++ ) {
-                if ([[responseLines objectAtIndex:i] rangeOfString:@"Error="].length != 0) {
-                    errorString = [responseLines objectAtIndex:i] ;
-                }
-            }
-			
-            errorString = [errorString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            /*
-             Official Google clientLogin Error Codes:
-             Error Code Description
-             BadAuthentication  The login request used a username or password that is not recognized.
-             NotVerified    The account email address has not been verified. The user will need to access their Google account directly to resolve the issue before logging in using a non-Google application.
-             TermsNotAgreed The user has not agreed to terms. The user will need to access their Google account directly to resolve the issue before logging in using a non-Google application.
-             CaptchaRequired    A CAPTCHA is required. (A response with this error code will also contain an image URL and a CAPTCHA token.)
-             Unknown    The error is unknown or unspecified; the request contained invalid input or was malformed.
-             AccountDeleted The user account has been deleted.
-             AccountDisabled    The user account has been disabled.
-             ServiceDisabled    The user's access to the specified service has been disabled. (The user account may still be valid.)
-             ServiceUnavailable The service is not available; try again later.
-             */
-			
-            if ([errorString  rangeOfString:@"BadAuthentication" ].length != 0) {
-                authMessage = @"Please Check your Username and Password and try again.";
-            }else if ([errorString  rangeOfString:@"NotVerified"].length != 0) {
-                authMessage = @"This account has not been verified. You will need to access your Google account directly to resolve this";
-            }else if ([errorString  rangeOfString:@"TermsNotAgreed" ].length != 0) {
-                authMessage = @"You have not agreed to Google terms of use. You will need to access your Google account directly to resolve this";
-            }else if ([errorString  rangeOfString:@"CaptchaRequired" ].length != 0) {
-                authMessage = @"Google is requiring a CAPTCHA response to continue. Please complete the CAPTCHA challenge in your browser, and try authenticating again";
-            }else if ([errorString  rangeOfString:@"Unknown" ].length != 0) {
-                authMessage = @"An Unknow error has occurred; the request contained invalid input or was malformed.";
-            }else if ([errorString  rangeOfString:@"AccountDeleted" ].length != 0) {
-                authMessage = @"This user account previously has been deleted.";
-            }else if ([errorString  rangeOfString:@"AccountDisabled" ].length != 0) {
-                authMessage = @"This user account has been disabled.";
-            }else if ([errorString  rangeOfString:@"ServiceDisabled" ].length != 0) {
-                authMessage = @"Your access to the specified service has been disabled. Please try again later.";
-            }else if ([errorString  rangeOfString:@"ServiceUnavailable" ].length != 0) {
-                authMessage = @"The service is not available; please try again later.";
-            }
-			if (logging) NSLog(@"%@", authMessage);
-			NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:authMessage, @"authMessage", nil];
-			[Flurry logEvent:@"Google Reader Auth Failed" withParameters:flurryParams];
-		}
+	NSDate *authTokenDate = [NSDate dateWithTimeIntervalSince1970:[[keychainItem objectForKey:(__bridge id)kSecAttrComment] doubleValue]];
+	NSDate *now = [NSDate dateWithTimeIntervalSince1970:[[NSDate date] timeIntervalSince1970]];
+	if ([now timeIntervalSinceDate:authTokenDate] < 3600) {
+		authToken = [keychainItem objectForKey:(__bridge id)kSecAttrService];
 	} else {
-		if (logging) NSLog(@"No Auth Data Returned");
-		[Flurry logEvent:@"No Google Reader Auth Data Returned"];
+		NSMutableURLRequest *authReq = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.google.com/accounts/ClientLogin"]];
+		[authReq setTimeoutInterval:30.0];
+		[authReq setHTTPMethod:@"POST"];
+		[authReq addValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+		NSString *authRequestBody = [[NSString alloc] initWithFormat:@"Email=%@&Passwd=%@&service=reader&accountType=HOSTED_OR_GOOGLE&source=%@", username, password, source];
+		[authReq setHTTPBody:[authRequestBody dataUsingEncoding:NSASCIIStringEncoding]];
+		
+		NSHTTPURLResponse *response = nil;
+		NSError *error = nil;
+		NSData *data = nil;
+		NSString *responseStr = nil;
+		int responseStatus = 0;
+		
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+		[Flurry logEvent:@"Google Reader Authentication" timed:YES];
+		data = [NSURLConnection sendSynchronousRequest:authReq returningResponse:&response error:&error];
+		[Flurry endTimedEvent:@"Google Reader Authentication" withParameters:nil];
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+		
+		if ([data length] > 0) {
+			responseStr = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+			if (logResponses) NSLog(@"Response From Google: %@", responseStr);
+			
+			responseStatus = [response statusCode];
+			
+			if (responseStatus == 200 ) {
+				if (logging) NSLog(@"Authentication Successful");
+				
+				NSArray *responseArray = [responseStr componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"="]];
+				NSString *auth = [responseArray objectAtIndex:3];
+				NSString *authEncoded1 = [auth stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+				NSString *authEncoded2 = [authEncoded1 stringByReplacingOccurrencesOfString:@"%0A" withString:@""];
+				authToken = [[NSString alloc]initWithFormat:@"GoogleLogin auth=%@", authEncoded2];
+				
+				NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+				[keychainItem setObject:[NSString stringWithFormat:@"%d", (int)timeStamp] forKey:(__bridge id)kSecAttrComment];
+				[keychainItem setObject:authToken forKey:(__bridge id)kSecAttrService];
+			} else {
+				if (logging) NSLog(@"Authentication Failed");
+				
+				NSArray *responseLines  = [responseStr componentsSeparatedByString:@"\n"];
+				NSString *errorString;
+				NSString *authMessage = @"No Auth Message Provided";
+				
+				int i;
+				for (i =0; i < [responseLines count]; i++ ) {
+					if ([[responseLines objectAtIndex:i] rangeOfString:@"Error="].length != 0) {
+						errorString = [responseLines objectAtIndex:i] ;
+					}
+				}
+				
+				errorString = [errorString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+				/*
+				 Official Google clientLogin Error Codes:
+				 Error Code Description
+				 BadAuthentication  The login request used a username or password that is not recognized.
+				 NotVerified    The account email address has not been verified. The user will need to access their Google account directly to resolve the issue before logging in using a non-Google application.
+				 TermsNotAgreed The user has not agreed to terms. The user will need to access their Google account directly to resolve the issue before logging in using a non-Google application.
+				 CaptchaRequired    A CAPTCHA is required. (A response with this error code will also contain an image URL and a CAPTCHA token.)
+				 Unknown    The error is unknown or unspecified; the request contained invalid input or was malformed.
+				 AccountDeleted The user account has been deleted.
+				 AccountDisabled    The user account has been disabled.
+				 ServiceDisabled    The user's access to the specified service has been disabled. (The user account may still be valid.)
+				 ServiceUnavailable The service is not available; try again later.
+				 */
+				
+				if ([errorString  rangeOfString:@"BadAuthentication" ].length != 0) {
+					authMessage = @"Please Check your Username and Password and try again.";
+				}else if ([errorString  rangeOfString:@"NotVerified"].length != 0) {
+					authMessage = @"This account has not been verified. You will need to access your Google account directly to resolve this";
+				}else if ([errorString  rangeOfString:@"TermsNotAgreed" ].length != 0) {
+					authMessage = @"You have not agreed to Google terms of use. You will need to access your Google account directly to resolve this";
+				}else if ([errorString  rangeOfString:@"CaptchaRequired" ].length != 0) {
+					authMessage = @"Google is requiring a CAPTCHA response to continue. Please complete the CAPTCHA challenge in your browser, and try authenticating again";
+				}else if ([errorString  rangeOfString:@"Unknown" ].length != 0) {
+					authMessage = @"An Unknow error has occurred; the request contained invalid input or was malformed.";
+				}else if ([errorString  rangeOfString:@"AccountDeleted" ].length != 0) {
+					authMessage = @"This user account previously has been deleted.";
+				}else if ([errorString  rangeOfString:@"AccountDisabled" ].length != 0) {
+					authMessage = @"This user account has been disabled.";
+				}else if ([errorString  rangeOfString:@"ServiceDisabled" ].length != 0) {
+					authMessage = @"Your access to the specified service has been disabled. Please try again later.";
+				}else if ([errorString  rangeOfString:@"ServiceUnavailable" ].length != 0) {
+					authMessage = @"The service is not available; please try again later.";
+				}
+				if (logging) NSLog(@"%@", authMessage);
+				NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:authMessage, @"authMessage", nil];
+				[Flurry logEvent:@"Google Reader Auth Failed" withParameters:flurryParams];
+			}
+		} else {
+			if (logging) NSLog(@"No Auth Data Returned");
+			[Flurry logEvent:@"No Google Reader Auth Data Returned"];
+		}
 	}
+
 	return authToken;
 }
 

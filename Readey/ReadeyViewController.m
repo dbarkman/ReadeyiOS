@@ -11,6 +11,8 @@
 #import "WebViewController.h"
 #import "Flurry.h"
 
+#define CURRENT_WORD_LABEL_TAG 101
+
 @implementation ReadeyViewController
 
 @synthesize sourceUrl, sourceEnabled, articleContent, articleIdentifier;
@@ -32,7 +34,7 @@
 	
 	[self setReaderColor];
 	
-	[currentWord setTag:101];
+	[currentWord setTag:CURRENT_WORD_LABEL_TAG];
     
 	jumpBack = false;
 	jumpForward = false;
@@ -76,7 +78,7 @@
 	
 	NSString *wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
 	if (wpm.length == 0) {
-		wpm = @"250";
+		wpm = @"200";
 		[[NSUserDefaults standardUserDefaults] setObject:wpm forKey:@"wpm"];
 	}
 	int wpmInt = [wpm integerValue];
@@ -220,10 +222,14 @@
     [progress setProgress:(1.0 / wordArraySize) * marker animated:animated];
 }
 
-- (IBAction)start:(bool)andGo
+- (IBAction)startTapped
 {
 	[Flurry logEvent:@"Tapped Start"];
-	
+	[self start:NO];
+}
+
+- (void)start:(bool)andGo
+{
     [navigateBackButton setHidden:NO];
 	[self changeSource:YES];
 	[self changeDarkLight:NO];
@@ -275,10 +281,14 @@
 	}
 }
 
-- (IBAction)play
+- (IBAction)playTapped
 {
 	[Flurry logEvent:@"Tapped Play"];
-	
+	[self play];
+}
+
+- (void)play
+{
 	if (marker == wordArraySize) {
 		[self start:YES];
 	}
@@ -288,12 +298,18 @@
 	[self setToPause];
 }
 
-- (IBAction)pause
+- (IBAction)pauseTapped
 {
 	if ([timer isValid]) {
 		[Flurry logEvent:@"Tapped Pause"];
-		
-        [navigateBackButton setHidden:NO];
+		[self pause];
+	}
+}
+
+- (void)pause
+{
+	if ([timer isValid]) {
+		[navigateBackButton setHidden:NO];
 		[timer invalidate];
 		[self setToPlay];
 	}
@@ -313,10 +329,14 @@
 	}
 }
 
-- (IBAction)nextWord
+- (IBAction)nextWordTapped
 {
 	[Flurry logEvent:@"Tapped Next"];
+	[self nextWord];
+}
 
+- (void)nextWord
+{
 	jumpBack = true;
 	if (jumpForward == true) {
 		jumpForward = false;
@@ -337,10 +357,16 @@
 	}
 }
 
-- (IBAction)end
+- (IBAction)endTapped
 {
 	[Flurry logEvent:@"Tapped End"];
-	
+	[self end];
+}
+
+- (void)end
+{
+	[currentWord setText:@"Complete!"];
+
 	if (marker != wordArraySize) {
 		marker = wordArraySize;
 		[self updateCounters:NO];
@@ -355,7 +381,6 @@
 	
 	[self setToPlay];
 	
-	[currentWord setText:@"Complete!"];
 	[self changeDarkLight:YES];
 	
 	NSTimeInterval difference = [finishTime timeIntervalSinceDate:startTime];
@@ -395,15 +420,15 @@
 - (void)setToPause
 {
 	[masterButton setTitle:@"STOP" forState:UIControlStateNormal];
-	[masterButton removeTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
-	[masterButton addTarget:self action:@selector(pause) forControlEvents:UIControlEventTouchUpInside];
+	[masterButton removeTarget:self action:@selector(playTapped) forControlEvents:UIControlEventTouchUpInside];
+	[masterButton addTarget:self action:@selector(pauseTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setToPlay
 {
 	[masterButton setTitle:@"GO" forState:UIControlStateNormal];
-	[masterButton removeTarget:self action:@selector(pause) forControlEvents:UIControlEventTouchUpInside];
-	[masterButton addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
+	[masterButton removeTarget:self action:@selector(pauseTapped) forControlEvents:UIControlEventTouchUpInside];
+	[masterButton addTarget:self action:@selector(playTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)changeSource:(bool)hide

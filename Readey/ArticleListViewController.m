@@ -81,6 +81,10 @@
 			[Flurry logEvent:@"Get Articles Failed"];
 			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"error"];
 			[self showAlert:@"Error" withMessage:@"There was an error retrieving your articles."];
+		} else {
+			NSMutableDictionary *article = [[NSMutableDictionary alloc] init];
+			[article setObject:@"No Articles, tap the + button to add one." forKey:@"articleName"];
+			articles = [[NSMutableArray alloc] initWithObjects:article, nil];
 		}
 	}
 	

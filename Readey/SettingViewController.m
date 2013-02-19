@@ -116,6 +116,8 @@
 		case ACTIONSHEET_READEY:
 			if (buttonIndex == 0) {
 				[flurryParams setObject:@"Readey" forKey:@"Service"];
+				[[DBSession sharedSession] unlinkAll];
+				[grClient logout];
 				[client logout];
 				[self.navigationController popToRootViewControllerAnimated:YES];
 			}
@@ -157,7 +159,7 @@
 
 	wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
 	if (wpm.length == 0) {
-		wpm = @"250";
+		wpm = @"200";
 		[[NSUserDefaults standardUserDefaults] setObject:wpm forKey:@"wpm"];
 	}
 	

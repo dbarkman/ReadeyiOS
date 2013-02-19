@@ -199,7 +199,6 @@
 						<string key="NSFrame">{{268, 402}, {32, 39}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -625,21 +624,21 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">start:</string>
+						<string key="label">startTapped</string>
 						<reference key="source" ref="525072580"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">875</int>
+					<int key="connectionID">899</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">end</string>
+						<string key="label">endTapped</string>
 						<reference key="source" ref="962091397"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">840</int>
+					<int key="connectionID">897</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -652,12 +651,12 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">nextWord</string>
+						<string key="label">nextWordTapped</string>
 						<reference key="source" ref="400406047"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">842</int>
+					<int key="connectionID">896</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -688,12 +687,12 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">play</string>
+						<string key="label">playTapped</string>
 						<reference key="source" ref="958609308"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">843</int>
+					<int key="connectionID">898</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -2434,7 +2433,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">895</int>
+			<int key="maxID">899</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2451,15 +2450,15 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="back">id</string>
-						<string key="end">id</string>
+						<string key="endTapped">id</string>
 						<string key="faster">id</string>
-						<string key="nextWord">id</string>
-						<string key="pause">id</string>
-						<string key="play">id</string>
+						<string key="nextWordTapped">id</string>
+						<string key="pauseTapped">id</string>
+						<string key="playTapped">id</string>
 						<string key="prevWord">id</string>
 						<string key="slower">id</string>
 						<string key="source">id</string>
-						<string key="start:">id</string>
+						<string key="startTapped">id</string>
 						<string key="switchColor">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -2467,24 +2466,24 @@
 							<string key="name">back</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="end">
-							<string key="name">end</string>
+						<object class="IBActionInfo" key="endTapped">
+							<string key="name">endTapped</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="faster">
 							<string key="name">faster</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="nextWord">
-							<string key="name">nextWord</string>
+						<object class="IBActionInfo" key="nextWordTapped">
+							<string key="name">nextWordTapped</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="pause">
-							<string key="name">pause</string>
+						<object class="IBActionInfo" key="pauseTapped">
+							<string key="name">pauseTapped</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="play">
-							<string key="name">play</string>
+						<object class="IBActionInfo" key="playTapped">
+							<string key="name">playTapped</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="prevWord">
@@ -2499,8 +2498,8 @@
 							<string key="name">source</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="start:">
-							<string key="name">start:</string>
+						<object class="IBActionInfo" key="startTapped">
+							<string key="name">startTapped</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="switchColor">
