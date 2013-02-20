@@ -16,6 +16,8 @@
 	NSString *source;
 	NSString *username;
 	NSString *password;
+	NSString *authToken;
+	NSDate *authTokenDate;
 	KeychainItemWrapper *keychainItem;
 }
 

@@ -97,7 +97,7 @@
 		if ([self login]) {
 			NSArray *articles = [self getMasterArticles];
 			for (NSDictionary *article in articles) {
-				[self createArticle:[article objectForKey:@"articleName"] source:@"masterArticle" content:[article objectForKey:@"content"]];
+				[self createArticle:[article objectForKey:@"articleName"] source:@"article" content:[article objectForKey:@"content"]];
 			}
 			return true;
 		}

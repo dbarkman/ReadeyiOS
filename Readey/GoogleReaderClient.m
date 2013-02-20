@@ -22,6 +22,8 @@
 		keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"GoogleReaderLogin" accessGroup:nil];
 		username = [keychainItem objectForKey:(__bridge id)kSecAttrAccount];
 		password = [keychainItem objectForKey:(__bridge id)kSecValueData];
+		authToken = [keychainItem objectForKey:(__bridge id)kSecAttrComment];
+		authTokenDate = [NSDate dateWithTimeIntervalSince1970:[[keychainItem objectForKey:(__bridge id)kSecAttrService] doubleValue]];
 		
 		//set to true to log events
 		logging = false;
@@ -42,11 +44,13 @@
 	[keychainItem resetKeychainItem];
 	username = @"";
 	password = @"";
+	authToken = @"";
+	authTokenDate = nil;
 }
 
 - (bool)login
 {
-	NSString *authToken = [self getAuthToken];
+	authToken = [self getAuthToken];
 	if (authToken.length > 0) {
 		[self saveLogin];
 		return true;
@@ -69,12 +73,10 @@
 
 - (NSString *)getAuthToken
 {
-	NSString *authToken = @"";
-	
-	NSDate *authTokenDate = [NSDate dateWithTimeIntervalSince1970:[[keychainItem objectForKey:(__bridge id)kSecAttrComment] doubleValue]];
+	authTokenDate = [NSDate dateWithTimeIntervalSince1970:[[keychainItem objectForKey:(__bridge id)kSecAttrService] doubleValue]];
 	NSDate *now = [NSDate dateWithTimeIntervalSince1970:[[NSDate date] timeIntervalSince1970]];
 	if ([now timeIntervalSinceDate:authTokenDate] < 3600) {
-		authToken = [keychainItem objectForKey:(__bridge id)kSecAttrService];
+		authToken = [keychainItem objectForKey:(__bridge id)kSecAttrComment];
 	} else {
 		NSMutableURLRequest *authReq = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.google.com/accounts/ClientLogin"]];
 		[authReq setTimeoutInterval:30.0];
@@ -111,8 +113,8 @@
 				authToken = [[NSString alloc]initWithFormat:@"GoogleLogin auth=%@", authEncoded2];
 				
 				NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
-				[keychainItem setObject:[NSString stringWithFormat:@"%d", (int)timeStamp] forKey:(__bridge id)kSecAttrComment];
-				[keychainItem setObject:authToken forKey:(__bridge id)kSecAttrService];
+				[keychainItem setObject:[NSString stringWithFormat:@"%d", (int)timeStamp] forKey:(__bridge id)kSecAttrService];
+				[keychainItem setObject:authToken forKey:(__bridge id)kSecAttrComment];
 			} else {
 				if (logging) NSLog(@"Authentication Failed");
 				
@@ -174,14 +176,14 @@
 	return authToken;
 }
 
-- (NSMutableArray *)getSubscriptionList:(NSString *)authToken
+- (NSMutableArray *)getSubscriptionList:(NSString *)sentAuthToken
 {
 	NSMutableArray *subscriptionList = [[NSMutableArray alloc] init];
 	NSURL *url = [[NSURL alloc] initWithString:@"https://www.google.com/reader/api/0/subscription/list?output=json"];
 	NSMutableURLRequest *subListReq = [[NSMutableURLRequest alloc] initWithURL:url];
 	[subListReq setTimeoutInterval:30.0];
 	[subListReq setHTTPMethod:@"GET"];
-	[subListReq setValue:authToken forHTTPHeaderField:@"Authorization"];
+	[subListReq setValue:sentAuthToken forHTTPHeaderField:@"Authorization"];
 	
 	NSHTTPURLResponse *subListResponse = nil;
 	NSError *subListError = nil;
@@ -230,14 +232,14 @@
 	return subscriptionList;
 }
 
-- (NSMutableArray *)getSubscriptionFeed:(NSString *)authToken fromFeed:(NSString *)feed
+- (NSMutableArray *)getSubscriptionFeed:(NSString *)sentAuthToken fromFeed:(NSString *)feed
 {
 	NSMutableArray *subscriptionFeed = [[NSMutableArray alloc] init];
 	NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"https://www.google.com/reader/api/0/stream/contents/%@?output=json&n=20", feed]];
 	NSMutableURLRequest *subFeedReq = [[NSMutableURLRequest alloc] initWithURL:url];
 	[subFeedReq setTimeoutInterval:30.0];
 	[subFeedReq setHTTPMethod:@"GET"];
-	[subFeedReq setValue:authToken forHTTPHeaderField:@"Authorization"];
+	[subFeedReq setValue:sentAuthToken forHTTPHeaderField:@"Authorization"];
 	
 	NSHTTPURLResponse *subFeedResponse = nil;
 	NSError *subFeedError = nil;

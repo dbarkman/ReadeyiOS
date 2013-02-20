@@ -19,7 +19,7 @@ UINavigationController *navigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	[Flurry startSession:@"MRYK2MMBXMG4JYTCQQZG"]; //todo update to production
+	[Flurry startSession:@"S3QZ6TQKCP9SWK8D8365"];
 	
 	UIColor *offBlack = [UIColor colorWithRed:31/255.0f green:31/255.0f blue:31/255.0f alpha:1];
 
