@@ -137,6 +137,28 @@
 	
 	switch (buttonIndex) {
 		case 0:
+			switch (alertViewFlag) {
+				case 0:
+					[Flurry logEvent:@"Reenter Info On Create"];
+					break;
+				case 1:
+					[Flurry logEvent:@"Reenter Info On Information Missing"];
+					break;
+				case 2:
+					[Flurry logEvent:@"Reenter Info On Create User Failed"];
+					break;
+				case 3:
+					[Flurry logEvent:@"Cancel Password Reset"];
+					break;
+				case 4:
+					[Flurry logEvent:@"Try Again On Username Invalid"];
+					break;
+				case 5:
+					[Flurry logEvent:@"Try Again On Password Invalid"];
+					break;
+				default:
+					break;
+			}
 			[emailTextField becomeFirstResponder];
 			break;
 		case 1:
@@ -188,6 +210,7 @@
 - (void)alertEmailNotValid
 {
 	[Flurry logEvent:@"Invalid Email"];
+	alertViewFlag = 4;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Email Not Valid"
 													message:@"Please enter a valid email address."
 												   delegate:self
@@ -199,6 +222,7 @@
 - (void)alertPasswordNotValid
 {
 	[Flurry logEvent:@"Invalid Password"];
+	alertViewFlag = 5;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Password Not Valid"
 													message:@"Please enter a valid password. A password can be between 6 and 32 characters and could contain letters, uper and lower case, numbers and the following symbols: ,.!@#$%^&*()_-"
 												   delegate:self
