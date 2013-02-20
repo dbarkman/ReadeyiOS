@@ -76,8 +76,10 @@
 	authTokenDate = [NSDate dateWithTimeIntervalSince1970:[[keychainItem objectForKey:(__bridge id)kSecAttrService] doubleValue]];
 	NSDate *now = [NSDate dateWithTimeIntervalSince1970:[[NSDate date] timeIntervalSince1970]];
 	if ([now timeIntervalSinceDate:authTokenDate] < 3600) {
+		if (logging) NSLog(@"Authtoken Still Valid");
 		authToken = [keychainItem objectForKey:(__bridge id)kSecAttrComment];
 	} else {
+		if (logging) NSLog(@"Retrieving New Authtoken");
 		NSMutableURLRequest *authReq = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.google.com/accounts/ClientLogin"]];
 		[authReq setTimeoutInterval:30.0];
 		[authReq setHTTPMethod:@"POST"];
