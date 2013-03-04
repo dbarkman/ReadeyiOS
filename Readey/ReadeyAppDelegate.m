@@ -12,6 +12,7 @@
 #import "DropboxViewController.h"
 #import "Flurry.h"
 #import <Crashlytics/Crashlytics.h>
+#import "PocketAPI.h"
 
 @implementation ReadeyAppDelegate
 
@@ -27,6 +28,8 @@ UINavigationController *navigationController;
     [DBSession setSharedSession:dbSession];
     
 	[Crashlytics startWithAPIKey:@"a01dfebdcb52c4fba6676ae21ccf86c043992c3c"];
+	
+	[[PocketAPI sharedAPI] setConsumerKey:@"12145-b0e2285878e823da9f6f727a"];
     
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -41,7 +44,8 @@ UINavigationController *navigationController;
     return YES;
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
 	if ([[DBSession sharedSession] handleOpenURL:url]) {
 		NSMutableDictionary *flurryParams = [[NSMutableDictionary alloc] init];
 		if ([[DBSession sharedSession] isLinked]) {
@@ -56,6 +60,15 @@ UINavigationController *navigationController;
 		return YES;
 	}
 	return NO;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([[PocketAPI sharedAPI] handleOpenURL:url]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

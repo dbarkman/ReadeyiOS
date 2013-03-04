@@ -45,6 +45,10 @@
 		63330A2616C445CA002A88FE /* ReadeyArticleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63330A2516C445C9002A88FE /* ReadeyArticleCell.m */; };
 		63330A2816C446E6002A88FE /* ReadeyArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */; };
 		63330A2F16C5BC39002A88FE /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63330A2E16C5BC38002A88FE /* WebViewController.m */; };
+		6383BB6A16E44DE600DE6915 /* PocketAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6216E44DE600DE6915 /* PocketAPI.m */; };
+		6383BB6B16E44DE600DE6915 /* PocketAPILogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6416E44DE600DE6915 /* PocketAPILogin.m */; };
+		6383BB6C16E44DE600DE6915 /* PocketAPIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6616E44DE600DE6915 /* PocketAPIOperation.m */; };
+		6383BB6D16E44DE600DE6915 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6916E44DE600DE6915 /* SFHFKeychainUtils.m */; };
 		638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA0EF16BB363F0005529C /* ArticleAddViewController.m */; };
 		638BA0F216BB363F0005529C /* ArticleAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638BA0F016BB363F0005529C /* ArticleAddViewController.xib */; };
 		638BA12616BE3EAC0005529C /* GoogleReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */; };
@@ -152,6 +156,16 @@
 		63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReadeyArticleCell.xib; sourceTree = "<group>"; };
 		63330A2D16C5BC38002A88FE /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		63330A2E16C5BC38002A88FE /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		6383BB6016E44DE600DE6915 /* PocketAPI+NSOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PocketAPI+NSOperation.h"; sourceTree = "<group>"; };
+		6383BB6116E44DE600DE6915 /* PocketAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketAPI.h; sourceTree = "<group>"; };
+		6383BB6216E44DE600DE6915 /* PocketAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketAPI.m; sourceTree = "<group>"; };
+		6383BB6316E44DE600DE6915 /* PocketAPILogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketAPILogin.h; sourceTree = "<group>"; };
+		6383BB6416E44DE600DE6915 /* PocketAPILogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketAPILogin.m; sourceTree = "<group>"; };
+		6383BB6516E44DE600DE6915 /* PocketAPIOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketAPIOperation.h; sourceTree = "<group>"; };
+		6383BB6616E44DE600DE6915 /* PocketAPIOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketAPIOperation.m; sourceTree = "<group>"; };
+		6383BB6716E44DE600DE6915 /* PocketAPITypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketAPITypes.h; sourceTree = "<group>"; };
+		6383BB6816E44DE600DE6915 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		6383BB6916E44DE600DE6915 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		638BA0EE16BB363F0005529C /* ArticleAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleAddViewController.h; sourceTree = "<group>"; };
 		638BA0EF16BB363F0005529C /* ArticleAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleAddViewController.m; sourceTree = "<group>"; };
 		638BA0F016BB363F0005529C /* ArticleAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleAddViewController.xib; sourceTree = "<group>"; };
@@ -309,6 +323,31 @@
 			);
 			name = Buttons;
 			path = buttons;
+			sourceTree = "<group>";
+		};
+		6383BB5D16E44DD300DE6915 /* GetPocket */ = {
+			isa = PBXGroup;
+			children = (
+				6383BB5F16E44DE600DE6915 /* SDK */,
+			);
+			name = GetPocket;
+			sourceTree = "<group>";
+		};
+		6383BB5F16E44DE600DE6915 /* SDK */ = {
+			isa = PBXGroup;
+			children = (
+				6383BB6016E44DE600DE6915 /* PocketAPI+NSOperation.h */,
+				6383BB6116E44DE600DE6915 /* PocketAPI.h */,
+				6383BB6216E44DE600DE6915 /* PocketAPI.m */,
+				6383BB6316E44DE600DE6915 /* PocketAPILogin.h */,
+				6383BB6416E44DE600DE6915 /* PocketAPILogin.m */,
+				6383BB6516E44DE600DE6915 /* PocketAPIOperation.h */,
+				6383BB6616E44DE600DE6915 /* PocketAPIOperation.m */,
+				6383BB6716E44DE600DE6915 /* PocketAPITypes.h */,
+				6383BB6816E44DE600DE6915 /* SFHFKeychainUtils.h */,
+				6383BB6916E44DE600DE6915 /* SFHFKeychainUtils.m */,
+			);
+			path = SDK;
 			sourceTree = "<group>";
 		};
 		639CA65216D321510052EC91 /* AppIcons */ = {
@@ -526,6 +565,7 @@
 		63D8103416CA8DBC00E43E92 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				6383BB5D16E44DD300DE6915 /* GetPocket */,
 				63D8103516CA8DC200E43E92 /* Wrappers */,
 				639CA63316CEDAB90052EC91 /* Flurry.h */,
 				639CA63516CEDB400052EC91 /* libFlurry.a */,
@@ -724,6 +764,10 @@
 				63330A2F16C5BC39002A88FE /* WebViewController.m in Sources */,
 				63D8102C16C9ABE000E43E92 /* NSString_stripHtml.m in Sources */,
 				63D8108516CBEAB700E43E92 /* DTCustomColoredAccessory.m in Sources */,
+				6383BB6A16E44DE600DE6915 /* PocketAPI.m in Sources */,
+				6383BB6B16E44DE600DE6915 /* PocketAPILogin.m in Sources */,
+				6383BB6C16E44DE600DE6915 /* PocketAPIOperation.m in Sources */,
+				6383BB6D16E44DE600DE6915 /* SFHFKeychainUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
