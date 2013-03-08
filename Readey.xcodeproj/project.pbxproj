@@ -45,10 +45,10 @@
 		63330A2616C445CA002A88FE /* ReadeyArticleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63330A2516C445C9002A88FE /* ReadeyArticleCell.m */; };
 		63330A2816C446E6002A88FE /* ReadeyArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */; };
 		63330A2F16C5BC39002A88FE /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63330A2E16C5BC38002A88FE /* WebViewController.m */; };
-		6383BB6A16E44DE600DE6915 /* PocketAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6216E44DE600DE6915 /* PocketAPI.m */; };
-		6383BB6B16E44DE600DE6915 /* PocketAPILogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6416E44DE600DE6915 /* PocketAPILogin.m */; };
-		6383BB6C16E44DE600DE6915 /* PocketAPIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6616E44DE600DE6915 /* PocketAPIOperation.m */; };
-		6383BB6D16E44DE600DE6915 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6916E44DE600DE6915 /* SFHFKeychainUtils.m */; };
+		6383BB6A16E44DE600DE6915 /* PocketAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6216E44DE600DE6915 /* PocketAPI.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6383BB6B16E44DE600DE6915 /* PocketAPILogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6416E44DE600DE6915 /* PocketAPILogin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6383BB6C16E44DE600DE6915 /* PocketAPIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6616E44DE600DE6915 /* PocketAPIOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6383BB6D16E44DE600DE6915 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6916E44DE600DE6915 /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA0EF16BB363F0005529C /* ArticleAddViewController.m */; };
 		638BA0F216BB363F0005529C /* ArticleAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638BA0F016BB363F0005529C /* ArticleAddViewController.xib */; };
 		638BA12616BE3EAC0005529C /* GoogleReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */; };
