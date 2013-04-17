@@ -7,7 +7,6 @@
 //
 
 #import "PickerViewController.h"
-#import "Flurry.h"
 
 @implementation PickerViewController
 

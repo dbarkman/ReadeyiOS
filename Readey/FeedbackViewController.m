@@ -9,7 +9,6 @@
 #import "FeedbackViewController.h"
 #import "PickerViewController.h"
 #import <QuartzCore/QuartzCore.h>
-#import "Flurry.h"
 
 @implementation FeedbackViewController
 

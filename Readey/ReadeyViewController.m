@@ -9,7 +9,6 @@
 #import "ReadeyViewController.h"
 #import "NSString_stripHtml.h"
 #import "WebViewController.h"
-#import "Flurry.h"
 
 #define CURRENT_WORD_LABEL_TAG 101
 
@@ -32,6 +31,8 @@
 	
 	[Flurry logEvent:@"ReadeyView"];
 	
+	if (sourceEnabled == false) [sourceButton setHidden:YES];
+
 	[self setReaderColor];
 	
 	[currentWord setTag:CURRENT_WORD_LABEL_TAG];
@@ -49,25 +50,25 @@
 	marker = 0;
 	
 	//setup the regex to find and remove easy html
-	NSRegularExpression *regexImageTag = [NSRegularExpression regularExpressionWithPattern:@"<[^>]*>" options:NSRegularExpressionCaseInsensitive error:NULL];
+//	NSRegularExpression *regexImageTag = [NSRegularExpression regularExpressionWithPattern:@"<[^>]*>" options:NSRegularExpressionCaseInsensitive error:NULL];
 	
 	//setup the regex to find short-hyphen hyphenated-words and make them into hyphenated- words
 	NSRegularExpression *regexShortHyphen = [NSRegularExpression regularExpressionWithPattern:@"([a-zA-Z]+-)" options:NSRegularExpressionCaseInsensitive error:NULL];
 	
 	//setup the regex to find long—hyphen hyphenated-words and make them into hyphenated- words
-	NSRegularExpression *regexLongHyphen = [NSRegularExpression regularExpressionWithPattern:@"([a-zA-Z]+—)" options:NSRegularExpressionCaseInsensitive error:NULL];
+	NSRegularExpression *regexSlash = [NSRegularExpression regularExpressionWithPattern:@"([a-zA-Z]+/)" options:NSRegularExpressionCaseInsensitive error:NULL];
 	
 	//apply the above regex for easy html
-	NSString *articlecontent0 = [regexImageTag stringByReplacingMatchesInString:articleContent options:0 range:NSMakeRange(0, [articleContent length]) withTemplate:@""];
+//	NSString *articlecontent0 = [regexImageTag stringByReplacingMatchesInString:articleContent options:0 range:NSMakeRange(0, [articleContent length]) withTemplate:@""];
 	
 	//remove all html content with stripHTML - not sureif this is needed
-	NSString *articleContent1 = [articlecontent0 stripHtml];
+//	NSString *articleContent1 = [articlecontent0 stripHtml];
 	
 	//apply the above regex for short-hyphenated-words
-	NSString *articlecontent2 = [regexShortHyphen stringByReplacingMatchesInString:articleContent1 options:0 range:NSMakeRange(0, [articleContent1 length]) withTemplate:@"$1 "];
+	NSString *articlecontent2 = [regexShortHyphen stringByReplacingMatchesInString:articleContent options:0 range:NSMakeRange(0, [articleContent length]) withTemplate:@"$1 "];
 	
 	//apply the above regex for long-hyphenated-words
-	NSString *articlecontent3 = [regexLongHyphen stringByReplacingMatchesInString:articlecontent2 options:0 range:NSMakeRange(0, [articlecontent2 length]) withTemplate:@"$1 "];
+	NSString *articlecontent3 = [regexSlash stringByReplacingMatchesInString:articlecontent2 options:0 range:NSMakeRange(0, [articlecontent2 length]) withTemplate:@"$1 "];
 	
 	//seperate the results of the above fixes into an array, one word per array entry
 	NSArray *tempArray = [articlecontent3 componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -231,7 +232,7 @@
 - (void)start:(bool)andGo
 {
     [navigateBackButton setHidden:NO];
-	[self changeSource:YES];
+	if (sourceEnabled == true) [sourceButton setHidden:NO];
 	[self changeDarkLight:NO];
 
 	[timer invalidate];
@@ -293,6 +294,8 @@
 		[self start:YES];
 	}
     [navigateBackButton setHidden:YES];
+	[sourceButton setHidden:YES];
+
 	[self resetTimer];
     if (marker == 0) startTime = [NSDate date];
 	[self setToPause];
@@ -310,6 +313,8 @@
 {
 	if ([timer isValid]) {
 		[navigateBackButton setHidden:NO];
+		if (sourceEnabled == true) [sourceButton setHidden:NO];
+		
 		[timer invalidate];
 		[self setToPlay];
 	}
@@ -372,9 +377,8 @@
 		[self updateCounters:NO];
 	}
 	[navigateBackButton setHidden:NO];
-	if (sourceEnabled == true) {
-		[self changeSource:NO];
-	}
+	if (sourceEnabled == true) [sourceButton setHidden:NO];
+
 	[timer invalidate];
 	
 	[progress setProgress:1.0];
@@ -408,7 +412,7 @@
 	NSDictionary *flurryParamsWords = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%d", wordArraySize], @"Words", nil];
 	[Flurry logEvent:@"Words Read" withParameters:flurryParamsWords];
 	
-	[client createReadLogWithSpeed:speed andWords:wordArraySize];
+//	[client createReadLogWithSpeed:speed andWords:wordArraySize];
 }
 
 - (void)resetTimer
@@ -431,13 +435,13 @@
 	[masterButton addTarget:self action:@selector(playTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)changeSource:(bool)hide
-{
-    [sourceButton setHidden:hide];
-	[timeRemaining setHidden:!hide];
-	[words setHidden:!hide];
-	[wpmRate setHidden:!hide];
-}
+//- (void)changeSource:(bool)hide  //shouldn't be needed anymore
+//{
+//    [sourceButton setHidden:hide];
+//	[timeRemaining setHidden:!hide];
+//	[words setHidden:!hide];
+//	[wpmRate setHidden:!hide];
+//}
 
 - (void)changeDarkLight:(bool)hide
 {

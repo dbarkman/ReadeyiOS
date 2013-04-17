@@ -14,8 +14,6 @@
 #import "GoogleReaderViewController.h"
 #import "FeedbackViewController.h"
 #import "SettingViewController.h"
-#import "Flurry.h"
-#import <Crashlytics/Crashlytics.h>
 
 @implementation FoldersViewController
 

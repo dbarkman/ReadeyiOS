@@ -8,7 +8,6 @@
 
 #import "ArticleAddViewController.h"
 #import <QuartzCore/QuartzCore.h>
-#import "Flurry.h"
 
 @implementation ArticleAddViewController
 

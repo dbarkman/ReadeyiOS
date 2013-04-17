@@ -7,7 +7,6 @@
 //
 
 #import "GoogleReaderClient.h"
-#import "Flurry.h"
 
 @implementation GoogleReaderClient
 

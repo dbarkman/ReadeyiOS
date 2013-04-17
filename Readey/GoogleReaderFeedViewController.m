@@ -8,10 +8,6 @@
 
 #import "GoogleReaderFeedViewController.h"
 #import "ReadeyViewController.h"
-#import "Flurry.h"
-
-#define FONT_SIZE 16.0f
-#define CELL_CONTENT_MARGIN 20.0f
 
 @implementation GoogleReaderFeedViewController
 
@@ -94,10 +90,10 @@
 	if (title.length == 0) title = @"(title unknown)";
 	
 	CGSize frameSize = self.view.frame.size;
-	CGSize constraint = CGSizeMake(frameSize.width - 20 - (CELL_CONTENT_MARGIN * 2), 20000.0f);
-	CGSize size = [title sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
+	CGSize constraint = CGSizeMake(frameSize.width - 20 - (kCellContentMargin20 * 2), 20000.0f);
+	CGSize size = [title sizeWithFont:[UIFont systemFontOfSize:kFontSize16] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
 	
-	return size.height + (CELL_CONTENT_MARGIN * 2);
+	return size.height + (kCellContentMargin20 * 2);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -107,7 +103,7 @@
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
 		[[cell textLabel] setLineBreakMode:NSLineBreakByWordWrapping];
 		[[cell textLabel] setNumberOfLines:0];
-		[[cell textLabel] setFont:[UIFont systemFontOfSize:FONT_SIZE]];
+		[[cell textLabel] setFont:[UIFont systemFontOfSize:kFontSize16]];
 	}
 
 	NSDictionary *article = [articles objectAtIndex:[indexPath row]];

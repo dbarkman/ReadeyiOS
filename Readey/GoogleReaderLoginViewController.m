@@ -7,7 +7,6 @@
 //
 
 #import "GoogleReaderLoginViewController.h"
-#import "Flurry.h"
 
 @implementation GoogleReaderLoginViewController
 

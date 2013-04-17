@@ -8,9 +8,6 @@
 
 #import "DropboxViewController.h"
 #import "ReadeyViewController.h"
-#import "Flurry.h"
-
-#define FONT_SIZE 16.0f
 
 @implementation DropboxViewController
 
@@ -122,7 +119,7 @@
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"UITableViewCell"];
 		[[cell textLabel] setLineBreakMode:NSLineBreakByTruncatingTail];
-		[[cell textLabel] setFont:[UIFont systemFontOfSize:FONT_SIZE]];
+		[[cell textLabel] setFont:[UIFont systemFontOfSize:kFontSize16]];
 	}
 	
 	NSDictionary *article = [files objectAtIndex:[indexPath row]];

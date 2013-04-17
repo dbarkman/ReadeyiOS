@@ -9,10 +9,6 @@
 #import "SettingViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "FeedbackViewController.h"
-#import "Flurry.h"
-
-#define FONT_SIZE 16.0f
-#define CELL_CONTENT_MARGIN 20.0f
 
 #define ACTIONSHEET_READEY 0
 #define ACTIONSHEET_DROPBOX 1

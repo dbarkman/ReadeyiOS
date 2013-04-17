@@ -7,12 +7,11 @@
 //
 
 #import "ReadeyAppDelegate.h"
-#import "FoldersViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "DropboxViewController.h"
-#import "Flurry.h"
 #import <Crashlytics/Crashlytics.h>
 #import "PocketAPI.h"
+#import <RestKit/RestKit.h>
 
 @implementation ReadeyAppDelegate
 
@@ -20,26 +19,14 @@ UINavigationController *navigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	[Flurry startSession:@"S3QZ6TQKCP9SWK8D8365"];
+	[Flurry startSession:kFlurryAPIKey];
 	
-	UIColor *offBlack = [UIColor colorWithRed:31/255.0f green:31/255.0f blue:31/255.0f alpha:1];
-
-    DBSession* dbSession = [[DBSession alloc] initWithAppKey:@"py9e1yuyy55owpb" appSecret:@"ai5j37a4ss5wz1g" root:kDBRootAppFolder];
+    DBSession* dbSession = [[DBSession alloc] initWithAppKey:kDropboxAppKey appSecret:kDropboxAppSecret root:kDBRootAppFolder];
     [DBSession setSharedSession:dbSession];
     
-	[Crashlytics startWithAPIKey:@"a01dfebdcb52c4fba6676ae21ccf86c043992c3c"];
+	[Crashlytics startWithAPIKey:kCrashlyticsAPIKey];
 	
-	[[PocketAPI sharedAPI] setConsumerKey:@"12145-b0e2285878e823da9f6f727a"];
-    
-	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    FoldersViewController *foldersViewController = [[FoldersViewController alloc] init];
-            
-    navigationController = [[UINavigationController alloc] initWithRootViewController:foldersViewController];
-    [navigationController.navigationBar setTintColor:offBlack];
-            
-    [[self window] setRootViewController:navigationController];
-    [self.window makeKeyAndVisible];
+	[[PocketAPI sharedAPI] setConsumerKey:kPocketAPIKey];
 
     return YES;
 }
