@@ -14,14 +14,6 @@
 
 @synthesize client;
 
-- (void)setClient:(Client *)c {
-    client = c;
-}
-
-- (Client *)client {
-    return client;
-}
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,6 +26,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+	UIToolbar *toolBar = [[UIToolbar alloc] init];
+	
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+		[toolBar setFrame:CGRectMake(0, 0, self.view.frame.size.height, 32)];
+    }
+	if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+		[toolBar setFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+	}
+	
+	toolBar.barStyle = UIBarStyleDefault;
+	[toolBar sizeToFit];
+	UIBarButtonItem *menu = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleBordered target:self action:@selector(menuTapped)];
+	NSArray *items = [NSArray arrayWithObjects:menu, nil];
+	[toolBar setItems:items];
+	[self.view addSubview:toolBar];
+	
+	[toolBar setTintColor:kOffBlackColor];
 
 	UIView *emptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
 	
@@ -61,6 +71,11 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self subscribeToKeyboardEvents:NO];
+}
+
+- (IBAction)menuTapped
+{
+	[[self viewDeckController] toggleLeftViewAnimated:YES];
 }
 
 - (IBAction)submit

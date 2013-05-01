@@ -17,8 +17,6 @@
 
 @interface ReadeyAPIClient : NSObject
 {
-	__weak id <ReadeyClientDelegate> delegate;
-	
 	bool logging;
 	KeychainItemWrapper *keychainItem;
 	NSString *uuid;

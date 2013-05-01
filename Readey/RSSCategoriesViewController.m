@@ -16,13 +16,19 @@
 {
     [super viewDidLoad];
 	
-	client = [[ReadeyAPIClient alloc] init];
+//	ReadeyAppDelegate *appDelegate = (ReadeyAppDelegate *)[[UIApplication sharedApplication] delegate];
+	client = [kAppDelegate readeyAPIClient];
 	client.delegate = self;
 	
 	[SVProgressHUD showWithStatus:@"Fetching Categories"];
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		[client getCategories];
 	});
+
+	UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleBordered target:self action:@selector(menuTapped)];
+	[[self navigationItem] setLeftBarButtonItem:menuButton];
+	UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settingsTapped)];
+	[[self navigationItem] setRightBarButtonItem:settingsButton];
 }
 
 - (void)requestReturned:(NSArray *)request
@@ -37,6 +43,16 @@
 	[super viewDidAppear:animated];
 	
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
+- (IBAction)menuTapped
+{
+	[[self viewDeckController] toggleLeftViewAnimated:YES];
+}
+
+- (IBAction)settingsTapped
+{
+	[[self viewDeckController] toggleRightViewAnimated:YES];
 }
 
 #pragma mark - Table view data source

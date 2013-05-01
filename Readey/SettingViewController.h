@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "PickerViewController.h"
 #import "Client.h"
-#import "GoogleReaderClient.h"
 
 @interface SettingViewController : UITableViewController <PickerViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 {
@@ -17,6 +16,5 @@
 }
 
 @property (nonatomic, strong) Client *client;
-@property (nonatomic, strong) GoogleReaderClient *grClient;
 
 @end

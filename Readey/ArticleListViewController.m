@@ -46,6 +46,9 @@
 	[article setObject:@"Loading..." forKey:@"articleName"];
 	articles = [[NSMutableArray alloc] initWithObjects:article, nil];
 	
+	UIBarButtonItem *menu = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleBordered target:self action:@selector(menuTapped)];
+	[[self navigationItem] setLeftBarButtonItem:menu];
+
 	UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addClicked)];
 	[add setStyle:UIBarButtonItemStyleBordered];
 	[[self navigationItem] setRightBarButtonItem:add];
@@ -94,6 +97,11 @@
 		[[self refreshControl] endRefreshing];
 		[Flurry logEvent:@"Articles Refreshed"];
 	}
+}
+
+- (IBAction)menuTapped
+{
+	[[self viewDeckController] toggleLeftViewAnimated:YES];
 }
 
 - (IBAction)addClicked

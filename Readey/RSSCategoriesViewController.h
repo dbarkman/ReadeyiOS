@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ReadeyAPIClient.h"
 
 @interface RSSCategoriesViewController : UITableViewController <ReadeyClientDelegate>
 {

@@ -32,18 +32,18 @@
 	}
 }
 
-- (void)requestReturned:(NSArray *)request
-{
-	rssItems = [client rssItems];
-	[self.tableView reloadData];
-	[SVProgressHUD dismiss];
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
 	
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
+- (void)requestReturned:(NSArray *)request
+{
+	rssItems = [client rssItems];
+	[self.tableView reloadData];
+	[SVProgressHUD dismiss];
 }
 
 #pragma mark - Table view data source
@@ -57,7 +57,6 @@
 {
 	RSSItem *rssItem = [rssItems objectAtIndex:[indexPath row]];
 	NSString *title = rssItem.title;
-	NSLog(@"Title: %@", title);
 
 	CGSize frameSize = self.view.frame.size;
 	CGSize constraint = CGSizeMake(frameSize.width - 50, 20000.0f);

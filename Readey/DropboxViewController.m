@@ -13,14 +13,6 @@
 
 @synthesize client;
 
-- (void)setClient:(Client *)c {
-    client = c;
-}
-
-- (Client *)client {
-    return client;
-}
-
 - (id)init
 {
 	self = [super initWithStyle:UITableViewStylePlain];
@@ -49,10 +41,27 @@
 {
     [super viewDidLoad];
 	
+	UIToolbar *toolBar = [[UIToolbar alloc] init];
+	
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+		[toolBar setFrame:CGRectMake(0, 0, self.view.frame.size.height, 32)];
+    }
+	if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+		[toolBar setFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+	}
+	
+	toolBar.barStyle = UIBarStyleDefault;
+	[toolBar sizeToFit];
+	UIBarButtonItem *menu = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleBordered target:self action:@selector(menuTapped)];
+	UIBarButtonItem *flexiableSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
 	UIBarButtonItem *refresh = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshClicked)];
 	[refresh setStyle:UIBarButtonItemStyleBordered];
-	[[self navigationItem] setRightBarButtonItem:refresh];
 
+	NSArray *items = [NSArray arrayWithObjects:menu, flexiableSpace, refresh, nil];
+	[toolBar setItems:items];
+	[self.view addSubview:toolBar];
+	[toolBar setTintColor:kOffBlackColor];
+	
     [[self restClient] loadMetadata:@"/"];
 	
 	NSMutableDictionary *article = [[NSMutableDictionary alloc] init];
@@ -65,6 +74,11 @@
 	[super viewDidAppear:animated];
 	
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
+- (IBAction)menuTapped
+{
+	[[self viewDeckController] toggleLeftViewAnimated:YES];
 }
 
 - (IBAction)refreshClicked

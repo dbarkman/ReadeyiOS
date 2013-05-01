@@ -10,13 +10,11 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "FeedbackViewController.h"
 
-#define ACTIONSHEET_READEY 0
-#define ACTIONSHEET_DROPBOX 1
-#define ACTIONSHEET_GOOGLE_READER 2
+#define ACTIONSHEET_DROPBOX 0
 
 @implementation SettingViewController
 
-@synthesize client, grClient;
+@synthesize client;
 
 - (void)setClient:(Client *)c {
     client = c;
@@ -26,30 +24,23 @@
     return client;
 }
 
-- (id)init
-{
-	self = [super initWithStyle:UITableViewStyleGrouped];
-    if (self) {
-		[[self navigationItem] setBackBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil]];
-		
-		[Flurry logEvent:@"SettingView"];
-	}
-    return self;
-}
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-	return [self init];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-	[[self navigationItem] setTitle:@"Settings"];
-	
+	[Flurry logEvent:@"SettingView"];
+
+	float rightSize = self.viewDeckController.rightSize;
+	float width = self.navigationController.view.frame.size.width;
+	float height = self.view.frame.size.height;
+	NSLog(@"Right Size: %f - Width: %f - Height: %f", rightSize, width, height);
+	self.navigationController.view.frame = (CGRect){rightSize, 0.0f, (width - rightSize), height};
+
 	[[self tableView] setBackgroundView:nil];
 	[[self tableView] setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
+	
+	UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleBordered target:self action:@selector(closeTapped)];
+	[[self navigationItem] setLeftBarButtonItem:closeButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -57,6 +48,11 @@
 	[super viewDidAppear:animated];
 	
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
+- (IBAction)closeTapped
+{
+	[[self viewDeckController] closeRightViewAnimated:YES];
 }
 
 - (void)valueSelected:(NSString *)value
@@ -71,25 +67,11 @@
 -(IBAction)showActionSheet:(int)actionsheet {
 	UIActionSheet *unlinkDropbox = [[UIActionSheet alloc] initWithTitle:@"Unlink Dropbox?" delegate:self cancelButtonTitle:@"No" destructiveButtonTitle:@"Yes" otherButtonTitles:nil];
 	
-	UIActionSheet *logoutGoogleReader = [[UIActionSheet alloc] initWithTitle:@"Logout of Google Reader?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Logout" otherButtonTitles:nil];
-	
-	UIActionSheet *logoutReadey = [[UIActionSheet alloc] initWithTitle:@"Logout of Readey?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Logout" otherButtonTitles:nil];
-	
 	switch (actionsheet) {
 		case ACTIONSHEET_DROPBOX:
 			[unlinkDropbox setTag:ACTIONSHEET_DROPBOX];
 			[unlinkDropbox setActionSheetStyle:UIActionSheetStyleBlackOpaque];
 			[unlinkDropbox showInView:self.view];
-			break;
-		case ACTIONSHEET_GOOGLE_READER:
-			[logoutGoogleReader setTag:ACTIONSHEET_GOOGLE_READER];
-			[logoutGoogleReader setActionSheetStyle:UIActionSheetStyleBlackOpaque];
-			[logoutGoogleReader showInView:self.view];
-			break;
-		case ACTIONSHEET_READEY:
-			[logoutReadey setTag:ACTIONSHEET_READEY];
-			[logoutReadey setActionSheetStyle:UIActionSheetStyleBlackOpaque];
-			[logoutReadey showInView:self.view];
 			break;
 	}
 }
@@ -103,21 +85,6 @@
 				[[DBSession sharedSession] unlinkAll];
 			}
 			break;
-		case ACTIONSHEET_GOOGLE_READER:
-			if (buttonIndex == 0) {
-				[flurryParams setObject:@"Google Reader" forKey:@"Service"];
-				[grClient logout];
-			}
-			break;
-		case ACTIONSHEET_READEY:
-			if (buttonIndex == 0) {
-				[flurryParams setObject:@"Readey" forKey:@"Service"];
-				[[DBSession sharedSession] unlinkAll];
-				[grClient logout];
-				[client logout];
-				[self.navigationController popToRootViewControllerAnimated:YES];
-			}
-			break;
 	}
 	[Flurry logEvent:@"Logged Out Of Service" withParameters:flurryParams];
 }
@@ -126,7 +93,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -136,9 +103,6 @@
 			return 1;
 			break;
 		case 1:
-			return 3;
-			break;
-		case 2:
 			return 1;
 			break;
 	}
@@ -151,7 +115,6 @@
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"UITableViewCell"];
 	}
-	[cell setSelectionStyle:UITableViewCellSelectionStyleGray];
 
 	wpm = [[NSUserDefaults standardUserDefaults] objectForKey:@"wpm"];
 	if (wpm.length == 0) {
@@ -165,8 +128,8 @@
 		case 0:
 			switch ([indexPath row]) {
 				case 0:
-					[[cell textLabel] setText:@"Words per Minute"];
-					[[cell detailTextLabel] setText:wpm];
+					[[cell textLabel] setText:[NSString stringWithFormat:@"Words per Minute: %@", wpm]];
+//					[[cell detailTextLabel] setText:wpm];
 					[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 					break;
 			}
@@ -175,20 +138,6 @@
 			switch ([indexPath row]) {
 				case 0:
 					[[cell textLabel] setText:@"Unlink Dropbox"];
-					break;
-				case 1:
-					[[cell textLabel] setText:@"Logout of Google Reader"];
-					break;
-				case 2:
-					[[cell textLabel] setText:@"Logout of Readey"];
-					break;
-			}
-			break;
-		case 2:
-			switch ([indexPath row]) {
-				case 0:
-					[[cell textLabel] setText:@"Send Feedback or Report Bugs"];
-					[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 					break;
 			}
 			break;
@@ -226,20 +175,6 @@
 	}
 	if (section == 1 && row == 0) {
 		[self showActionSheet:ACTIONSHEET_DROPBOX];
-	}
-	if (section == 1 && row == 1) {
-		[self showActionSheet:ACTIONSHEET_GOOGLE_READER];
-	}
-	if (section == 1 && row == 2) {
-		[self showActionSheet:ACTIONSHEET_READEY];
-	}
-	if (section == 2 && row == 0) {
-		NSDictionary *feedbackPickedFrom = [NSDictionary dictionaryWithObjectsAndKeys:@"Settings", @"From", nil];
-		[Flurry logEvent:@"Feedback Picked From" withParameters:feedbackPickedFrom];
-
-		FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
-		[feedbackViewController setClient:client];
-		[[self navigationController] pushViewController:feedbackViewController animated:YES];
 	}
 }
 

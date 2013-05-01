@@ -54,11 +54,16 @@
 		63330A2616C445CA002A88FE /* ReadeyArticleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63330A2516C445C9002A88FE /* ReadeyArticleCell.m */; };
 		63330A2816C446E6002A88FE /* ReadeyArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */; };
 		63330A2F16C5BC39002A88FE /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63330A2E16C5BC38002A88FE /* WebViewController.m */; };
+		63466AD4171FD2B2000CC838 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63466AD3171FD2B2000CC838 /* IIViewDeckController.m */; };
+		63466ADD1720B1B9000CC838 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63466ADC1720B1B9000CC838 /* InitialViewController.m */; };
+		63466AE01720B258000CC838 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63466ADF1720B258000CC838 /* IIWrapController.m */; };
 		63766EC4170FD7A500CA639B /* Readey.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63766EC3170FD7A500CA639B /* Readey.storyboard */; };
 		63766EC9170FF23400CA639B /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63766EC6170FF23400CA639B /* SVProgressHUD.bundle */; };
 		63766ECA170FF23400CA639B /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 63766EC8170FF23400CA639B /* SVProgressHUD.m */; };
 		63766ECD170FF72000CA639B /* RSSItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63766ECC170FF72000CA639B /* RSSItemCell.m */; };
 		63766ED0171762BD00CA639B /* ReadeyAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 63766ECF171762BD00CA639B /* ReadeyAPIClient.m */; };
+		6376A44817316E9A00F28054 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 6376A44617316E9A00F28054 /* share.png */; };
+		6376A44917316E9A00F28054 /* share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6376A44717316E9A00F28054 /* share@2x.png */; };
 		6383BB6A16E44DE600DE6915 /* PocketAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6216E44DE600DE6915 /* PocketAPI.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6383BB6B16E44DE600DE6915 /* PocketAPILogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6416E44DE600DE6915 /* PocketAPILogin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		6383BB6C16E44DE600DE6915 /* PocketAPIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6616E44DE600DE6915 /* PocketAPIOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -222,6 +227,12 @@
 		63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReadeyArticleCell.xib; sourceTree = "<group>"; };
 		63330A2D16C5BC38002A88FE /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		63330A2E16C5BC38002A88FE /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		63466AD2171FD2B2000CC838 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
+		63466AD3171FD2B2000CC838 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
+		63466ADB1720B1B9000CC838 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialViewController.h; sourceTree = "<group>"; };
+		63466ADC1720B1B9000CC838 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialViewController.m; sourceTree = "<group>"; };
+		63466ADE1720B258000CC838 /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
+		63466ADF1720B258000CC838 /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
 		63766EC3170FD7A500CA639B /* Readey.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Readey.storyboard; sourceTree = SOURCE_ROOT; };
 		63766EC6170FF23400CA639B /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		63766EC7170FF23400CA639B /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
@@ -231,6 +242,8 @@
 		63766ECE171762BD00CA639B /* ReadeyAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadeyAPIClient.h; sourceTree = "<group>"; };
 		63766ECF171762BD00CA639B /* ReadeyAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadeyAPIClient.m; sourceTree = "<group>"; };
 		63766ED1171BC39700CA639B /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		6376A44617316E9A00F28054 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
+		6376A44717316E9A00F28054 /* share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share@2x.png"; sourceTree = "<group>"; };
 		6383BB6016E44DE600DE6915 /* PocketAPI+NSOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PocketAPI+NSOperation.h"; sourceTree = "<group>"; };
 		6383BB6116E44DE600DE6915 /* PocketAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketAPI.h; sourceTree = "<group>"; };
 		6383BB6216E44DE600DE6915 /* PocketAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketAPI.m; sourceTree = "<group>"; };
@@ -426,6 +439,17 @@
 			path = buttons;
 			sourceTree = "<group>";
 		};
+		63466ACE171FD27C000CC838 /* ViewDeck */ = {
+			isa = PBXGroup;
+			children = (
+				63466AD2171FD2B2000CC838 /* IIViewDeckController.h */,
+				63466AD3171FD2B2000CC838 /* IIViewDeckController.m */,
+				63466ADE1720B258000CC838 /* IIWrapController.h */,
+				63466ADF1720B258000CC838 /* IIWrapController.m */,
+			);
+			name = ViewDeck;
+			sourceTree = "<group>";
+		};
 		63766EC5170FF23400CA639B /* SVProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -434,6 +458,15 @@
 				63766EC8170FF23400CA639B /* SVProgressHUD.m */,
 			);
 			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		6376A44217316E1300F28054 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				6376A44617316E9A00F28054 /* share.png */,
+				6376A44717316E9A00F28054 /* share@2x.png */,
+			);
+			name = Icons;
 			sourceTree = "<group>";
 		};
 		6383BB5D16E44DD300DE6915 /* GetPocket */ = {
@@ -532,6 +565,8 @@
 				63A2ED35169C8DCD0071D549 /* ReadeyAppDelegate.m */,
 				63065CF6170CF3AC004D3237 /* MappingProvider.h */,
 				63065CF7170CF3AC004D3237 /* MappingProvider.m */,
+				63466ADB1720B1B9000CC838 /* InitialViewController.h */,
+				63466ADC1720B1B9000CC838 /* InitialViewController.m */,
 				63D8103116CA8D6F00E43E92 /* Clients */,
 				63065CF21706A511004D3237 /* Objects */,
 				63D8103316CA8DAE00E43E92 /* Tables */,
@@ -539,6 +574,7 @@
 				63D8103616CA8E4E00E43E92 /* CustomCells */,
 				63D8103416CA8DBC00E43E92 /* Vendor */,
 				633309EB16C22299002A88FE /* Buttons */,
+				6376A44217316E1300F28054 /* Icons */,
 				63A2EDBC16A529610071D549 /* NavBarIcons */,
 				639CA65216D321510052EC91 /* AppIcons */,
 				639CA65316D3215B0052EC91 /* LaunchImages */,
@@ -691,6 +727,7 @@
 		63D8103416CA8DBC00E43E92 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				63466ACE171FD27C000CC838 /* ViewDeck */,
 				63766EC5170FF23400CA639B /* SVProgressHUD */,
 				6383BB5D16E44DD300DE6915 /* GetPocket */,
 				63D8103516CA8DC200E43E92 /* Wrappers */,
@@ -867,6 +904,8 @@
 				639CA65116D218DC0052EC91 /* Default-Landscape@2x~ipad.png in Resources */,
 				63766EC4170FD7A500CA639B /* Readey.storyboard in Resources */,
 				63766EC9170FF23400CA639B /* SVProgressHUD.bundle in Resources */,
+				6376A44817316E9A00F28054 /* share.png in Resources */,
+				6376A44917316E9A00F28054 /* share@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -945,6 +984,9 @@
 				63766ECA170FF23400CA639B /* SVProgressHUD.m in Sources */,
 				63766ECD170FF72000CA639B /* RSSItemCell.m in Sources */,
 				63766ED0171762BD00CA639B /* ReadeyAPIClient.m in Sources */,
+				63466AD4171FD2B2000CC838 /* IIViewDeckController.m in Sources */,
+				63466ADD1720B1B9000CC838 /* InitialViewController.m in Sources */,
+				63466AE01720B258000CC838 /* IIWrapController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

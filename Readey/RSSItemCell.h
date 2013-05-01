@@ -15,4 +15,6 @@
 @property (nonatomic, strong) IBOutlet UILabel *date;
 @property (nonatomic, strong) IBOutlet UILabel *timeToRead;
 
+- (IBAction)share;
+
 @end

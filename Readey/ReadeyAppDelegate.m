@@ -15,12 +15,16 @@
 
 @implementation ReadeyAppDelegate
 
+@synthesize readeyAPIClient;
+
 UINavigationController *navigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	[Flurry startSession:kFlurryAPIKey];
 	
+	readeyAPIClient = [[ReadeyAPIClient alloc] init];
+
     DBSession* dbSession = [[DBSession alloc] initWithAppKey:kDropboxAppKey appSecret:kDropboxAppSecret root:kDBRootAppFolder];
     [DBSession setSharedSession:dbSession];
     
@@ -31,15 +35,49 @@ UINavigationController *navigationController;
     return YES;
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+//{
+//	if ([[DBSession sharedSession] handleOpenURL:url]) {
+//		NSMutableDictionary *flurryParams = [[NSMutableDictionary alloc] init];
+//		if ([[DBSession sharedSession] isLinked]) {
+//			[flurryParams setObject:@"yes" forKey:@"Authed"];
+//			DropboxViewController *dropboxViewController = [[DropboxViewController alloc] init];
+//			[dropboxViewController setTitle:@"Dropbox"];
+//			[navigationController pushViewController:dropboxViewController animated:YES];
+//		} else {
+//			[flurryParams setObject:@"no" forKey:@"Authed"];
+//		}
+//		[Flurry logEvent:@"Dropbox Authed" withParameters:flurryParams];
+//		return YES;
+//	}
+//	return NO;
+//}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-	if ([[DBSession sharedSession] handleOpenURL:url]) {
+    if ([[PocketAPI sharedAPI] handleOpenURL:url]) {
+        return YES;
+
+    } else if ([[DBSession sharedSession] handleOpenURL:url]) {
 		NSMutableDictionary *flurryParams = [[NSMutableDictionary alloc] init];
+
+		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Readey" bundle:nil];
+		UIViewController *leftViewController = [storyboard instantiateViewControllerWithIdentifier:@"leftViewController"];
+		UIViewController *rightViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightViewController"];
+		
 		if ([[DBSession sharedSession] isLinked]) {
 			[flurryParams setObject:@"yes" forKey:@"Authed"];
 			DropboxViewController *dropboxViewController = [[DropboxViewController alloc] init];
 			[dropboxViewController setTitle:@"Dropbox"];
-			[navigationController pushViewController:dropboxViewController animated:YES];
+
+			IIViewDeckController *deckController = [[IIViewDeckController alloc]
+													initWithCenterViewController:dropboxViewController
+													leftViewController:leftViewController
+													rightViewController:rightViewController];
+//			[deckController closeLeftViewBouncing:nil];
+			[[self window] setRootViewController:deckController];			
+			
+//			[navigationController pushViewController:dropboxViewController animated:YES];
 		} else {
 			[flurryParams setObject:@"no" forKey:@"Authed"];
 		}
@@ -47,15 +85,6 @@ UINavigationController *navigationController;
 		return YES;
 	}
 	return NO;
-}
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    if ([[PocketAPI sharedAPI] handleOpenURL:url]) {
-        return YES;
-    } else {
-        return NO;
-    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
