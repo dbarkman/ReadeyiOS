@@ -32,7 +32,6 @@
 		630B018F17336D08002FF96C /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B018E17336D08002FF96C /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		630B019117336D25002FF96C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B019017336D25002FF96C /* libsqlite3.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
 		630B019317336D49002FF96C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B019217336D49002FF96C /* StoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		630B019617336DFE002FF96C /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 630B019417336DFE002FF96C /* GTMOAuth2ViewTouch.xib */; };
 		633309D516C0CCC3002A88FE /* GoogleReaderClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309D416C0CCC3002A88FE /* GoogleReaderClient.m */; };
 		633309D916C17F68002A88FE /* GoogleReaderFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309D816C17F68002A88FE /* GoogleReaderFeedViewController.m */; };
 		633309E216C18CDA002A88FE /* GoogleReaderLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309E016C18CD9002A88FE /* GoogleReaderLoginViewController.m */; };
@@ -216,7 +215,6 @@
 		630B018E17336D08002FF96C /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		630B019017336D25002FF96C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		630B019217336D49002FF96C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		630B019417336DFE002FF96C /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; lastKnownFileType = file; name = GTMOAuth2ViewTouch.xib; path = "Submodules/google-api-objectivec/Source/OAuth2/Touch/GTMOAuth2ViewTouch.xib"; sourceTree = "<group>"; };
 		633309D316C0CCC3002A88FE /* GoogleReaderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderClient.h; sourceTree = "<group>"; };
 		633309D416C0CCC3002A88FE /* GoogleReaderClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderClient.m; sourceTree = "<group>"; };
 		633309D716C17F68002A88FE /* GoogleReaderFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderFeedViewController.h; sourceTree = "<group>"; };
@@ -447,15 +445,6 @@
 			name = Objects;
 			sourceTree = "<group>";
 		};
-		630B019517336DFE002FF96C /* Resources - ShareKit Library */ = {
-			isa = PBXGroup;
-			children = (
-				630B019417336DFE002FF96C /* GTMOAuth2ViewTouch.xib */,
-			);
-			name = "Resources - ShareKit Library";
-			path = "../../../../../Downloads/ShareKit-master";
-			sourceTree = "<group>";
-		};
 		633309EB16C22299002A88FE /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
@@ -647,7 +636,6 @@
 				63A2EDBC16A529610071D549 /* NavBarIcons */,
 				639CA65216D321510052EC91 /* AppIcons */,
 				639CA65316D3215B0052EC91 /* LaunchImages */,
-				630B019517336DFE002FF96C /* Resources - ShareKit Library */,
 			);
 			path = Readey;
 			sourceTree = "<group>";
@@ -983,7 +971,6 @@
 				630B00F417335797002FF96C /* Facebook@2x.png in Resources */,
 				630B00F517335797002FF96C /* Twitter.png in Resources */,
 				630B00F617335797002FF96C /* Twitter@2x.png in Resources */,
-				630B019617336DFE002FF96C /* GTMOAuth2ViewTouch.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
