@@ -16,6 +16,23 @@
 		63065CF8170CF3AC004D3237 /* MappingProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 63065CF7170CF3AC004D3237 /* MappingProvider.m */; };
 		63065CFB170D2D3E004D3237 /* RSSItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 63065CFA170D2D3E004D3237 /* RSSItem.m */; };
 		63065CFE170D4A86004D3237 /* RSSItemsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63065CFD170D4A86004D3237 /* RSSItemsViewController.m */; };
+		630B00EA173355E4002FF96C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B00E9173355E4002FF96C /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		630B00F117335797002FF96C /* Email.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B00EB17335797002FF96C /* Email.png */; };
+		630B00F217335797002FF96C /* Email@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B00EC17335797002FF96C /* Email@2x.png */; };
+		630B00F317335797002FF96C /* Facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B00ED17335797002FF96C /* Facebook.png */; };
+		630B00F417335797002FF96C /* Facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B00EE17335797002FF96C /* Facebook@2x.png */; };
+		630B00F517335797002FF96C /* Twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B00EF17335797002FF96C /* Twitter.png */; };
+		630B00F617335797002FF96C /* Twitter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B00F017335797002FF96C /* Twitter@2x.png */; };
+		630B018317336C7C002FF96C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B00E71733532B002FF96C /* MessageUI.framework */; };
+		630B018517336C9F002FF96C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B018417336C9F002FF96C /* CoreMedia.framework */; };
+		630B018717336CAE002FF96C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B018617336CAE002FF96C /* AVFoundation.framework */; };
+		630B018917336CC0002FF96C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B018817336CC0002FF96C /* CoreLocation.framework */; };
+		630B018B17336CCE002FF96C /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B018A17336CCE002FF96C /* Twitter.framework */; };
+		630B018D17336CF6002FF96C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B018C17336CF6002FF96C /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		630B018F17336D08002FF96C /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B018E17336D08002FF96C /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		630B019117336D25002FF96C /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B019017336D25002FF96C /* libsqlite3.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
+		630B019317336D49002FF96C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B019217336D49002FF96C /* StoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		630B019617336DFE002FF96C /* GTMOAuth2ViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 630B019417336DFE002FF96C /* GTMOAuth2ViewTouch.xib */; };
 		633309D516C0CCC3002A88FE /* GoogleReaderClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309D416C0CCC3002A88FE /* GoogleReaderClient.m */; };
 		633309D916C17F68002A88FE /* GoogleReaderFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309D816C17F68002A88FE /* GoogleReaderFeedViewController.m */; };
 		633309E216C18CDA002A88FE /* GoogleReaderLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309E016C18CD9002A88FE /* GoogleReaderLoginViewController.m */; };
@@ -183,6 +200,23 @@
 		63065CFA170D2D3E004D3237 /* RSSItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSItem.m; sourceTree = "<group>"; };
 		63065CFC170D4A86004D3237 /* RSSItemsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSItemsViewController.h; sourceTree = "<group>"; };
 		63065CFD170D4A86004D3237 /* RSSItemsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSItemsViewController.m; sourceTree = "<group>"; };
+		630B00E71733532B002FF96C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		630B00E9173355E4002FF96C /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		630B00EB17335797002FF96C /* Email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Email.png; sourceTree = "<group>"; };
+		630B00EC17335797002FF96C /* Email@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Email@2x.png"; sourceTree = "<group>"; };
+		630B00ED17335797002FF96C /* Facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Facebook.png; sourceTree = "<group>"; };
+		630B00EE17335797002FF96C /* Facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Facebook@2x.png"; sourceTree = "<group>"; };
+		630B00EF17335797002FF96C /* Twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Twitter.png; sourceTree = "<group>"; };
+		630B00F017335797002FF96C /* Twitter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Twitter@2x.png"; sourceTree = "<group>"; };
+		630B018417336C9F002FF96C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		630B018617336CAE002FF96C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		630B018817336CC0002FF96C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		630B018A17336CCE002FF96C /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		630B018C17336CF6002FF96C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		630B018E17336D08002FF96C /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		630B019017336D25002FF96C /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		630B019217336D49002FF96C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		630B019417336DFE002FF96C /* GTMOAuth2ViewTouch.xib */ = {isa = PBXFileReference; lastKnownFileType = file; name = GTMOAuth2ViewTouch.xib; path = "Submodules/google-api-objectivec/Source/OAuth2/Touch/GTMOAuth2ViewTouch.xib"; sourceTree = "<group>"; };
 		633309D316C0CCC3002A88FE /* GoogleReaderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderClient.h; sourceTree = "<group>"; };
 		633309D416C0CCC3002A88FE /* GoogleReaderClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderClient.m; sourceTree = "<group>"; };
 		633309D716C17F68002A88FE /* GoogleReaderFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderFeedViewController.h; sourceTree = "<group>"; };
@@ -362,6 +396,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				630B019317336D49002FF96C /* StoreKit.framework in Frameworks */,
+				630B019117336D25002FF96C /* libsqlite3.dylib in Frameworks */,
+				630B018F17336D08002FF96C /* Accounts.framework in Frameworks */,
+				630B018D17336CF6002FF96C /* AdSupport.framework in Frameworks */,
+				630B018B17336CCE002FF96C /* Twitter.framework in Frameworks */,
+				630B018917336CC0002FF96C /* CoreLocation.framework in Frameworks */,
+				630B018717336CAE002FF96C /* AVFoundation.framework in Frameworks */,
+				630B018517336C9F002FF96C /* CoreMedia.framework in Frameworks */,
+				630B018317336C7C002FF96C /* MessageUI.framework in Frameworks */,
+				630B00EA173355E4002FF96C /* Social.framework in Frameworks */,
 				63065CEE1706A235004D3237 /* libRestKit.a in Frameworks */,
 				63065CD817069914004D3237 /* MobileCoreServices.framework in Frameworks */,
 				63065CD617069906004D3237 /* CoreData.framework in Frameworks */,
@@ -401,6 +445,15 @@
 				63065CFA170D2D3E004D3237 /* RSSItem.m */,
 			);
 			name = Objects;
+			sourceTree = "<group>";
+		};
+		630B019517336DFE002FF96C /* Resources - ShareKit Library */ = {
+			isa = PBXGroup;
+			children = (
+				630B019417336DFE002FF96C /* GTMOAuth2ViewTouch.xib */,
+			);
+			name = "Resources - ShareKit Library";
+			path = "../../../../../Downloads/ShareKit-master";
 			sourceTree = "<group>";
 		};
 		633309EB16C22299002A88FE /* Buttons */ = {
@@ -463,6 +516,12 @@
 		6376A44217316E1300F28054 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				630B00EB17335797002FF96C /* Email.png */,
+				630B00EC17335797002FF96C /* Email@2x.png */,
+				630B00ED17335797002FF96C /* Facebook.png */,
+				630B00EE17335797002FF96C /* Facebook@2x.png */,
+				630B00EF17335797002FF96C /* Twitter.png */,
+				630B00F017335797002FF96C /* Twitter@2x.png */,
 				6376A44617316E9A00F28054 /* share.png */,
 				6376A44717316E9A00F28054 /* share@2x.png */,
 			);
@@ -542,6 +601,16 @@
 		63A2ED24169C8DCD0071D549 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				630B019217336D49002FF96C /* StoreKit.framework */,
+				630B019017336D25002FF96C /* libsqlite3.dylib */,
+				630B018E17336D08002FF96C /* Accounts.framework */,
+				630B018C17336CF6002FF96C /* AdSupport.framework */,
+				630B018A17336CCE002FF96C /* Twitter.framework */,
+				630B018817336CC0002FF96C /* CoreLocation.framework */,
+				630B018617336CAE002FF96C /* AVFoundation.framework */,
+				630B018417336C9F002FF96C /* CoreMedia.framework */,
+				630B00E9173355E4002FF96C /* Social.framework */,
+				630B00E71733532B002FF96C /* MessageUI.framework */,
 				63065CD717069914004D3237 /* MobileCoreServices.framework */,
 				63065CD517069906004D3237 /* CoreData.framework */,
 				63065CD3170698F8004D3237 /* CFNetwork.framework */,
@@ -578,6 +647,7 @@
 				63A2EDBC16A529610071D549 /* NavBarIcons */,
 				639CA65216D321510052EC91 /* AppIcons */,
 				639CA65316D3215B0052EC91 /* LaunchImages */,
+				630B019517336DFE002FF96C /* Resources - ShareKit Library */,
 			);
 			path = Readey;
 			sourceTree = "<group>";
@@ -800,6 +870,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				de,
 			);
 			mainGroup = 63A2ED16169C8DCD0071D549;
 			productRefGroup = 63A2ED22169C8DCD0071D549 /* Products */;
@@ -906,6 +977,13 @@
 				63766EC9170FF23400CA639B /* SVProgressHUD.bundle in Resources */,
 				6376A44817316E9A00F28054 /* share.png in Resources */,
 				6376A44917316E9A00F28054 /* share@2x.png in Resources */,
+				630B00F117335797002FF96C /* Email.png in Resources */,
+				630B00F217335797002FF96C /* Email@2x.png in Resources */,
+				630B00F317335797002FF96C /* Facebook.png in Resources */,
+				630B00F417335797002FF96C /* Facebook@2x.png in Resources */,
+				630B00F517335797002FF96C /* Twitter.png in Resources */,
+				630B00F617335797002FF96C /* Twitter@2x.png in Resources */,
+				630B019617336DFE002FF96C /* GTMOAuth2ViewTouch.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
