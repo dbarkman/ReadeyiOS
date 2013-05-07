@@ -14,7 +14,8 @@
 @property (nonatomic, strong) IBOutlet UILabel *feedTitle;
 @property (nonatomic, strong) IBOutlet UILabel *date;
 @property (nonatomic, strong) IBOutlet UILabel *timeToRead;
-
-- (IBAction)share;
+@property (nonatomic, strong) IBOutlet UIButton *twitterShare;
+@property (nonatomic, strong) IBOutlet UIButton *facebookShare;
+@property (nonatomic, strong) IBOutlet UIButton *sendEmail;
 
 @end

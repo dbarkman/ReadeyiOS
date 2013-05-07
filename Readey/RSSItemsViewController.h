@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h> 
+#import <Social/Social.h>
 #import "RSSCategory.h"
 #import "ReadeyAPIClient.h"
 
-@interface RSSItemsViewController : UITableViewController <ReadeyClientDelegate>
+@interface RSSItemsViewController : UITableViewController <ReadeyClientDelegate, MFMailComposeViewControllerDelegate>
 {
 	NSArray *rssItems;
 }

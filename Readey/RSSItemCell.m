@@ -23,9 +23,4 @@
     [super setSelected:selected animated:animated];
 }
 
-- (IBAction)share
-{
-	NSLog(@"Sharring!");
-}
-
 @end

@@ -46,6 +46,79 @@
 	[SVProgressHUD dismiss];
 }
 
+- (IBAction)tweet:(id)button
+{
+	RSSItem *rssItem = [rssItems objectAtIndex:[button tag]];
+	NSString *url = [rssItem permalink];
+	
+	if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+		SLComposeViewController *slComposer = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+		SLComposeViewControllerCompletionHandler __block completionHandler=^(SLComposeViewControllerResult result) {
+			[slComposer dismissViewControllerAnimated:YES completion:nil];
+		};
+		
+		[slComposer setInitialText:[NSString stringWithFormat:@"I'm reading this article with Readey: %@ - #ReadeyApp", url]];
+		[slComposer setCompletionHandler:completionHandler];
+		[self presentViewController:slComposer animated:YES completion:nil];
+	}
+}
+
+- (IBAction)facebook:(id)button
+{
+	RSSItem *rssItem = [rssItems objectAtIndex:[button tag]];
+	NSString *url = [rssItem permalink];
+	
+	if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+		SLComposeViewController *slComposer = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+		SLComposeViewControllerCompletionHandler __block completionHandler=^(SLComposeViewControllerResult result) {
+			[slComposer dismissViewControllerAnimated:YES completion:nil];
+		};
+		
+		[slComposer setInitialText:[NSString stringWithFormat:@"I'm reading this article with Readey: %@ - #ReadeyApp", url]];
+		[slComposer setCompletionHandler:completionHandler];
+		[self presentViewController:slComposer animated:YES completion:nil];
+	}
+}
+
+- (IBAction)sendEmail:(id)button {
+	RSSItem *rssItem = [rssItems objectAtIndex:[button tag]];
+	NSString *url = [rssItem permalink];
+	
+    NSString *emailTitle = @"Readey";
+    NSString *messageBody = [NSString stringWithFormat:@"I'm reading this article with Readey: %@ - http://cla.ms/readey", url];
+    
+    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+	[mc setMailComposeDelegate:self];
+    [mc setSubject:emailTitle];
+    [mc setMessageBody:messageBody isHTML:YES];
+	
+    [self presentViewController:mc animated:YES completion:NULL];
+}
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+	switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail sent");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -62,7 +135,7 @@
 	CGSize constraint = CGSizeMake(frameSize.width - 50, 20000.0f);
 	CGSize size = [title sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:kFontSize15] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
 	
-	return size.height + 49.0f;
+	return size.height + 67.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -87,6 +160,9 @@
 	[[cell feedTitle] setText:rssItem.feedTitle];
 	[[cell date] setText:rssItem.date];
 	[[cell timeToRead] setText:[NSString stringWithFormat:@"Time to read: %dm %02ds", minutes, seconds]];
+	[[cell facebookShare] setTag:[indexPath row]];
+	[[cell twitterShare] setTag:[indexPath row]];
+	[[cell sendEmail] setTag:[indexPath row]];
 	
     return cell;
 }
