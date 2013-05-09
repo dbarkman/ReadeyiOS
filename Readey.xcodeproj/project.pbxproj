@@ -66,6 +66,7 @@
 		63466ADD1720B1B9000CC838 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63466ADC1720B1B9000CC838 /* InitialViewController.m */; };
 		63466AE01720B258000CC838 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63466ADF1720B258000CC838 /* IIWrapController.m */; };
 		634D05291739A81800E7CBA4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 634D05281739A81800E7CBA4 /* MessageUI.framework */; };
+		634D052C1739B5EA00E7CBA4 /* PocketListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 634D052B1739B5E900E7CBA4 /* PocketListViewController.m */; };
 		63766EC4170FD7A500CA639B /* Readey.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63766EC3170FD7A500CA639B /* Readey.storyboard */; };
 		63766EC9170FF23400CA639B /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63766EC6170FF23400CA639B /* SVProgressHUD.bundle */; };
 		63766ECA170FF23400CA639B /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 63766EC8170FF23400CA639B /* SVProgressHUD.m */; };
@@ -251,6 +252,8 @@
 		63466ADE1720B258000CC838 /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
 		63466ADF1720B258000CC838 /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
 		634D05281739A81800E7CBA4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		634D052A1739B5E900E7CBA4 /* PocketListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketListViewController.h; sourceTree = "<group>"; };
+		634D052B1739B5E900E7CBA4 /* PocketListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketListViewController.m; sourceTree = "<group>"; };
 		63766EC3170FD7A500CA639B /* Readey.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Readey.storyboard; sourceTree = SOURCE_ROOT; };
 		63766EC6170FF23400CA639B /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		63766EC7170FF23400CA639B /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
@@ -750,6 +753,8 @@
 				63065CF01706A4DE004D3237 /* RSSCategoriesViewController.m */,
 				63065CFC170D4A86004D3237 /* RSSItemsViewController.h */,
 				63065CFD170D4A86004D3237 /* RSSItemsViewController.m */,
+				634D052A1739B5E900E7CBA4 /* PocketListViewController.h */,
+				634D052B1739B5E900E7CBA4 /* PocketListViewController.m */,
 			);
 			name = Tables;
 			sourceTree = "<group>";
@@ -1024,6 +1029,7 @@
 				63466AD4171FD2B2000CC838 /* IIViewDeckController.m in Sources */,
 				63466ADD1720B1B9000CC838 /* InitialViewController.m in Sources */,
 				63466AE01720B258000CC838 /* IIWrapController.m in Sources */,
+				634D052C1739B5EA00E7CBA4 /* PocketListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
