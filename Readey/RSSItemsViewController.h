@@ -14,7 +14,9 @@
 
 @interface RSSItemsViewController : UITableViewController <ReadeyClientDelegate, MFMailComposeViewControllerDelegate>
 {
-	NSArray *rssItems;
+	int page;
+	int totalPages;
+	NSMutableArray *rssItems;
 }
 
 @property (nonatomic, strong) ReadeyAPIClient *client;

@@ -21,7 +21,7 @@
 	
 	[[self navigationItem] setTitle:rssCategory.name];
 
-	rssItems = nil;
+	rssItems = [NSMutableArray array];
 
 	if (self.rssCategory) {
 		client.delegate = self;

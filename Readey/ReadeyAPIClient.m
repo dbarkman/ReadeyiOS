@@ -100,7 +100,6 @@
 	
 	NSString *urlString =[NSString stringWithFormat:@"%@/items?category=%@&key=%@&uuid=%@&appVersion=%@&device=%@&machine=%@&osVersion=%@",
 						  kReadeyAPIURL, ecodedCategory, kReadeyAPIKey, uuid, appVersion, device, machine, osVersion];
-	NSLog(@"URL: %@", urlString);
 
     NSURL *url = [NSURL URLWithString:urlString];
 	
@@ -181,6 +180,12 @@
 	AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
 	[httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
 	
+//	[operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//		NSLog(@"Response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+//	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//		NSLog(@"Error: %@", error);
+//	}];
+
 	[operation start];
 }
 
