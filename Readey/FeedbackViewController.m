@@ -27,23 +27,8 @@
 {
     [super viewDidLoad];
 
-	UIToolbar *toolBar = [[UIToolbar alloc] init];
-	
-    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-		[toolBar setFrame:CGRectMake(0, 0, self.view.frame.size.height, 32)];
-    }
-	if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
-		[toolBar setFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
-	}
-	
-	toolBar.barStyle = UIBarStyleDefault;
-	[toolBar sizeToFit];
 	UIBarButtonItem *menu = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleBordered target:self action:@selector(menuTapped)];
-	NSArray *items = [NSArray arrayWithObjects:menu, nil];
-	[toolBar setItems:items];
-	[self.view addSubview:toolBar];
-	
-	[toolBar setTintColor:kOffBlackColor];
+	[[self navigationItem] setLeftBarButtonItem:menu];
 
 	UIView *emptyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
 	
@@ -80,35 +65,33 @@
 
 - (IBAction)submit
 {
+	[feedbackTypeTextField resignFirstResponder];
+	[descriptionTextView resignFirstResponder];
+	[emailTextField resignFirstResponder];
+	
 	NSString *feedback = [feedbackTypeTextField text];
 	NSString *description = [descriptionTextView text];
 	NSString *email = [emailTextField text];
 	
+	client.delegate = self;
+
 	if ([email length] > 0) [Flurry logEvent:@"Email Included with Feedback"];
 	
-	if ([client createFeedback:feedback description:description email:email]) {
+	[SVProgressHUD showWithStatus:@"Sending Feedback"];
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		[client createFeedback:feedback description:description email:email];
+	});
+}
+
+- (void)requestReturned:(NSArray *)request
+{
+	[SVProgressHUD dismiss];
+	if ([[request objectAtIndex:0] isEqualToString:@"true"]) {
 		[[[UIAlertView alloc] initWithTitle:@"Thank you for your feedback!" message:nil delegate:nil cancelButtonTitle:@"Sure" otherButtonTitles:nil] show];
-		[[self navigationController] popViewControllerAnimated:YES];
+		[[self viewDeckController] toggleLeftViewAnimated:YES];
 	} else {
-		if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"shouldLogout"] boolValue]) {
-			[[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"shouldLogout"];
-			[self showAlert:@"Your session has expired. Please login again." withMessage:nil];
-		} else {
-			[self showAlert:@"Error" withMessage:@"Your feedback could not be saved.  For support, email support@speedReadey.com."];
-		}
+		[[[UIAlertView alloc] initWithTitle:@"Error" message:@"Your feedback could not be saved.  For support, email support@speedReadey.com." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 	}
-}
-
-- (void)showAlert:(NSString *)title withMessage:(NSString *)message
-{
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alert show];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	[client logout];
-	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)valueSelected:(NSString *)value
@@ -125,7 +108,7 @@
 		[pickerViewController setDelegate:(id)self];
 		[pickerViewController setPickerTitle:@"Choose Feedback"];
 		[pickerViewController setPickerIndex:0];
-		[pickerViewController setValueArray:[[NSArray alloc] initWithObjects:@"An Idea", @"An Issue", @"A Question", @"A Compliment", nil]];
+		[pickerViewController setValueArray:[[NSArray alloc] initWithObjects:@"Add This Source!", @"An Idea", @"An Issue", @"A Question", @"A Compliment", nil]];
 		[[self navigationController] pushViewController:pickerViewController animated:YES];
 	}
 	

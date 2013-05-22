@@ -38,5 +38,21 @@
 
 - (void)getCategories;
 - (void)getItemsForCategory:(NSString *)category;
+- (void)createFeedback:(NSString *)feedbackType description:(NSString *)description email:(NSString *)email;
+- (void)createReadLogWithSpeed:(float)speed andWords:(int)words;
+
+//future
+- (void)saveLogin;
+- (void)resetLogin;
+- (NSString *)accessToken;
+- (bool)login;
+- (bool)isTokenValid;
+- (void)logout;
+
+- (bool)createUser;
+
+- (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content;
+- (NSArray *)getArticles;
+- (bool)removeArticle:(NSString *)uuid;
 
 @end

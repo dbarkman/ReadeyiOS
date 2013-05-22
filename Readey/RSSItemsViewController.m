@@ -172,11 +172,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	RSSItem *rssItem = [rssItems objectAtIndex:[indexPath row]];
-	
-	Client *clientOld = [[Client alloc] init];
 
 	ReadeyViewController *readeyViewController = [[ReadeyViewController alloc] init];
-	[readeyViewController setClient:clientOld];
+	[readeyViewController setClient:client];
 	[readeyViewController setSourceEnabled:true];
 	[readeyViewController setSourceUrl:rssItem.permalink];
 	[readeyViewController setArticleContent:rssItem.content];

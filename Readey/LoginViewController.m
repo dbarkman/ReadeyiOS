@@ -13,16 +13,6 @@
 
 @synthesize client;
 
-- (void)setClient:(Client *)c
-{
-    client = c;
-}
-
-- (Client *)client
-{
-    return client;
-}
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -64,8 +54,8 @@
     NSString *username = [emailTextField text];
     NSString *password = [passwordTextField text];
 	
-	[client setUsername:username];
-	[client setPassword:password];
+//	[client setUsername:username];
+//	[client setPassword:password];
 	
 	if (username.length == 0 || password.length == 0) {
 		[self alertCredentialsMissing];
@@ -101,8 +91,8 @@
 
 - (void)createAccount
 {
-	[client setUsername:[emailTextField text]];
-	[client setPassword:[passwordTextField text]];
+//	[client setUsername:[emailTextField text]];
+//	[client setPassword:[passwordTextField text]];
 
 	if ([client createUser]) {
 		[Flurry logEvent:@"Created User"];
@@ -117,8 +107,8 @@
 	NSMutableDictionary *saveLoginDict = [[NSMutableDictionary alloc] init];
     if ([saveLogin isOn]) {
 		[saveLoginDict setObject:@"yes" forKey:@"saveLogin"];
-		[client setUsername:[emailTextField text]];
-		[client setPassword:[passwordTextField text]];
+//		[client setUsername:[emailTextField text]];
+//		[client setPassword:[passwordTextField text]];
 		[client saveLogin];
     } else {
 		[saveLoginDict setObject:@"no" forKey:@"saveLogin"];

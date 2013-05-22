@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Client.h"
 
-@interface FeedbackViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate>
+@interface FeedbackViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, ReadeyClientDelegate>
 {
 	IBOutlet UITextField *feedbackTypeTextField;
 	IBOutlet UITextView *descriptionTextView;
@@ -19,7 +18,7 @@
 	IBOutlet NSLayoutConstraint *descriptionHeight;
 }
 
-@property (nonatomic, strong) Client *client;
+@property (nonatomic, strong) ReadeyAPIClient *client;
 
 - (IBAction)submit;
 

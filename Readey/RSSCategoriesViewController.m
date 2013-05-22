@@ -16,7 +16,6 @@
 {
     [super viewDidLoad];
 	
-//	ReadeyAppDelegate *appDelegate = (ReadeyAppDelegate *)[[UIApplication sharedApplication] delegate];
 	client = [kAppDelegate readeyAPIClient];
 	client.delegate = self;
 	
@@ -77,10 +76,10 @@
 {
 	if ([segue.identifier isEqualToString:@"ViewArticles"]) {
 		RSSItemsViewController *rssItemsViewController = segue.destinationViewController;
-		rssItemsViewController.client = client;
+		[rssItemsViewController setClient:client];
 		
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-		rssItemsViewController.rssCategory = [rssCategories objectAtIndex:[indexPath row]];
+		[rssItemsViewController setRssCategory:[rssCategories objectAtIndex:[indexPath row]]];
 	}
 }
 

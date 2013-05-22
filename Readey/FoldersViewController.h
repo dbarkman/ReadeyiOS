@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Client.h"
 
 @interface FoldersViewController : UITableViewController
 {
-	Client *client;
+	ReadeyAPIClient *client;
 }
 
 @end

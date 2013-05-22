@@ -88,7 +88,7 @@
 	[Flurry logEvent:@"Dropbox Refreshed"];
 }
 
-- (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
+- (void)restClient:(DBRestClient *)restClient loadedMetadata:(DBMetadata *)metadata {
 	NSArray* validExtensions = [NSArray arrayWithObjects:@"txt", nil];
     NSMutableArray *newFilePaths = [NSMutableArray new];
     if (metadata.isDirectory) {
@@ -116,7 +116,7 @@
 	}
 }
 
-- (void)restClient:(DBRestClient *)client
+- (void)restClient:(DBRestClient *)restClient
     loadMetadataFailedWithError:(NSError *)error {
 }
 
@@ -183,7 +183,7 @@
 	[self presentViewController:readeyViewController animated:YES completion:nil];
 }
 
-- (void)restClient:(DBRestClient*)client loadFileFailedWithError:(NSError*)error {
+- (void)restClient:(DBRestClient*)restClient loadFileFailedWithError:(NSError*)error {
 	UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"There was an error loading your file." message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[message show];
 }

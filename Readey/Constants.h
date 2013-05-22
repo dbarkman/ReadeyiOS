@@ -17,8 +17,6 @@
 #define kDropboxAppKey @"py9e1yuyy55owpb"
 #define kDropboxAppSecret @"ai5j37a4ss5wz1g"
 
-#define kPocketAPIKey @"12145-b0e2285878e823da9f6f727a"
-
 #define kFontSize15 15.0f
 #define kFontSize16 16.0f
 #define kCellContentMargin10 10.0f

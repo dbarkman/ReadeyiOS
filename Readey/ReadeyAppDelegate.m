@@ -10,7 +10,6 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "DropboxViewController.h"
 #import <Crashlytics/Crashlytics.h>
-#import "PocketAPI.h"
 #import <RestKit/RestKit.h>
 
 @implementation ReadeyAppDelegate
@@ -30,17 +29,12 @@ UINavigationController *navigationController;
     
 	[Crashlytics startWithAPIKey:kCrashlyticsAPIKey];
 	
-	[[PocketAPI sharedAPI] setConsumerKey:kPocketAPIKey];
-
     return YES;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([[PocketAPI sharedAPI] handleOpenURL:url]) {
-        return YES;
-
-    } else if ([[DBSession sharedSession] handleOpenURL:url]) {
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
 		NSMutableDictionary *flurryParams = [[NSMutableDictionary alloc] init];
 
 		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Readey" bundle:nil];

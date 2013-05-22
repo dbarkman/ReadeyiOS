@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Client.h"
+#import "ReadeyAPIClient.h"
 
 @interface ReadeyViewController : UIViewController
 {
@@ -59,7 +59,7 @@
 
 -(void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event;
 
-@property (nonatomic, strong) Client *client;
+@property (nonatomic, strong) ReadeyAPIClient *client;
 @property (nonatomic) bool sourceEnabled;
 @property (nonatomic, retain) NSString *sourceUrl;
 @property (nonatomic, retain) NSString *articleContent;

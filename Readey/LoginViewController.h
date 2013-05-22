@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Client.h"
 
 @interface LoginViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate>
 {
@@ -18,7 +17,7 @@
 	IBOutlet UIButton *loginButton;
 }
 
-@property (nonatomic, strong) Client *client;
+@property (nonatomic, strong) ReadeyAPIClient *client;
 
 - (IBAction)login;
 

@@ -8,13 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "PickerViewController.h"
-#import "Client.h"
 
 @interface SettingViewController : UITableViewController <PickerViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 {
 	NSString *wpm;
 }
-
-@property (nonatomic, strong) Client *client;
 
 @end

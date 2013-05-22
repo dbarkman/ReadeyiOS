@@ -13,14 +13,6 @@
 
 @synthesize client;
 
-- (void)setClient:(Client *)c {
-    client = c;
-}
-
-- (Client *)client {
-    return client;
-}
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

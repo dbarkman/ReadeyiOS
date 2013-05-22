@@ -9,7 +9,6 @@
 #import "FoldersViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "DropboxViewController.h"
-#import "ArticleListViewController.h"
 #import "FeedbackViewController.h"
 #import "RSSCategoriesViewController.h"
 
@@ -30,31 +29,11 @@
 	[[self tableView] setBackgroundView:nil];
 	[[self tableView] setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
 	
-    client = [[Client alloc] init];
+	client = [kAppDelegate readeyAPIClient];
 	
 	UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleBordered target:self action:@selector(closeTapped)];
 	[[self navigationItem] setLeftBarButtonItem:closeButton];
 }
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-	if (![client accessToken]) {
-//		[self retryAuth];
-	}
-}
-
-//- (void)retryAuth
-//{
-//    if (![client login]) {
-//		[Flurry logEvent:@"Requesting User Login"];
-//        LoginViewController *loginViewController = [[LoginViewController alloc] init];
-//        [loginViewController setClient:client];
-//        [loginViewController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-//        [self presentViewController:loginViewController animated:YES completion:nil];
-//    }
-//}
 
 - (IBAction)closeTapped
 {
@@ -72,7 +51,7 @@
 {
 	switch (section) {
 		case 0:
-			return 3;
+			return 2;
 			break;
 		case 1:
 			return 1;
@@ -91,17 +70,14 @@
 					[[cell textLabel] setText:@"Featured Articles"];
 					break;
 				case 1:
-					[[cell textLabel] setText:@"Dropbox Articles"];
-					break;
-				case 2:
-					[[cell textLabel] setText:@"Your Articles"];
+					[[cell textLabel] setText:@"My Dropbox Articles"];
 					break;
 			}
 			break;
 		case 1:
 			switch ([indexPath row]) {
 				case 0:
-					[[cell textLabel] setText:@"Feedback"];
+					[[cell textLabel] setText:@"Feedback/New Sources"];
 					break;
 			}
 			break;
@@ -114,11 +90,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DropboxViewController *dropboxViewController = [[DropboxViewController alloc] init];
-	ArticleListViewController * articleListViewController = [[ArticleListViewController alloc] init];
 	FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
 
-	UINavigationController *articleNavigationController = [[UINavigationController alloc] initWithRootViewController:articleListViewController];
-	[articleNavigationController.navigationBar setTintColor:kOffBlackColor];
+	UINavigationController *feedbackNavigationController = [[UINavigationController alloc] initWithRootViewController:feedbackViewController];
+	[feedbackNavigationController.navigationBar setTintColor:kOffBlackColor];
 	
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Readey" bundle:nil];
 	UIViewController *centerViewController = [storyboard instantiateViewControllerWithIdentifier:@"centerViewController"];
@@ -143,11 +118,6 @@
 						[[self viewDeckController] setCenterController:dropboxViewController];
 					}
 					break;
-				case 2:
-					[articleListViewController setClient:client];
-					[[self viewDeckController] closeLeftViewAnimated:YES];
-					[[self viewDeckController] setCenterController:articleNavigationController];
-					break;
 			}
 			break;
 			[Flurry logEvent:@"Folder Picked" withParameters:folderPicked];
@@ -157,7 +127,7 @@
 					[Flurry logEvent:@"Feedback Picked From" withParameters:pickedFrom];
 					[feedbackViewController setClient:client];
 					[[self viewDeckController] closeLeftViewAnimated:YES];
-					[[self viewDeckController] setCenterController:feedbackViewController];
+					[[self viewDeckController] setCenterController:feedbackNavigationController];
 					break;
 			}
 			break;

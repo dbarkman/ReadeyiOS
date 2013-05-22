@@ -14,14 +14,6 @@
 
 @synthesize client;
 
-- (void)setClient:(Client *)c {
-    client = c;
-}
-
-- (Client *)client {
-    return client;
-}
-
 - (id)init
 {
 	self = [super initWithStyle:UITableViewStylePlain];

@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Client.h"
 
 @interface ArticleListViewController : UITableViewController <UIAlertViewDelegate>
 {
 	NSMutableArray *articles;
 }
 
-@property (nonatomic, strong) Client *client;
+@property (nonatomic, strong) ReadeyAPIClient *client;
 
 @end

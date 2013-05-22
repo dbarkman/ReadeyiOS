@@ -15,7 +15,6 @@
 	#import <MobileCoreServices/MobileCoreServices.h>
 	#import "ReadeyAppDelegate.h"
 	#import "Constants.h"
-	#import "Client.h"
 	#import "ReadeyAPIClient.h"
 	#import "Flurry.h"
 	#import "SVProgressHUD.h"

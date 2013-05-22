@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Client.h"
 
 @interface ArticleAddViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, UIAlertViewDelegate>
 {
@@ -16,6 +15,6 @@
 	IBOutlet UITextView *articleContents;
 }
 
-@property (nonatomic, strong) Client *client;
+@property (nonatomic, strong) ReadeyAPIClient *client;
 
 @end

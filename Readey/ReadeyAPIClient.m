@@ -69,8 +69,8 @@
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor
 												responseDescriptorWithMapping:mapping pathPattern:@"/readeyAPI/categories" keyPath:@"data" statusCodes:statusCodeSet];
 	
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/categories?key=%@&appVersion=%@&device=%@&machine=%@&osVersion=%@",
-									   kReadeyAPIURL, kReadeyAPIKey, appVersion, device, machine, osVersion]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/categories?key=%@&uuid=%@&appVersion=%@&device=%@&machine=%@&osVersion=%@",
+									   kReadeyAPIURL, kReadeyAPIKey, uuid, appVersion, device, machine, osVersion]];
 	
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     RKObjectRequestOperation *operation = [[RKObjectRequestOperation alloc] initWithRequest:request
@@ -98,8 +98,8 @@
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor
 												responseDescriptorWithMapping:mapping pathPattern:@"/readeyAPI/items" keyPath:@"data" statusCodes:statusCodeSet];
 	
-	NSString *urlString =[NSString stringWithFormat:@"%@/items?category=%@&key=%@&appVersion=%@&device=%@&machine=%@&osVersion=%@",
-						  kReadeyAPIURL, ecodedCategory, kReadeyAPIKey, appVersion, device, machine, osVersion];
+	NSString *urlString =[NSString stringWithFormat:@"%@/items?category=%@&key=%@&uuid=%@&appVersion=%@&device=%@&machine=%@&osVersion=%@",
+						  kReadeyAPIURL, ecodedCategory, kReadeyAPIKey, uuid, appVersion, device, machine, osVersion];
 	NSLog(@"URL: %@", urlString);
 
     NSURL *url = [NSURL URLWithString:urlString];
@@ -118,6 +118,128 @@
     }];
     
     [operation start];
+}
+
+- (void)createFeedback:(NSString *)feedbackType description:(NSString *)description email:(NSString *)email
+{
+	NSMutableDictionary *feedbackDictionary = [[NSMutableDictionary alloc] init];
+	
+	[feedbackDictionary setObject:kReadeyAPIKey forKey:@"key"];
+	[feedbackDictionary setObject:uuid forKey:@"uuid"];
+	[feedbackDictionary setObject:appVersion forKey:@"appVersion"];
+	[feedbackDictionary setObject:device forKey:@"device"];
+	[feedbackDictionary setObject:machine forKey:@"machine"];
+	[feedbackDictionary setObject:osVersion forKey:@"osVersion"];
+	[feedbackDictionary setObject:feedbackType forKey:@"feedbackType"];
+	[feedbackDictionary setObject:description forKey:@"description"];
+	[feedbackDictionary setObject:email forKey:@"email"];
+	
+	NSString *path =[NSString stringWithFormat:@"%@/feedback", kReadeyAPIURL];
+	
+	AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:kReadeyAPIURL]];
+	[httpClient setParameterEncoding:AFFormURLParameterEncoding];
+	NSMutableURLRequest *request = [httpClient requestWithMethod:@"POST" path:path parameters:feedbackDictionary];
+	
+	AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+	[httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+	
+	[operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
+			[delegate requestReturned:[[NSArray alloc] initWithObjects:@"true", nil]];
+		}
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
+			[delegate requestReturned:[[NSArray alloc] initWithObjects:@"false", nil]];
+		}
+	}];
+
+	[operation start];
+}
+
+- (void)createReadLogWithSpeed:(float)speed andWords:(int)words
+{
+	NSNumber *speedNumber = [NSNumber numberWithFloat:speed];
+	NSNumber *wordsNumber = [NSNumber numberWithFloat:words];
+	
+	NSMutableDictionary *readLogDictionary = [[NSMutableDictionary alloc] init];
+	
+	[readLogDictionary setObject:kReadeyAPIKey forKey:@"key"];
+	[readLogDictionary setObject:uuid forKey:@"uuid"];
+	[readLogDictionary setObject:appVersion forKey:@"appVersion"];
+	[readLogDictionary setObject:device forKey:@"device"];
+	[readLogDictionary setObject:machine forKey:@"machine"];
+	[readLogDictionary setObject:osVersion forKey:@"osVersion"];
+	[readLogDictionary setObject:speedNumber forKey:@"speed"];
+	[readLogDictionary setObject:wordsNumber forKey:@"words"];
+
+	NSString *path =[NSString stringWithFormat:@"%@/readLog", kReadeyAPIURL];
+
+	AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:kReadeyAPIURL]];
+	[httpClient setParameterEncoding:AFFormURLParameterEncoding];
+	NSMutableURLRequest *request = [httpClient requestWithMethod:@"POST" path:path parameters:readLogDictionary];
+
+	AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+	[httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+	
+	[operation start];
+}
+
+- (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content
+{
+	NSLog(@"Placeholding");
+	return false;
+}
+
+- (NSArray *)getArticles
+{
+	NSLog(@"Placeholding");
+	NSArray *tempArray = [[NSArray alloc] init];
+	return tempArray;
+}
+
+- (bool)removeArticle:(NSString *)uuid
+{
+	NSLog(@"Placeholding");
+	return false;
+}
+
+- (void)saveLogin
+{
+	NSLog(@"Placeholding");
+}
+
+- (void)resetLogin
+{
+	NSLog(@"Placeholding");
+}
+
+- (NSString *)accessToken
+{
+	NSLog(@"Placeholding");
+	return @"";
+}
+
+- (bool)login
+{
+	NSLog(@"Placeholding");
+	return false;
+}
+
+- (bool)isTokenValid
+{
+	NSLog(@"Placeholding");
+	return false;
+}
+
+- (void)logout
+{
+	NSLog(@"Placeholding");
+}
+
+- (bool)createUser
+{
+	NSLog(@"Placeholding");
+	return false;
 }
 
 @end

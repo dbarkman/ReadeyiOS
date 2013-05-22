@@ -17,14 +17,6 @@
 @synthesize sourceUrl, sourceEnabled, articleContent, articleIdentifier;
 @synthesize client;
 
-- (void)setClient:(Client *)c {
-    client = c;
-}
-
-- (Client *)client {
-    return client;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -412,7 +404,7 @@
 	NSDictionary *flurryParamsWords = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%d", wordArraySize], @"Words", nil];
 	[Flurry logEvent:@"Words Read" withParameters:flurryParamsWords];
 	
-//	[client createReadLogWithSpeed:speed andWords:wordArraySize];
+	[client createReadLogWithSpeed:speed andWords:wordArraySize];
 }
 
 - (void)resetTimer

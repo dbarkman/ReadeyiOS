@@ -25,9 +25,6 @@
 		630B00F617335797002FF96C /* Twitter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B00F017335797002FF96C /* Twitter@2x.png */; };
 		630B018B17336CCE002FF96C /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 630B018A17336CCE002FF96C /* Twitter.framework */; };
 		633309D516C0CCC3002A88FE /* GoogleReaderClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309D416C0CCC3002A88FE /* GoogleReaderClient.m */; };
-		633309D916C17F68002A88FE /* GoogleReaderFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309D816C17F68002A88FE /* GoogleReaderFeedViewController.m */; };
-		633309E216C18CDA002A88FE /* GoogleReaderLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309E016C18CD9002A88FE /* GoogleReaderLoginViewController.m */; };
-		633309E316C18CDA002A88FE /* GoogleReaderLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633309E116C18CD9002A88FE /* GoogleReaderLoginViewController.xib */; };
 		633309E716C1D2E2002A88FE /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 633309E516C1D2E1002A88FE /* FeedbackViewController.m */; };
 		633309E816C1D2E2002A88FE /* FeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 633309E616C1D2E1002A88FE /* FeedbackViewController.xib */; };
 		633309EA16C22193002A88FE /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633309E916C22193002A88FE /* DropboxSDK.framework */; };
@@ -35,52 +32,22 @@
 		63330A0916C22299002A88FE /* blackButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309ED16C22299002A88FE /* blackButton@2x.png */; };
 		63330A0A16C22299002A88FE /* blackButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309EE16C22299002A88FE /* blackButtonHighlight.png */; };
 		63330A0B16C22299002A88FE /* blackButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309EF16C22299002A88FE /* blackButtonHighlight@2x.png */; };
-		63330A0C16C22299002A88FE /* blueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309F016C22299002A88FE /* blueButton.png */; };
-		63330A0D16C22299002A88FE /* blueButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309F116C22299002A88FE /* blueButton@2x.png */; };
-		63330A0E16C22299002A88FE /* blueButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309F216C22299002A88FE /* blueButtonHighlight.png */; };
-		63330A0F16C22299002A88FE /* blueButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309F316C22299002A88FE /* blueButtonHighlight@2x.png */; };
-		63330A1016C22299002A88FE /* greenButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309F416C22299002A88FE /* greenButton.png */; };
-		63330A1116C22299002A88FE /* greenButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309F516C22299002A88FE /* greenButton@2x.png */; };
-		63330A1216C22299002A88FE /* greenButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309F616C22299002A88FE /* greenButtonHighlight.png */; };
-		63330A1316C22299002A88FE /* greenButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309F716C22299002A88FE /* greenButtonHighlight@2x.png */; };
 		63330A1416C22299002A88FE /* greyButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309F816C22299002A88FE /* greyButton.png */; };
 		63330A1516C22299002A88FE /* greyButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309F916C22299002A88FE /* greyButton@2x.png */; };
 		63330A1616C22299002A88FE /* greyButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309FA16C22299002A88FE /* greyButtonHighlight.png */; };
 		63330A1716C22299002A88FE /* greyButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309FB16C22299002A88FE /* greyButtonHighlight@2x.png */; };
-		63330A1816C22299002A88FE /* orangeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309FC16C22299002A88FE /* orangeButton.png */; };
-		63330A1916C22299002A88FE /* orangeButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309FD16C22299002A88FE /* orangeButton@2x.png */; };
-		63330A1A16C22299002A88FE /* orangeButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309FE16C22299002A88FE /* orangeButtonHighlight.png */; };
-		63330A1B16C22299002A88FE /* orangeButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309FF16C22299002A88FE /* orangeButtonHighlight@2x.png */; };
-		63330A1C16C22299002A88FE /* tanButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 63330A0016C22299002A88FE /* tanButton.png */; };
-		63330A1D16C22299002A88FE /* tanButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63330A0116C22299002A88FE /* tanButton@2x.png */; };
-		63330A1E16C22299002A88FE /* tanButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 63330A0216C22299002A88FE /* tanButtonHighlight.png */; };
-		63330A1F16C22299002A88FE /* tanButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63330A0316C22299002A88FE /* tanButtonHighlight@2x.png */; };
-		63330A2016C22299002A88FE /* whiteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 63330A0416C22299002A88FE /* whiteButton.png */; };
-		63330A2116C22299002A88FE /* whiteButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63330A0516C22299002A88FE /* whiteButton@2x.png */; };
-		63330A2216C22299002A88FE /* whiteButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 63330A0616C22299002A88FE /* whiteButtonHighlight.png */; };
-		63330A2316C22299002A88FE /* whiteButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63330A0716C22299002A88FE /* whiteButtonHighlight@2x.png */; };
-		63330A2616C445CA002A88FE /* ReadeyArticleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63330A2516C445C9002A88FE /* ReadeyArticleCell.m */; };
-		63330A2816C446E6002A88FE /* ReadeyArticleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */; };
 		63330A2F16C5BC39002A88FE /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63330A2E16C5BC38002A88FE /* WebViewController.m */; };
 		63466AD4171FD2B2000CC838 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63466AD3171FD2B2000CC838 /* IIViewDeckController.m */; };
 		63466ADD1720B1B9000CC838 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63466ADC1720B1B9000CC838 /* InitialViewController.m */; };
 		63466AE01720B258000CC838 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63466ADF1720B258000CC838 /* IIWrapController.m */; };
 		634D05291739A81800E7CBA4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 634D05281739A81800E7CBA4 /* MessageUI.framework */; };
-		634D052C1739B5EA00E7CBA4 /* PocketListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 634D052B1739B5E900E7CBA4 /* PocketListViewController.m */; };
 		63766EC4170FD7A500CA639B /* Readey.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63766EC3170FD7A500CA639B /* Readey.storyboard */; };
 		63766EC9170FF23400CA639B /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63766EC6170FF23400CA639B /* SVProgressHUD.bundle */; };
 		63766ECA170FF23400CA639B /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 63766EC8170FF23400CA639B /* SVProgressHUD.m */; };
 		63766ECD170FF72000CA639B /* RSSItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63766ECC170FF72000CA639B /* RSSItemCell.m */; };
 		63766ED0171762BD00CA639B /* ReadeyAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 63766ECF171762BD00CA639B /* ReadeyAPIClient.m */; };
-		6376A44817316E9A00F28054 /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = 6376A44617316E9A00F28054 /* share.png */; };
-		6376A44917316E9A00F28054 /* share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6376A44717316E9A00F28054 /* share@2x.png */; };
-		6383BB6A16E44DE600DE6915 /* PocketAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6216E44DE600DE6915 /* PocketAPI.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		6383BB6B16E44DE600DE6915 /* PocketAPILogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6416E44DE600DE6915 /* PocketAPILogin.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		6383BB6C16E44DE600DE6915 /* PocketAPIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6616E44DE600DE6915 /* PocketAPIOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		6383BB6D16E44DE600DE6915 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6383BB6916E44DE600DE6915 /* SFHFKeychainUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA0EF16BB363F0005529C /* ArticleAddViewController.m */; };
 		638BA0F216BB363F0005529C /* ArticleAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638BA0F016BB363F0005529C /* ArticleAddViewController.xib */; };
-		638BA12616BE3EAC0005529C /* GoogleReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */; };
 		639CA63616CEDB400052EC91 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 639CA63516CEDB400052EC91 /* libFlurry.a */; };
 		639CA63816CF0D940052EC91 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639CA63716CF0D940052EC91 /* SystemConfiguration.framework */; };
 		639CA63B16D1E5BD0052EC91 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639CA63A16D1E5BD0052EC91 /* Crashlytics.framework */; };
@@ -129,8 +96,6 @@
 		63A2EDAF169E98540071D549 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2EDAE169E98530071D549 /* Client.m */; };
 		63A2EDB816A098950071D549 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2EDB716A098940071D549 /* FoldersViewController.m */; };
 		63A2EDBB16A0AFC50071D549 /* ArticleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */; };
-		63A2EDBE16A529800071D549 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A2EDBD16A529800071D549 /* settings@2x.png */; };
-		63A2EDC016A529950071D549 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 63A2EDBF16A529950071D549 /* settings.png */; };
 		63D8102C16C9ABE000E43E92 /* NSString_stripHtml.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D8102B16C9ABE000E43E92 /* NSString_stripHtml.m */; };
 		63D8108516CBEAB700E43E92 /* DTCustomColoredAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = 63D8108416CBEAB700E43E92 /* DTCustomColoredAccessory.m */; };
 		63F1FD5216A7212100637B23 /* PickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63F1FD5016A7212100637B23 /* PickerViewController.m */; };
@@ -203,11 +168,6 @@
 		630B018A17336CCE002FF96C /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		633309D316C0CCC3002A88FE /* GoogleReaderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderClient.h; sourceTree = "<group>"; };
 		633309D416C0CCC3002A88FE /* GoogleReaderClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderClient.m; sourceTree = "<group>"; };
-		633309D716C17F68002A88FE /* GoogleReaderFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderFeedViewController.h; sourceTree = "<group>"; };
-		633309D816C17F68002A88FE /* GoogleReaderFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderFeedViewController.m; sourceTree = "<group>"; };
-		633309DF16C18CD9002A88FE /* GoogleReaderLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderLoginViewController.h; sourceTree = "<group>"; };
-		633309E016C18CD9002A88FE /* GoogleReaderLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderLoginViewController.m; sourceTree = "<group>"; };
-		633309E116C18CD9002A88FE /* GoogleReaderLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoogleReaderLoginViewController.xib; sourceTree = "<group>"; };
 		633309E416C1D2E0002A88FE /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
 		633309E516C1D2E1002A88FE /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		633309E616C1D2E1002A88FE /* FeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackViewController.xib; sourceTree = "<group>"; };
@@ -216,33 +176,10 @@
 		633309ED16C22299002A88FE /* blackButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackButton@2x.png"; sourceTree = "<group>"; };
 		633309EE16C22299002A88FE /* blackButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackButtonHighlight.png; sourceTree = "<group>"; };
 		633309EF16C22299002A88FE /* blackButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackButtonHighlight@2x.png"; sourceTree = "<group>"; };
-		633309F016C22299002A88FE /* blueButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueButton.png; sourceTree = "<group>"; };
-		633309F116C22299002A88FE /* blueButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueButton@2x.png"; sourceTree = "<group>"; };
-		633309F216C22299002A88FE /* blueButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueButtonHighlight.png; sourceTree = "<group>"; };
-		633309F316C22299002A88FE /* blueButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueButtonHighlight@2x.png"; sourceTree = "<group>"; };
-		633309F416C22299002A88FE /* greenButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenButton.png; sourceTree = "<group>"; };
-		633309F516C22299002A88FE /* greenButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenButton@2x.png"; sourceTree = "<group>"; };
-		633309F616C22299002A88FE /* greenButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenButtonHighlight.png; sourceTree = "<group>"; };
-		633309F716C22299002A88FE /* greenButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greenButtonHighlight@2x.png"; sourceTree = "<group>"; };
 		633309F816C22299002A88FE /* greyButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButton.png; sourceTree = "<group>"; };
 		633309F916C22299002A88FE /* greyButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyButton@2x.png"; sourceTree = "<group>"; };
 		633309FA16C22299002A88FE /* greyButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyButtonHighlight.png; sourceTree = "<group>"; };
 		633309FB16C22299002A88FE /* greyButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyButtonHighlight@2x.png"; sourceTree = "<group>"; };
-		633309FC16C22299002A88FE /* orangeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orangeButton.png; sourceTree = "<group>"; };
-		633309FD16C22299002A88FE /* orangeButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orangeButton@2x.png"; sourceTree = "<group>"; };
-		633309FE16C22299002A88FE /* orangeButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orangeButtonHighlight.png; sourceTree = "<group>"; };
-		633309FF16C22299002A88FE /* orangeButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orangeButtonHighlight@2x.png"; sourceTree = "<group>"; };
-		63330A0016C22299002A88FE /* tanButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tanButton.png; sourceTree = "<group>"; };
-		63330A0116C22299002A88FE /* tanButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tanButton@2x.png"; sourceTree = "<group>"; };
-		63330A0216C22299002A88FE /* tanButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tanButtonHighlight.png; sourceTree = "<group>"; };
-		63330A0316C22299002A88FE /* tanButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tanButtonHighlight@2x.png"; sourceTree = "<group>"; };
-		63330A0416C22299002A88FE /* whiteButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteButton.png; sourceTree = "<group>"; };
-		63330A0516C22299002A88FE /* whiteButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteButton@2x.png"; sourceTree = "<group>"; };
-		63330A0616C22299002A88FE /* whiteButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteButtonHighlight.png; sourceTree = "<group>"; };
-		63330A0716C22299002A88FE /* whiteButtonHighlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteButtonHighlight@2x.png"; sourceTree = "<group>"; };
-		63330A2416C445C9002A88FE /* ReadeyArticleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadeyArticleCell.h; sourceTree = "<group>"; };
-		63330A2516C445C9002A88FE /* ReadeyArticleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadeyArticleCell.m; sourceTree = "<group>"; };
-		63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReadeyArticleCell.xib; sourceTree = "<group>"; };
 		63330A2D16C5BC38002A88FE /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		63330A2E16C5BC38002A88FE /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		63466AD2171FD2B2000CC838 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
@@ -252,8 +189,6 @@
 		63466ADE1720B258000CC838 /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
 		63466ADF1720B258000CC838 /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
 		634D05281739A81800E7CBA4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		634D052A1739B5E900E7CBA4 /* PocketListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketListViewController.h; sourceTree = "<group>"; };
-		634D052B1739B5E900E7CBA4 /* PocketListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketListViewController.m; sourceTree = "<group>"; };
 		63766EC3170FD7A500CA639B /* Readey.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Readey.storyboard; sourceTree = SOURCE_ROOT; };
 		63766EC6170FF23400CA639B /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		63766EC7170FF23400CA639B /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
@@ -263,23 +198,9 @@
 		63766ECE171762BD00CA639B /* ReadeyAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadeyAPIClient.h; sourceTree = "<group>"; };
 		63766ECF171762BD00CA639B /* ReadeyAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReadeyAPIClient.m; sourceTree = "<group>"; };
 		63766ED1171BC39700CA639B /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		6376A44617316E9A00F28054 /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
-		6376A44717316E9A00F28054 /* share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share@2x.png"; sourceTree = "<group>"; };
-		6383BB6016E44DE600DE6915 /* PocketAPI+NSOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PocketAPI+NSOperation.h"; sourceTree = "<group>"; };
-		6383BB6116E44DE600DE6915 /* PocketAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketAPI.h; sourceTree = "<group>"; };
-		6383BB6216E44DE600DE6915 /* PocketAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketAPI.m; sourceTree = "<group>"; };
-		6383BB6316E44DE600DE6915 /* PocketAPILogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketAPILogin.h; sourceTree = "<group>"; };
-		6383BB6416E44DE600DE6915 /* PocketAPILogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketAPILogin.m; sourceTree = "<group>"; };
-		6383BB6516E44DE600DE6915 /* PocketAPIOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketAPIOperation.h; sourceTree = "<group>"; };
-		6383BB6616E44DE600DE6915 /* PocketAPIOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PocketAPIOperation.m; sourceTree = "<group>"; };
-		6383BB6716E44DE600DE6915 /* PocketAPITypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PocketAPITypes.h; sourceTree = "<group>"; };
-		6383BB6816E44DE600DE6915 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
-		6383BB6916E44DE600DE6915 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		638BA0EE16BB363F0005529C /* ArticleAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleAddViewController.h; sourceTree = "<group>"; };
 		638BA0EF16BB363F0005529C /* ArticleAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleAddViewController.m; sourceTree = "<group>"; };
 		638BA0F016BB363F0005529C /* ArticleAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ArticleAddViewController.xib; sourceTree = "<group>"; };
-		638BA12416BE3EAB0005529C /* GoogleReaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleReaderViewController.h; sourceTree = "<group>"; };
-		638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleReaderViewController.m; sourceTree = "<group>"; };
 		639CA63316CEDAB90052EC91 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		639CA63516CEDB400052EC91 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 		639CA63716CF0D940052EC91 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -362,8 +283,6 @@
 		63A2EDB716A098940071D549 /* FoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewController.m; sourceTree = "<group>"; };
 		63A2EDB916A0AFC50071D549 /* ArticleListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleListViewController.h; sourceTree = "<group>"; };
 		63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleListViewController.m; sourceTree = "<group>"; };
-		63A2EDBD16A529800071D549 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
-		63A2EDBF16A529950071D549 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		63D8102A16C9ABDF00E43E92 /* NSString_stripHtml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSString_stripHtml.h; sourceTree = "<group>"; };
 		63D8102B16C9ABE000E43E92 /* NSString_stripHtml.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_stripHtml.m; sourceTree = "<group>"; };
 		63D8108316CBEAB700E43E92 /* DTCustomColoredAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DTCustomColoredAccessory.h; sourceTree = "<group>"; };
@@ -434,30 +353,10 @@
 				633309ED16C22299002A88FE /* blackButton@2x.png */,
 				633309EE16C22299002A88FE /* blackButtonHighlight.png */,
 				633309EF16C22299002A88FE /* blackButtonHighlight@2x.png */,
-				633309F016C22299002A88FE /* blueButton.png */,
-				633309F116C22299002A88FE /* blueButton@2x.png */,
-				633309F216C22299002A88FE /* blueButtonHighlight.png */,
-				633309F316C22299002A88FE /* blueButtonHighlight@2x.png */,
-				633309F416C22299002A88FE /* greenButton.png */,
-				633309F516C22299002A88FE /* greenButton@2x.png */,
-				633309F616C22299002A88FE /* greenButtonHighlight.png */,
-				633309F716C22299002A88FE /* greenButtonHighlight@2x.png */,
 				633309F816C22299002A88FE /* greyButton.png */,
 				633309F916C22299002A88FE /* greyButton@2x.png */,
 				633309FA16C22299002A88FE /* greyButtonHighlight.png */,
 				633309FB16C22299002A88FE /* greyButtonHighlight@2x.png */,
-				633309FC16C22299002A88FE /* orangeButton.png */,
-				633309FD16C22299002A88FE /* orangeButton@2x.png */,
-				633309FE16C22299002A88FE /* orangeButtonHighlight.png */,
-				633309FF16C22299002A88FE /* orangeButtonHighlight@2x.png */,
-				63330A0016C22299002A88FE /* tanButton.png */,
-				63330A0116C22299002A88FE /* tanButton@2x.png */,
-				63330A0216C22299002A88FE /* tanButtonHighlight.png */,
-				63330A0316C22299002A88FE /* tanButtonHighlight@2x.png */,
-				63330A0416C22299002A88FE /* whiteButton.png */,
-				63330A0516C22299002A88FE /* whiteButton@2x.png */,
-				63330A0616C22299002A88FE /* whiteButtonHighlight.png */,
-				63330A0716C22299002A88FE /* whiteButtonHighlight@2x.png */,
 			);
 			name = Buttons;
 			path = buttons;
@@ -493,35 +392,8 @@
 				630B00EE17335797002FF96C /* Facebook@2x.png */,
 				630B00EF17335797002FF96C /* Twitter.png */,
 				630B00F017335797002FF96C /* Twitter@2x.png */,
-				6376A44617316E9A00F28054 /* share.png */,
-				6376A44717316E9A00F28054 /* share@2x.png */,
 			);
 			name = Icons;
-			sourceTree = "<group>";
-		};
-		6383BB5D16E44DD300DE6915 /* GetPocket */ = {
-			isa = PBXGroup;
-			children = (
-				6383BB5F16E44DE600DE6915 /* SDK */,
-			);
-			name = GetPocket;
-			sourceTree = "<group>";
-		};
-		6383BB5F16E44DE600DE6915 /* SDK */ = {
-			isa = PBXGroup;
-			children = (
-				6383BB6016E44DE600DE6915 /* PocketAPI+NSOperation.h */,
-				6383BB6116E44DE600DE6915 /* PocketAPI.h */,
-				6383BB6216E44DE600DE6915 /* PocketAPI.m */,
-				6383BB6316E44DE600DE6915 /* PocketAPILogin.h */,
-				6383BB6416E44DE600DE6915 /* PocketAPILogin.m */,
-				6383BB6516E44DE600DE6915 /* PocketAPIOperation.h */,
-				6383BB6616E44DE600DE6915 /* PocketAPIOperation.m */,
-				6383BB6716E44DE600DE6915 /* PocketAPITypes.h */,
-				6383BB6816E44DE600DE6915 /* SFHFKeychainUtils.h */,
-				6383BB6916E44DE600DE6915 /* SFHFKeychainUtils.m */,
-			);
-			path = SDK;
 			sourceTree = "<group>";
 		};
 		639CA65216D321510052EC91 /* AppIcons */ = {
@@ -608,7 +480,6 @@
 				63D8103416CA8DBC00E43E92 /* Vendor */,
 				633309EB16C22299002A88FE /* Buttons */,
 				6376A44217316E1300F28054 /* Icons */,
-				63A2EDBC16A529610071D549 /* NavBarIcons */,
 				639CA65216D321510052EC91 /* AppIcons */,
 				639CA65316D3215B0052EC91 /* LaunchImages */,
 			);
@@ -685,15 +556,6 @@
 			path = SBJson;
 			sourceTree = "<group>";
 		};
-		63A2EDBC16A529610071D549 /* NavBarIcons */ = {
-			isa = PBXGroup;
-			children = (
-				63A2EDBF16A529950071D549 /* settings.png */,
-				63A2EDBD16A529800071D549 /* settings@2x.png */,
-			);
-			name = NavBarIcons;
-			sourceTree = "<group>";
-		};
 		63D8103116CA8D6F00E43E92 /* Clients */ = {
 			isa = PBXGroup;
 			children = (
@@ -716,9 +578,6 @@
 				63A2ED64169E1CA00071D549 /* LoginViewController.h */,
 				63A2ED65169E1CA00071D549 /* LoginViewController.m */,
 				63A2ED66169E1CA00071D549 /* LoginViewController.xib */,
-				633309DF16C18CD9002A88FE /* GoogleReaderLoginViewController.h */,
-				633309E016C18CD9002A88FE /* GoogleReaderLoginViewController.m */,
-				633309E116C18CD9002A88FE /* GoogleReaderLoginViewController.xib */,
 				638BA0EE16BB363F0005529C /* ArticleAddViewController.h */,
 				638BA0EF16BB363F0005529C /* ArticleAddViewController.m */,
 				638BA0F016BB363F0005529C /* ArticleAddViewController.xib */,
@@ -743,18 +602,12 @@
 				63A2EDBA16A0AFC50071D549 /* ArticleListViewController.m */,
 				E4ED330116B7B0FA00C21480 /* DropboxViewController.h */,
 				E4ED330216B7B0FA00C21480 /* DropboxViewController.m */,
-				638BA12416BE3EAB0005529C /* GoogleReaderViewController.h */,
-				638BA12516BE3EAB0005529C /* GoogleReaderViewController.m */,
-				633309D716C17F68002A88FE /* GoogleReaderFeedViewController.h */,
-				633309D816C17F68002A88FE /* GoogleReaderFeedViewController.m */,
 				63F1FD6516A73D6300637B23 /* SettingViewController.h */,
 				63F1FD6616A73D6300637B23 /* SettingViewController.m */,
 				63065CEF1706A4DE004D3237 /* RSSCategoriesViewController.h */,
 				63065CF01706A4DE004D3237 /* RSSCategoriesViewController.m */,
 				63065CFC170D4A86004D3237 /* RSSItemsViewController.h */,
 				63065CFD170D4A86004D3237 /* RSSItemsViewController.m */,
-				634D052A1739B5E900E7CBA4 /* PocketListViewController.h */,
-				634D052B1739B5E900E7CBA4 /* PocketListViewController.m */,
 			);
 			name = Tables;
 			sourceTree = "<group>";
@@ -764,7 +617,6 @@
 			children = (
 				63466ACE171FD27C000CC838 /* ViewDeck */,
 				63766EC5170FF23400CA639B /* SVProgressHUD */,
-				6383BB5D16E44DD300DE6915 /* GetPocket */,
 				63D8103516CA8DC200E43E92 /* Wrappers */,
 				639CA63316CEDAB90052EC91 /* Flurry.h */,
 				639CA63516CEDB400052EC91 /* libFlurry.a */,
@@ -788,9 +640,6 @@
 		63D8103616CA8E4E00E43E92 /* CustomCells */ = {
 			isa = PBXGroup;
 			children = (
-				63330A2416C445C9002A88FE /* ReadeyArticleCell.h */,
-				63330A2516C445C9002A88FE /* ReadeyArticleCell.m */,
-				63330A2716C446E6002A88FE /* ReadeyArticleCell.xib */,
 				63766ECB170FF72000CA639B /* RSSItemCell.h */,
 				63766ECC170FF72000CA639B /* RSSItemCell.m */,
 			);
@@ -892,41 +741,17 @@
 				63A2ED30169C8DCD0071D549 /* InfoPlist.strings in Resources */,
 				63A2ED42169C8DCE0071D549 /* ReadeyViewController.xib in Resources */,
 				63A2ED68169E1CA00071D549 /* LoginViewController.xib in Resources */,
-				63A2EDBE16A529800071D549 /* settings@2x.png in Resources */,
-				63A2EDC016A529950071D549 /* settings.png in Resources */,
 				63F1FD5316A7212100637B23 /* PickerViewController.xib in Resources */,
 				638BA0F216BB363F0005529C /* ArticleAddViewController.xib in Resources */,
-				633309E316C18CDA002A88FE /* GoogleReaderLoginViewController.xib in Resources */,
 				633309E816C1D2E2002A88FE /* FeedbackViewController.xib in Resources */,
 				63330A0816C22299002A88FE /* blackButton.png in Resources */,
 				63330A0916C22299002A88FE /* blackButton@2x.png in Resources */,
 				63330A0A16C22299002A88FE /* blackButtonHighlight.png in Resources */,
 				63330A0B16C22299002A88FE /* blackButtonHighlight@2x.png in Resources */,
-				63330A0C16C22299002A88FE /* blueButton.png in Resources */,
-				63330A0D16C22299002A88FE /* blueButton@2x.png in Resources */,
-				63330A0E16C22299002A88FE /* blueButtonHighlight.png in Resources */,
-				63330A0F16C22299002A88FE /* blueButtonHighlight@2x.png in Resources */,
-				63330A1016C22299002A88FE /* greenButton.png in Resources */,
-				63330A1116C22299002A88FE /* greenButton@2x.png in Resources */,
-				63330A1216C22299002A88FE /* greenButtonHighlight.png in Resources */,
-				63330A1316C22299002A88FE /* greenButtonHighlight@2x.png in Resources */,
 				63330A1416C22299002A88FE /* greyButton.png in Resources */,
 				63330A1516C22299002A88FE /* greyButton@2x.png in Resources */,
 				63330A1616C22299002A88FE /* greyButtonHighlight.png in Resources */,
 				63330A1716C22299002A88FE /* greyButtonHighlight@2x.png in Resources */,
-				63330A1816C22299002A88FE /* orangeButton.png in Resources */,
-				63330A1916C22299002A88FE /* orangeButton@2x.png in Resources */,
-				63330A1A16C22299002A88FE /* orangeButtonHighlight.png in Resources */,
-				63330A1B16C22299002A88FE /* orangeButtonHighlight@2x.png in Resources */,
-				63330A1C16C22299002A88FE /* tanButton.png in Resources */,
-				63330A1D16C22299002A88FE /* tanButton@2x.png in Resources */,
-				63330A1E16C22299002A88FE /* tanButtonHighlight.png in Resources */,
-				63330A1F16C22299002A88FE /* tanButtonHighlight@2x.png in Resources */,
-				63330A2016C22299002A88FE /* whiteButton.png in Resources */,
-				63330A2116C22299002A88FE /* whiteButton@2x.png in Resources */,
-				63330A2216C22299002A88FE /* whiteButtonHighlight.png in Resources */,
-				63330A2316C22299002A88FE /* whiteButtonHighlight@2x.png in Resources */,
-				63330A2816C446E6002A88FE /* ReadeyArticleCell.xib in Resources */,
 				639CA63D16D20C0E0052EC91 /* 57.png in Resources */,
 				639CA63F16D20C160052EC91 /* 114.png in Resources */,
 				639CA64116D20C200052EC91 /* 72.png in Resources */,
@@ -940,8 +765,6 @@
 				639CA65116D218DC0052EC91 /* Default-Landscape@2x~ipad.png in Resources */,
 				63766EC4170FD7A500CA639B /* Readey.storyboard in Resources */,
 				63766EC9170FF23400CA639B /* SVProgressHUD.bundle in Resources */,
-				6376A44817316E9A00F28054 /* share.png in Resources */,
-				6376A44917316E9A00F28054 /* share@2x.png in Resources */,
 				630B00F117335797002FF96C /* Email.png in Resources */,
 				630B00F217335797002FF96C /* Email@2x.png in Resources */,
 				630B00F317335797002FF96C /* Facebook.png in Resources */,
@@ -1005,19 +828,11 @@
 				63F1FD6716A73D6400637B23 /* SettingViewController.m in Sources */,
 				E4ED330316B7B0FA00C21480 /* DropboxViewController.m in Sources */,
 				638BA0F116BB363F0005529C /* ArticleAddViewController.m in Sources */,
-				638BA12616BE3EAC0005529C /* GoogleReaderViewController.m in Sources */,
 				633309D516C0CCC3002A88FE /* GoogleReaderClient.m in Sources */,
-				633309D916C17F68002A88FE /* GoogleReaderFeedViewController.m in Sources */,
-				633309E216C18CDA002A88FE /* GoogleReaderLoginViewController.m in Sources */,
 				633309E716C1D2E2002A88FE /* FeedbackViewController.m in Sources */,
-				63330A2616C445CA002A88FE /* ReadeyArticleCell.m in Sources */,
 				63330A2F16C5BC39002A88FE /* WebViewController.m in Sources */,
 				63D8102C16C9ABE000E43E92 /* NSString_stripHtml.m in Sources */,
 				63D8108516CBEAB700E43E92 /* DTCustomColoredAccessory.m in Sources */,
-				6383BB6A16E44DE600DE6915 /* PocketAPI.m in Sources */,
-				6383BB6B16E44DE600DE6915 /* PocketAPILogin.m in Sources */,
-				6383BB6C16E44DE600DE6915 /* PocketAPIOperation.m in Sources */,
-				6383BB6D16E44DE600DE6915 /* SFHFKeychainUtils.m in Sources */,
 				63065CF11706A4DE004D3237 /* RSSCategoriesViewController.m in Sources */,
 				63065CF51706A88C004D3237 /* RSSCategory.m in Sources */,
 				63065CF8170CF3AC004D3237 /* MappingProvider.m in Sources */,
@@ -1029,7 +844,6 @@
 				63466AD4171FD2B2000CC838 /* IIViewDeckController.m in Sources */,
 				63466ADD1720B1B9000CC838 /* InitialViewController.m in Sources */,
 				63466AE01720B258000CC838 /* IIWrapController.m in Sources */,
-				634D052C1739B5EA00E7CBA4 /* PocketListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

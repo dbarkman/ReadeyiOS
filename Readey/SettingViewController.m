@@ -14,16 +14,6 @@
 
 @implementation SettingViewController
 
-@synthesize client;
-
-- (void)setClient:(Client *)c {
-    client = c;
-}
-
-- (Client *)client {
-    return client;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -33,7 +23,6 @@
 	float rightSize = self.viewDeckController.rightSize;
 	float width = self.navigationController.view.frame.size.width;
 	float height = self.view.frame.size.height;
-	NSLog(@"Right Size: %f - Width: %f - Height: %f", rightSize, width, height);
 	self.navigationController.view.frame = (CGRect){rightSize, 0.0f, (width - rightSize), height};
 
 	[[self tableView] setBackgroundView:nil];
