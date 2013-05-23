@@ -8,7 +8,6 @@
 
 #import "ReadeyAPIClient.h"
 #import <sys/utsname.h>
-#import <RestKit/RestKit.h>
 #import "MappingProvider.h"
 
 @implementation ReadeyAPIClient

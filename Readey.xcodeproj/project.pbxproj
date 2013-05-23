@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E7D888ED783483EAF7FA092 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEF1C48649FF4EFCA2C60958 /* libPods.a */; };
 		63065CF11706A4DE004D3237 /* RSSCategoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63065CF01706A4DE004D3237 /* RSSCategoriesViewController.m */; };
 		63065CF51706A88C004D3237 /* RSSCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 63065CF41706A88C004D3237 /* RSSCategory.m */; };
 		63065CF8170CF3AC004D3237 /* MappingProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 63065CF7170CF3AC004D3237 /* MappingProvider.m */; };
@@ -164,6 +165,8 @@
 		63F1FD5116A7212100637B23 /* PickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerViewController.xib; sourceTree = "<group>"; };
 		63F1FD6516A73D6300637B23 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		63F1FD6616A73D6300637B23 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		AEF1C48649FF4EFCA2C60958 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C856E11D3E6A4534ABDE82D2 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		E4A69E5F16B79D51001B1157 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E4ED330116B7B0FA00C21480 /* DropboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropboxViewController.h; sourceTree = "<group>"; };
 		E4ED330216B7B0FA00C21480 /* DropboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropboxViewController.m; sourceTree = "<group>"; };
@@ -184,6 +187,7 @@
 				630B018B17336CCE002FF96C /* Twitter.framework in Frameworks */,
 				63A2ED26169C8DCD0071D549 /* UIKit.framework in Frameworks */,
 				639CA63616CEDB400052EC91 /* libFlurry.a in Frameworks */,
+				4E7D888ED783483EAF7FA092 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +266,7 @@
 				63A2ED2C169C8DCD0071D549 /* Supporting Files */,
 				63A2ED24169C8DCD0071D549 /* Frameworks */,
 				63A2ED22169C8DCD0071D549 /* Products */,
+				C856E11D3E6A4534ABDE82D2 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -285,6 +290,7 @@
 				630B00E9173355E4002FF96C /* Social.framework */,
 				630B018A17336CCE002FF96C /* Twitter.framework */,
 				63A2ED25169C8DCD0071D549 /* UIKit.framework */,
+				AEF1C48649FF4EFCA2C60958 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -418,10 +424,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 63A2ED45169C8DCE0071D549 /* Build configuration list for PBXNativeTarget "Readey" */;
 			buildPhases = (
+				48A339ACCF334D8D95D921E1 /* Check Pods Manifest.lock */,
 				63A2ED1D169C8DCD0071D549 /* Sources */,
 				63A2ED1E169C8DCD0071D549 /* Frameworks */,
 				63A2ED1F169C8DCD0071D549 /* Resources */,
 				639CA63916D1E5750052EC91 /* ShellScript */,
+				947306AE774548FDAD5392E1 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -503,6 +511,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		48A339ACCF334D8D95D921E1 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+		};
 		639CA63916D1E5750052EC91 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -515,6 +537,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Crashlytics.framework/run a01dfebdcb52c4fba6676ae21ccf86c043992c3c";
+		};
+		947306AE774548FDAD5392E1 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -624,6 +660,7 @@
 		};
 		63A2ED46169C8DCE0071D549 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C856E11D3E6A4534ABDE82D2 /* Pods.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -631,17 +668,14 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Readey/Readey-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Readey/Readey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Readey\"",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -650,6 +684,7 @@
 		};
 		63A2ED47169C8DCE0071D549 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C856E11D3E6A4534ABDE82D2 /* Pods.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -657,17 +692,14 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Readey/Readey-Prefix.pch";
-				HEADER_SEARCH_PATHS = "\"$(BUILT_PRODUCTS_DIR)/../../Headers\"";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Readey/Readey-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Readey\"",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;

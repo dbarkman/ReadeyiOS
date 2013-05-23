@@ -10,7 +10,6 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "DropboxViewController.h"
 #import <Crashlytics/Crashlytics.h>
-#import <RestKit/RestKit.h>
 
 @implementation ReadeyAppDelegate
 

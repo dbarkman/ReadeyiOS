@@ -7,11 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
 
 @interface MappingProvider : NSObject
 
-+ (RKMapping *)rssCategoryMapping;
-+ (RKMapping *)rssItemMapping;
+//+ (RKMapping *)rssCategoryMapping;
+//+ (RKMapping *)rssItemMapping;
 
 @end
