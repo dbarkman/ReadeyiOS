@@ -18,9 +18,13 @@
     
 	[Flurry logEvent:@"FoldersView"];
 
-	float leftSize = self.viewDeckController.leftSize;
 	float width = self.view.frame.size.width;
 	float height = self.view.frame.size.height;
+    if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+		width = self.view.frame.size.height;
+		height = self.view.frame.size.width;
+	}
+	float leftSize = self.viewDeckController.leftSize;
 	float newWidth = (width - leftSize);
 	self.navigationController.view.frame = (CGRect){0.0f, 0.0f, newWidth, height};
 	

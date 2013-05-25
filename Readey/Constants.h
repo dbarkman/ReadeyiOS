@@ -8,7 +8,7 @@
 
 #define kAppDelegate ((ReadeyAppDelegate *)[UIApplication sharedApplication].delegate)
 
-#define kReadeyAppiTunesURL @"http://cla.ms/readey"
+#define kReadeyAppiTunesURL @"https://bit.ly/readeyApp"
 
 #define kReadeyAPIKey @"VmB33NRgrW4ckY9DQ7872yFnuEU86AZj"
 #define kReadeyAPIURL @"https://reallysimpleapps.com/readeyAPI"
