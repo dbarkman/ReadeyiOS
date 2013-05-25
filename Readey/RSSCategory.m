@@ -10,6 +10,15 @@
 
 @implementation RSSCategory
 
-@synthesize name;
+@synthesize uuid, name;
+
+- (id)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super init];
+    if (self) {
+		self.uuid = [dictionary objectForKey:@"uuid"];
+        self.name = [dictionary objectForKey:@"name"];
+    }
+    return self;
+}
 
 @end

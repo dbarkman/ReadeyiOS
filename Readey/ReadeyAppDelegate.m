@@ -7,55 +7,27 @@
 //
 
 #import "ReadeyAppDelegate.h"
-#import <DropboxSDK/DropboxSDK.h>
-#import "DropboxViewController.h"
 #import <Crashlytics/Crashlytics.h>
 
 @implementation ReadeyAppDelegate
 
 @synthesize readeyAPIClient;
 
-UINavigationController *navigationController;
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	[Flurry startSession:kFlurryAPIKey];
 	
-	readeyAPIClient = [[ReadeyAPIClient alloc] init];
-
-    DBSession* dbSession = [[DBSession alloc] initWithAppKey:kDropboxAppKey appSecret:kDropboxAppSecret root:kDBRootAppFolder];
-    [DBSession setSharedSession:dbSession];
-    
 	[Crashlytics startWithAPIKey:kCrashlyticsAPIKey];
+	
+	readeyAPIClient = [[ReadeyAPIClient alloc] init];
+	
+	[Flurry logEvent:@"Readey Loaded"];
 	
     return YES;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([[DBSession sharedSession] handleOpenURL:url]) {
-		NSMutableDictionary *flurryParams = [[NSMutableDictionary alloc] init];
-
-		UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Readey" bundle:nil];
-		UIViewController *leftViewController = [storyboard instantiateViewControllerWithIdentifier:@"leftViewController"];
-		UIViewController *rightViewController = [storyboard instantiateViewControllerWithIdentifier:@"rightViewController"];
-		
-		if ([[DBSession sharedSession] isLinked]) {
-			[flurryParams setObject:@"yes" forKey:@"Authed"];
-			DropboxViewController *dropboxViewController = [[DropboxViewController alloc] init];
-			[dropboxViewController setTitle:@"Dropbox"];
-
-			IIViewDeckController *deckController = [[IIViewDeckController alloc]
-													initWithCenterViewController:dropboxViewController
-													leftViewController:leftViewController
-													rightViewController:rightViewController];
-			[[self window] setRootViewController:deckController];
-		} else {
-			[flurryParams setObject:@"no" forKey:@"Authed"];
-		}
-		[Flurry logEvent:@"Dropbox Authed" withParameters:flurryParams];
-		return YES;
-	}
 	return NO;
 }
 

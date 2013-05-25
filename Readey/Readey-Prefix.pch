@@ -17,6 +17,7 @@
 	#import "Constants.h"
 	#import "ReadeyAPIClient.h"
 	#import "Flurry.h"
+	#import "AFNetworking.h"
 	#import "SVProgressHUD.h"
 	#import "IIViewDeckController.h"
 #endif

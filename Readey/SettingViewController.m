@@ -7,10 +7,7 @@
 //
 
 #import "SettingViewController.h"
-#import <DropboxSDK/DropboxSDK.h>
 #import "FeedbackViewController.h"
-
-#define ACTIONSHEET_DROPBOX 0
 
 @implementation SettingViewController
 
@@ -37,10 +34,14 @@
 	[super viewDidAppear:animated];
 	
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+	
+	[self.tableView reloadData];
 }
 
 - (IBAction)closeTapped
 {
+	[Flurry logEvent:@"Right Menu Closed with Close Button"];
+
 	[[self viewDeckController] closeRightViewAnimated:YES];
 }
 
@@ -53,45 +54,17 @@
 	[Flurry logEvent:@"Words Per Minute" withParameters:flurryParams];
 }
 
--(IBAction)showActionSheet:(int)actionsheet {
-	UIActionSheet *unlinkDropbox = [[UIActionSheet alloc] initWithTitle:@"Unlink Dropbox?" delegate:self cancelButtonTitle:@"No" destructiveButtonTitle:@"Yes" otherButtonTitles:nil];
-	
-	switch (actionsheet) {
-		case ACTIONSHEET_DROPBOX:
-			[unlinkDropbox setTag:ACTIONSHEET_DROPBOX];
-			[unlinkDropbox setActionSheetStyle:UIActionSheetStyleBlackOpaque];
-			[unlinkDropbox showInView:self.view];
-			break;
-	}
-}
-
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	NSMutableDictionary *flurryParams = [[NSMutableDictionary alloc] init];
-	switch (actionSheet.tag) {
-		case ACTIONSHEET_DROPBOX:
-			if (buttonIndex == 0) {
-				[flurryParams setObject:@"Dropbox" forKey:@"Service"];
-				[[DBSession sharedSession] unlinkAll];
-			}
-			break;
-	}
-	[Flurry logEvent:@"Logged Out Of Service" withParameters:flurryParams];
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	switch (section) {
 		case 0:
-			return 1;
-			break;
-		case 1:
 			return 1;
 			break;
 	}
@@ -118,15 +91,7 @@
 			switch ([indexPath row]) {
 				case 0:
 					[[cell textLabel] setText:[NSString stringWithFormat:@"Words per Minute: %@", wpm]];
-//					[[cell detailTextLabel] setText:wpm];
 					[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-					break;
-			}
-			break;
-		case 1:
-			switch ([indexPath row]) {
-				case 0:
-					[[cell textLabel] setText:@"Unlink Dropbox"];
 					break;
 			}
 			break;
@@ -143,7 +108,7 @@
 	int row = [indexPath row];
 	
 	if (section == 0 && row == 0) {
-		[Flurry logEvent:@"WPM Tapped"];
+		[Flurry logEvent:@"Words per Minute Tapped"];
 		NSString *intString;
 		NSMutableArray *tempArray = [[NSMutableArray alloc] init];
 		for (int i = 5; i < 805; i = i + 5) {
@@ -161,9 +126,6 @@
 		[pickerViewController setValueArray:[[NSArray alloc] initWithArray:tempArray]];
 		
 		[[self navigationController] pushViewController:pickerViewController animated:YES];
-	}
-	if (section == 1 && row == 0) {
-		[self showActionSheet:ACTIONSHEET_DROPBOX];
 	}
 }
 

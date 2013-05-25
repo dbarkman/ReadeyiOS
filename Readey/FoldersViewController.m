@@ -7,8 +7,6 @@
 //
 
 #import "FoldersViewController.h"
-#import <DropboxSDK/DropboxSDK.h>
-#import "DropboxViewController.h"
 #import "FeedbackViewController.h"
 #import "RSSCategoriesViewController.h"
 
@@ -23,8 +21,8 @@
 	float leftSize = self.viewDeckController.leftSize;
 	float width = self.view.frame.size.width;
 	float height = self.view.frame.size.height;
-	NSLog(@"Left Size: %f - Width: %f - Height: %f", leftSize, width, height);
-	self.navigationController.view.frame = (CGRect){0.0f, 0.0f, (width - leftSize), height};
+	float newWidth = (width - leftSize);
+	self.navigationController.view.frame = (CGRect){0.0f, 0.0f, newWidth, height};
 	
 	[[self tableView] setBackgroundView:nil];
 	[[self tableView] setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
@@ -37,6 +35,8 @@
 
 - (IBAction)closeTapped
 {
+	[Flurry logEvent:@"Left Menu Closed with Close Button"];
+	
 	[[self viewDeckController] closeLeftViewAnimated:YES];
 }
 
@@ -51,10 +51,10 @@
 {
 	switch (section) {
 		case 0:
-			return 2;
+			return 1;
 			break;
 		case 1:
-			return 1;
+			return 3;
 			break;
 	}
 	return 0;
@@ -69,15 +69,18 @@
 				case 0:
 					[[cell textLabel] setText:@"Featured Articles"];
 					break;
-				case 1:
-					[[cell textLabel] setText:@"My Dropbox Articles"];
-					break;
 			}
 			break;
 		case 1:
 			switch ([indexPath row]) {
 				case 0:
-					[[cell textLabel] setText:@"Feedback/New Sources"];
+					[[cell textLabel] setText:@"Feedback/Support"];
+					break;
+				case 1:
+					[[cell textLabel] setText:@"Vote for Features"];
+					break;
+				case 2:
+					[[cell textLabel] setText:@"Vote fore Sources"];
 					break;
 			}
 			break;
@@ -89,7 +92,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DropboxViewController *dropboxViewController = [[DropboxViewController alloc] init];
 	FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
 
 	UINavigationController *feedbackNavigationController = [[UINavigationController alloc] initWithRootViewController:feedbackViewController];
@@ -98,34 +100,49 @@
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Readey" bundle:nil];
 	UIViewController *centerViewController = [storyboard instantiateViewControllerWithIdentifier:@"centerViewController"];
 
-	NSMutableDictionary *folderPicked = [[NSMutableDictionary alloc] init];
-	NSDictionary *pickedFrom = [NSDictionary dictionaryWithObjectsAndKeys:@"Folders", @"From", nil];
+	NSDictionary *flurryParamsFeaturedArticleSource = [[NSDictionary alloc] initWithObjectsAndKeys:@"Featured Article", @"Source", nil];
+	
+	NSDictionary *flurryParamsFeedbackSupportFeedback = [[NSDictionary alloc] initWithObjectsAndKeys:@"FeedbackSupport", @"Feedback", nil];
+	NSDictionary *flurryParamsVoteFeaturesFeedback = [[NSDictionary alloc] initWithObjectsAndKeys:@"VoteFeatures", @"Feedback", nil];
+	NSDictionary *flurryParamsVoteSourcesFeedback = [[NSDictionary alloc] initWithObjectsAndKeys:@"VoteSources", @"Feedback", nil];
 
 	switch ([indexPath section]) {
 		case 0:
 			switch ([indexPath row]) {
 				case 0:
+					[Flurry logEvent:@"Reading Source Selected" withParameters:flurryParamsFeaturedArticleSource];
+					
 					[[self viewDeckController] closeLeftViewAnimated:YES];
 					[[self viewDeckController] setCenterController:centerViewController];
 					break;
-				case 1:
-					[folderPicked setObject:@"Dropbox" forKey:@"Folder"];
-					if (![[DBSession sharedSession] isLinked]) {
-						[[DBSession sharedSession] linkFromController:self];
-					} else {
-						[dropboxViewController setClient:client];
-						[[self viewDeckController] closeLeftViewAnimated:YES];
-						[[self viewDeckController] setCenterController:dropboxViewController];
-					}
-					break;
 			}
 			break;
-			[Flurry logEvent:@"Folder Picked" withParameters:folderPicked];
 		case 1:
 			switch ([indexPath row]) {
 				case 0:
-					[Flurry logEvent:@"Feedback Picked From" withParameters:pickedFrom];
+					[Flurry logEvent:@"Feedback Source Selected" withParameters:flurryParamsFeedbackSupportFeedback];
+					
 					[feedbackViewController setClient:client];
+					[feedbackViewController setWhichFeedback:0];
+					[feedbackViewController setFeedbackLabelString:@"Hey Readey Developers, I have:"];
+					[[self viewDeckController] closeLeftViewAnimated:YES];
+					[[self viewDeckController] setCenterController:feedbackNavigationController];
+					break;
+				case 1:
+					[Flurry logEvent:@"Feedback Source Selected" withParameters:flurryParamsVoteFeaturesFeedback];
+					
+					[feedbackViewController setClient:client];
+					[feedbackViewController setWhichFeedback:1];
+					[feedbackViewController setFeedbackLabelString:@"Please add this feature:"];
+					[[self viewDeckController] closeLeftViewAnimated:YES];
+					[[self viewDeckController] setCenterController:feedbackNavigationController];
+					break;
+				case 2:
+					[Flurry logEvent:@"Feedback Source Selected" withParameters:flurryParamsVoteSourcesFeedback];
+					
+					[feedbackViewController setClient:client];
+					[feedbackViewController setWhichFeedback:2];
+					[feedbackViewController setFeedbackLabelString:@"Please add this reading source:"];
 					[[self viewDeckController] closeLeftViewAnimated:YES];
 					[[self viewDeckController] setCenterController:feedbackNavigationController];
 					break;

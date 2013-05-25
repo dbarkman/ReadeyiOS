@@ -12,7 +12,7 @@
 
 @implementation FeedbackViewController
 
-@synthesize client;
+@synthesize client, feedbackLabelString, whichFeedback;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,6 +41,8 @@
 	if ([UIScreen mainScreen].bounds.size.height > 480) {
 		descriptionHeight.constant += ([UIScreen mainScreen].bounds.size.height - 480);
 	}
+	
+	[feedbackLabel setText:feedbackLabelString];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -60,6 +62,8 @@
 
 - (IBAction)menuTapped
 {
+	[Flurry logEvent:@"Left Menu Opened with Menu Button"];
+	
 	[[self viewDeckController] toggleLeftViewAnimated:YES];
 }
 
@@ -83,14 +87,16 @@
 	});
 }
 
-- (void)requestReturned:(NSArray *)request
+- (void)requestReturned:(NSDictionary *)request
 {
+	[Flurry endTimedEvent:@"POST Feedback" withParameters:nil];
+
 	[SVProgressHUD dismiss];
-	if ([[request objectAtIndex:0] isEqualToString:@"true"]) {
-		[[[UIAlertView alloc] initWithTitle:@"Thank you for your feedback!" message:nil delegate:nil cancelButtonTitle:@"Sure" otherButtonTitles:nil] show];
+	if (request) {
+		[SVProgressHUD showSuccessWithStatus:@"Thanks for your feedback!"];
 		[[self viewDeckController] toggleLeftViewAnimated:YES];
 	} else {
-		[[[UIAlertView alloc] initWithTitle:@"Error" message:@"Your feedback could not be saved.  For support, email support@speedReadey.com." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+		[[[UIAlertView alloc] initWithTitle:@"Error" message:@"Drats! Your feedback could not be saved. For support, email support@speedReadey.com." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 	}
 }
 
@@ -108,7 +114,21 @@
 		[pickerViewController setDelegate:(id)self];
 		[pickerViewController setPickerTitle:@"Choose Feedback"];
 		[pickerViewController setPickerIndex:0];
-		[pickerViewController setValueArray:[[NSArray alloc] initWithObjects:@"Add This Source!", @"An Idea", @"An Issue", @"A Question", @"A Compliment", nil]];
+		
+		NSArray *fscArray = [[NSArray alloc] initWithObjects:@"An Idea", @"An Issue", @"A Question", @"A Compliment", nil];
+		NSArray *vffcArray = [[NSArray alloc] initWithObjects:@"Create My Own Feed", @"Sync Across Devices", @"Offline Reading", @"Show Reading Stats", @"Create My Own Articles", @"Other Feature", nil];
+		NSArray *vfscArray = [[NSArray alloc] initWithObjects:@"Pocket", @"Readability", @"Instapaper", @"Dropbox", @"Other Source", nil];
+		switch (whichFeedback) {
+			case 0:
+				[pickerViewController setValueArray:fscArray];
+				break;
+			case 1:
+				[pickerViewController setValueArray:vffcArray];
+				break;
+			case 2:
+				[pickerViewController setValueArray:vfscArray];
+				break;
+		}
 		[[self navigationController] pushViewController:pickerViewController animated:YES];
 	}
 	

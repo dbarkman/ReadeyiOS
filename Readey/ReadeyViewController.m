@@ -14,7 +14,7 @@
 
 @implementation ReadeyViewController
 
-@synthesize sourceUrl, sourceEnabled, articleContent, articleIdentifier;
+@synthesize rssItemUuid, sourceUrl, sourceEnabled, articleContent, articleIdentifier;
 @synthesize client;
 
 - (void)viewDidLoad
@@ -22,6 +22,8 @@
     [super viewDidLoad];
 	
 	[Flurry logEvent:@"ReadeyView"];
+	
+	client.delegate = self;
 	
 	if (sourceEnabled == false) [sourceButton setHidden:YES];
 
@@ -126,10 +128,6 @@
 
 - (void)setReaderColor
 {
-	UIColor *offWhite = [UIColor colorWithRed:223/255.0f green:223/255.0f blue:223/255.0f alpha:1];
-	UIColor *lightGray = [UIColor colorWithRed:191/255.0f green:191/255.0f blue:191/255.0f alpha:1];
-	UIColor *offBlack = [UIColor colorWithRed:31/255.0f green:31/255.0f blue:31/255.0f alpha:1];
-	
 	NSArray *buttons = [[NSArray alloc] initWithObjects:navigateBackButton, sourceButton, darkLightButton, startButton, backButton, slowerButton, masterButton, fasterButton, nextButton, endButton, nil];
 	NSArray *labels = [[NSArray alloc] initWithObjects:wpmRate, timeRemaining, words, timeToRead, averageSpeed, nil];
 	
@@ -148,12 +146,12 @@
 		
 		[self setButton:buttonBackgroundImage withHightlight:buttonBackgroundImageHighlight];
 		
-		[self.view setBackgroundColor:offBlack];
-		for (UIButton *button in buttons) [button setTitleColor:lightGray forState:UIControlStateNormal];
-		for (UILabel *label in labels) [label setTextColor:lightGray];
-		[currentWord setTextColor:offWhite];
-		[progress setProgressTintColor:[UIColor darkGrayColor]];
-		[progress setTrackTintColor:[UIColor darkGrayColor]];
+		[self.view setBackgroundColor:kOffBlackColor];
+		for (UIButton *button in buttons) [button setTitleColor:kLightGrayColor forState:UIControlStateNormal];
+		for (UILabel *label in labels) [label setTextColor:kLightGrayColor];
+		[currentWord setTextColor:kOffWhiteColor];
+		[progress setProgressTintColor:kOffBlackColor];
+		[progress setTrackTintColor:kOffBlackColor];
 	} else {
 		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:NO];
 		
@@ -164,12 +162,12 @@
 		
 		[self setButton:buttonBackgroundImage withHightlight:buttonBackgroundImageHighlight];
 		
-		[self.view setBackgroundColor:lightGray];
+		[self.view setBackgroundColor:kLightGrayColor];
 		for (UIButton *button in buttons) [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
 		for (UILabel *label in labels) [label setTextColor:[UIColor darkGrayColor]];
 		[currentWord setTextColor:[UIColor blackColor]];
-		[progress setProgressTintColor:[UIColor lightGrayColor]];
-		[progress setTrackTintColor:[UIColor lightGrayColor]];
+		[progress setProgressTintColor:kLightGrayColor];
+		[progress setTrackTintColor:kLightGrayColor];
 	}
 }
 
@@ -203,6 +201,7 @@
 	WebViewController *webViewController = [[WebViewController alloc] initWithURL:sourceUrl];
 	[webViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
 	[self presentViewController:webViewController animated:YES completion:nil];
+	[client createReadLogWithSpeed:0 andWords:0 forRssItem:rssItemUuid];
 }
 
 - (void)updateCounters:(bool)animated
@@ -404,7 +403,16 @@
 	NSDictionary *flurryParamsWords = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%d", wordArraySize], @"Words", nil];
 	[Flurry logEvent:@"Words Read" withParameters:flurryParamsWords];
 	
-	[client createReadLogWithSpeed:speed andWords:wordArraySize];
+	[client createReadLogWithSpeed:speed andWords:wordArraySize forRssItem:rssItemUuid];
+}
+
+- (void)requestReturned:(NSDictionary *)request
+{
+	[Flurry endTimedEvent:@"POST ReadLog" withParameters:nil];
+	
+	if (request) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"ReadLogCreated" object:self];
+	}
 }
 
 - (void)resetTimer

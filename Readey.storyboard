@@ -334,46 +334,6 @@
         <image name="Facebook.png" width="20" height="20"/>
         <image name="Twitter.png" width="20" height="20"/>
     </resources>
-    <classes>
-        <class className="FoldersViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FoldersViewController.h"/>
-        </class>
-        <class className="IIViewDeckController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/IIViewDeckController.h"/>
-        </class>
-        <class className="InitialViewController" superclassName="IIViewDeckController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/InitialViewController.h"/>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="RSSCategoriesViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RSSCategoriesViewController.h"/>
-        </class>
-        <class className="RSSItemCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RSSItemCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="date" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="facebookShare" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="feedTitle" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="sendEmail" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="timeToRead" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="title" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="twitterShare" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="RSSItemsViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RSSItemsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="facebook:"/>
-                <relationship kind="action" name="sendEmail:"/>
-                <relationship kind="action" name="tweet:"/>
-            </relationships>
-        </class>
-        <class className="SettingViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

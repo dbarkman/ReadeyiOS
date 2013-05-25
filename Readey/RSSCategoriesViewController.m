@@ -16,25 +16,22 @@
 {
     [super viewDidLoad];
 	
-	client = [kAppDelegate readeyAPIClient];
-	client.delegate = self;
+	[Flurry logEvent:@"RSSCategoriesView"];
 	
-	[SVProgressHUD showWithStatus:@"Fetching Categories"];
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		[client getCategories];
-	});
-
+	client = [kAppDelegate readeyAPIClient];
+	
+	rssCategories = [NSMutableArray array];
+	
+	[self fetchCategories];
+	
 	UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleBordered target:self action:@selector(menuTapped)];
 	[[self navigationItem] setLeftBarButtonItem:menuButton];
 	UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settingsTapped)];
 	[[self navigationItem] setRightBarButtonItem:settingsButton];
-}
-
-- (void)requestReturned:(NSArray *)request
-{
-	rssCategories = request;
-	[self.tableView reloadData];
-	[SVProgressHUD dismiss];
+	
+	UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
+	[refresh addTarget:self action:@selector(refreshPulled) forControlEvents:UIControlEventValueChanged];
+	self.refreshControl = refresh;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -44,13 +41,55 @@
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
+- (void)fetchCategories
+{
+	client.delegate = self;
+	[SVProgressHUD showWithStatus:@"Fetching Categories"];
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		[client getCategories];
+	});
+}
+
+- (void)requestReturned:(NSDictionary *)request
+{
+	[Flurry endTimedEvent:@"Get Categories" withParameters:nil];
+
+	[SVProgressHUD dismiss];
+	if (request) {
+		for (id categoryDictionary in [request objectForKey:@"data"]) {
+			RSSCategory *rssCategory = [[RSSCategory alloc] initWithDictionary:categoryDictionary];
+			[rssCategories addObject:rssCategory];
+		}
+		
+		[self.tableView reloadData];
+	} else {
+		[[[UIAlertView alloc] initWithTitle:@"Drats! Couldn't fetch categories." message:@"Please try again in a few minutes." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+	}
+}
+
+- (void)refreshPulled
+{
+	rssCategories = [NSMutableArray array];
+	
+	[self fetchCategories];
+
+	if ([[self refreshControl] isRefreshing]) {
+		[[self refreshControl] endRefreshing];
+		[Flurry logEvent:@"RSS Categories Refreshed"];
+	}
+}
+
 - (IBAction)menuTapped
 {
+	[Flurry logEvent:@"Left Menu Opened with Menu Button"];
+
 	[[self viewDeckController] toggleLeftViewAnimated:YES];
 }
 
 - (IBAction)settingsTapped
 {
+	[Flurry logEvent:@"Right Menu Opened with Settings Button"];
+	
 	[[self viewDeckController] toggleRightViewAnimated:YES];
 }
 
@@ -79,7 +118,11 @@
 		[rssItemsViewController setClient:client];
 		
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-		[rssItemsViewController setRssCategory:[rssCategories objectAtIndex:[indexPath row]]];
+		RSSCategory *rssCategory = [rssCategories objectAtIndex:[indexPath row]];
+		[rssItemsViewController setRssCategory:rssCategory];
+		
+		NSDictionary *flurryParams = [NSDictionary dictionaryWithObjectsAndKeys:rssCategory.name, @"Category", nil];
+		[Flurry logEvent:@"RSS Categories Selected" withParameters:flurryParams];
 	}
 }
 

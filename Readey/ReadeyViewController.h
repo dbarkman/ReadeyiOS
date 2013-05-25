@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ReadeyAPIClient.h"
 
-@interface ReadeyViewController : UIViewController
+@interface ReadeyViewController : UIViewController <ReadeyClientDelegate>
 {
 	int marker;
 	int wordArraySize;
@@ -61,6 +61,7 @@
 
 @property (nonatomic, strong) ReadeyAPIClient *client;
 @property (nonatomic) bool sourceEnabled;
+@property (nonatomic, retain) NSString *rssItemUuid;
 @property (nonatomic, retain) NSString *sourceUrl;
 @property (nonatomic, retain) NSString *articleContent;
 @property (nonatomic, retain) NSString *articleIdentifier;

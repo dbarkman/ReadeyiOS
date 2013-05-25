@@ -8,7 +8,6 @@
 
 #import "ReadeyAPIClient.h"
 #import <sys/utsname.h>
-#import "MappingProvider.h"
 
 @implementation ReadeyAPIClient
 
@@ -62,64 +61,50 @@
 
 - (void)getCategories
 {
-    NSIndexSet *statusCodeSet = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful);
-    RKMapping *mapping = [MappingProvider rssCategoryMapping];
+	[Flurry logEvent:@"Get Categories" timed:YES];
 	
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor
-												responseDescriptorWithMapping:mapping pathPattern:@"/readeyAPI/categories" keyPath:@"data" statusCodes:statusCodeSet];
-	
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/categories?key=%@&uuid=%@&appVersion=%@&device=%@&machine=%@&osVersion=%@",
-									   kReadeyAPIURL, kReadeyAPIKey, uuid, appVersion, device, machine, osVersion]];
-	
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    RKObjectRequestOperation *operation = [[RKObjectRequestOperation alloc] initWithRequest:request
-                                                                        responseDescriptors:@[responseDescriptor]];
-    [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        rssCategories = mappingResult.array;
-		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
-			[delegate requestReturned:rssCategories];
-		}
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"ERROR: %@", error);
-        NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
-    }];
-    
-    [operation start];
+	NSString *url = [NSString stringWithFormat:
+		@"%@/categories?key=%@&uuid=%@&appVersion=%@&device=%@&machine=%@&osVersion=%@",
+		kReadeyAPIURL, kReadeyAPIKey, uuid, appVersion, device, machine, osVersion];
+	[self makeApiGetCallWithUrl:url];
 }
 
-- (void)getItemsForCategory:(NSString *)category
+- (void)getItemsForCategory:(NSString *)category onPage:(int)page
 {
-	NSString *ecodedCategory = [category stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	[Flurry logEvent:@"Get Items" timed:YES];
+	
+	NSString *encodedCategory = [category stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSString *url = [NSString stringWithFormat:
+		@"%@/items?category=%@&key=%@&uuid=%@&appVersion=%@&device=%@&machine=%@&osVersion=%@&page=%d",
+		kReadeyAPIURL, encodedCategory, kReadeyAPIKey, uuid, appVersion, device, machine, osVersion, page];
+	
+	[self makeApiGetCallWithUrl:url];
+}
 
-    NSIndexSet *statusCodeSet = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful);
-    RKMapping *mapping = [MappingProvider rssItemMapping];
-	
-    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor
-												responseDescriptorWithMapping:mapping pathPattern:@"/readeyAPI/items" keyPath:@"data" statusCodes:statusCodeSet];
-	
-	NSString *urlString =[NSString stringWithFormat:@"%@/items?category=%@&key=%@&uuid=%@&appVersion=%@&device=%@&machine=%@&osVersion=%@",
-						  kReadeyAPIURL, ecodedCategory, kReadeyAPIKey, uuid, appVersion, device, machine, osVersion];
-
-    NSURL *url = [NSURL URLWithString:urlString];
-	
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    RKObjectRequestOperation *operation = [[RKObjectRequestOperation alloc] initWithRequest:request
-                                                                        responseDescriptors:@[responseDescriptor]];
-    [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        rssItems = mappingResult.array;
+- (void)makeApiGetCallWithUrl:(NSString *)urlString
+{
+	NSURL *url = [NSURL URLWithString:urlString];
+	NSURLRequest *request = [NSURLRequest requestWithURL:url];
+	AFJSONRequestOperation *operation = [[AFJSONRequestOperation alloc] initWithRequest:request];
+	[operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+		[Flurry logEvent:@"GET Call Succeeded"];
 		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
-			[delegate requestReturned:rssItems];
+			[delegate requestReturned:responseObject];
 		}
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"ERROR: %@", error);
-        NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
-    }];
-    
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		[Flurry logEvent:@"GET Call Failed"];
+		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
+			[delegate requestReturned:false];
+		}
+	}];
+	
     [operation start];
 }
 
 - (void)createFeedback:(NSString *)feedbackType description:(NSString *)description email:(NSString *)email
 {
+	[Flurry logEvent:@"POST Feedback" timed:YES];
+	
 	NSMutableDictionary *feedbackDictionary = [[NSMutableDictionary alloc] init];
 	
 	[feedbackDictionary setObject:kReadeyAPIKey forKey:@"key"];
@@ -134,28 +119,13 @@
 	
 	NSString *path =[NSString stringWithFormat:@"%@/feedback", kReadeyAPIURL];
 	
-	AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:kReadeyAPIURL]];
-	[httpClient setParameterEncoding:AFFormURLParameterEncoding];
-	NSMutableURLRequest *request = [httpClient requestWithMethod:@"POST" path:path parameters:feedbackDictionary];
-	
-	AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-	[httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
-	
-	[operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
-			[delegate requestReturned:[[NSArray alloc] initWithObjects:@"true", nil]];
-		}
-	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
-			[delegate requestReturned:[[NSArray alloc] initWithObjects:@"false", nil]];
-		}
-	}];
-
-	[operation start];
+	[self makeApiPostCallWithPath:path andParameters:feedbackDictionary];
 }
 
-- (void)createReadLogWithSpeed:(float)speed andWords:(int)words
+- (void)createReadLogWithSpeed:(float)speed andWords:(int)words forRssItem:(NSString *)rssItemUuid
 {
+	[Flurry logEvent:@"POST ReadLog" timed:YES];
+
 	NSNumber *speedNumber = [NSNumber numberWithFloat:speed];
 	NSNumber *wordsNumber = [NSNumber numberWithFloat:words];
 	
@@ -167,24 +137,36 @@
 	[readLogDictionary setObject:device forKey:@"device"];
 	[readLogDictionary setObject:machine forKey:@"machine"];
 	[readLogDictionary setObject:osVersion forKey:@"osVersion"];
+	[readLogDictionary setObject:rssItemUuid forKey:@"rssItemUuid"];
 	[readLogDictionary setObject:speedNumber forKey:@"speed"];
 	[readLogDictionary setObject:wordsNumber forKey:@"words"];
 
 	NSString *path =[NSString stringWithFormat:@"%@/readLog", kReadeyAPIURL];
 
+	[self makeApiPostCallWithPath:path andParameters:readLogDictionary];
+}
+
+- (void)makeApiPostCallWithPath:(NSString *)path andParameters:(NSDictionary *)parameters
+{
 	AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:kReadeyAPIURL]];
 	[httpClient setParameterEncoding:AFFormURLParameterEncoding];
-	NSMutableURLRequest *request = [httpClient requestWithMethod:@"POST" path:path parameters:readLogDictionary];
-
+	NSMutableURLRequest *request = [httpClient requestWithMethod:@"POST" path:path parameters:parameters];
+	
 	AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
 	[httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
 	
-//	[operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//		NSLog(@"Response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-//	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//		NSLog(@"Error: %@", error);
-//	}];
-
+	[operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+		[Flurry logEvent:@"POST Call Succeeded"];
+		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
+			[delegate requestReturned:[NSDictionary dictionary]];
+		}
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		[Flurry logEvent:@"POST Call Failed"];
+		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
+			[delegate requestReturned:false];
+		}
+	}];
+	
 	[operation start];
 }
 

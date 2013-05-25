@@ -11,7 +11,7 @@
 @interface RSSCategoriesViewController : UITableViewController <ReadeyClientDelegate>
 {
 	ReadeyAPIClient *client;
-	NSArray *rssCategories;
+	NSMutableArray *rssCategories;
 }
 
 @end

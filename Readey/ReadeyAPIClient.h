@@ -11,7 +11,7 @@
 
 @protocol ReadeyClientDelegate <NSObject>
 
-- (void)requestReturned:(NSArray *)request;
+- (void)requestReturned:(NSDictionary *)request;
 
 @end
 
@@ -37,9 +37,9 @@
 @property (nonatomic, strong) NSArray *rssItems;
 
 - (void)getCategories;
-- (void)getItemsForCategory:(NSString *)category;
+- (void)getItemsForCategory:(NSString *)category onPage:(int)page;
 - (void)createFeedback:(NSString *)feedbackType description:(NSString *)description email:(NSString *)email;
-- (void)createReadLogWithSpeed:(float)speed andWords:(int)words;
+- (void)createReadLogWithSpeed:(float)speed andWords:(int)words forRssItem:(NSString *)rssItemUuid;
 
 //future
 - (void)saveLogin;

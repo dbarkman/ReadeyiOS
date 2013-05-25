@@ -37,10 +37,7 @@
 	<array>
 		<dict>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>pocketapp12145</string>
-				<string>db-py9e1yuyy55owpb</string>
-			</array>
+			<array/>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>

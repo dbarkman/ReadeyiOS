@@ -10,6 +10,8 @@
 
 @interface FeedbackViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, ReadeyClientDelegate>
 {
+	NSArray *constants;
+	IBOutlet UILabel *feedbackLabel;
 	IBOutlet UITextField *feedbackTypeTextField;
 	IBOutlet UITextView *descriptionTextView;
 	IBOutlet UITextField *emailTextField;
@@ -19,6 +21,8 @@
 }
 
 @property (nonatomic, strong) ReadeyAPIClient *client;
+@property (nonatomic, strong) NSString *feedbackLabelString;
+@property (nonatomic) int whichFeedback;
 
 - (IBAction)submit;
 

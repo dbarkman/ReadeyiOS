@@ -10,6 +10,9 @@
 
 @interface RSSCategory : NSObject
 
+@property (strong, nonatomic) NSString *uuid;
 @property (strong, nonatomic) NSString *name;
+
+- (id)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

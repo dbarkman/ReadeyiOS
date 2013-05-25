@@ -49,9 +49,10 @@
 	toolBar.barStyle = UIBarStyleDefault;
 	[toolBar sizeToFit];
 	UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(done)];
-	UIBarButtonItem *flexiableSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
 	UIBarButtonItem *back = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(back)];
-	NSArray *items = [NSArray arrayWithObjects:done, flexiableSpace, back, nil];
+	UIBarButtonItem *openInSafari = [[UIBarButtonItem alloc] initWithTitle:@"Open in Safari" style:UIBarButtonItemStyleBordered target:self action:@selector(openInSafari)];
+	UIBarButtonItem *flexiableSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+	NSArray *items = [NSArray arrayWithObjects:done, flexiableSpace, openInSafari, flexiableSpace, back, nil];
 	[toolBar setItems:items];
 	[self.view addSubview:toolBar];
 	
@@ -83,6 +84,13 @@
 {
 	[Flurry logEvent:@"WebView Back Tapped"];
 	[webView goBack];
+}
+
+- (IBAction)openInSafari
+{
+	[Flurry logEvent:@"Webview Open in Safari Tapped"];
+	NSURL *loadUrl = [[NSURL alloc] initWithString:url];
+	[[UIApplication sharedApplication] openURL:loadUrl];
 }
 
 @end

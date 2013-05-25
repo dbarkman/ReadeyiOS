@@ -14,8 +14,9 @@
 
 @interface RSSItemsViewController : UITableViewController <ReadeyClientDelegate, MFMailComposeViewControllerDelegate>
 {
-	int page;
-	int totalPages;
+	int rssItemSelected;
+	NSInteger page;
+	NSInteger totalPages;
 	NSMutableArray *rssItems;
 }
 
