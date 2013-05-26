@@ -10,13 +10,13 @@
 
 @interface RSSItem : NSObject
 
-@property (strong, nonatomic) NSString *uuid;
-@property (strong, nonatomic) NSString *feedTitle;
-@property (strong, nonatomic) NSString *title;
-@property (strong, nonatomic) NSString *date;
+@property (nonatomic, strong) NSString *uuid;
+@property (nonatomic, strong) NSString *feedTitle;
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *date;
 @property (nonatomic) Boolean *alreadyRead;
-@property (strong, nonatomic) NSString *permalink;
-@property (strong, nonatomic) NSString *content;
+@property (nonatomic, strong) NSString *permalink;
+@property (nonatomic, strong) NSString *content;
 @property (nonatomic) float wordCount;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;

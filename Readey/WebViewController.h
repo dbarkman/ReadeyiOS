@@ -9,8 +9,8 @@
 {
 	UIToolbar *toolBar;
 }
-@property (strong, nonatomic) NSString *url;
-@property (strong, nonatomic) UIWebView *webView;
+@property (nonatomic, strong) NSString *url;
+@property (nonatomic, strong) UIWebView *webView;
 
 - (id)initWithURL:(NSString *)postURL;
 

@@ -122,7 +122,7 @@
 	[self makeApiPostCallWithPath:path andParameters:feedbackDictionary];
 }
 
-- (void)createReadLogWithSpeed:(float)speed andWords:(int)words forRssItem:(NSString *)rssItemUuid
+- (void)createReadLogWithSpeed:(float)speed andWords:(int)words forRssItem:(NSString *)rssItemUuid withCategory:category
 {
 	[Flurry logEvent:@"POST ReadLog" timed:YES];
 
@@ -138,6 +138,7 @@
 	[readLogDictionary setObject:machine forKey:@"machine"];
 	[readLogDictionary setObject:osVersion forKey:@"osVersion"];
 	[readLogDictionary setObject:rssItemUuid forKey:@"rssItemUuid"];
+	[readLogDictionary setObject:category forKey:@"rssCategory"];
 	[readLogDictionary setObject:speedNumber forKey:@"speed"];
 	[readLogDictionary setObject:wordsNumber forKey:@"words"];
 

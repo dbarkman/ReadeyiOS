@@ -21,6 +21,6 @@
 }
 
 @property (nonatomic, strong) ReadeyAPIClient *client;
-@property (strong, nonatomic) RSSCategory *rssCategory;
+@property (nonatomic, strong) RSSCategory *rssCategory;
 
 @end

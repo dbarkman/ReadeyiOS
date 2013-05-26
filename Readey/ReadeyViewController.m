@@ -14,7 +14,7 @@
 
 @implementation ReadeyViewController
 
-@synthesize rssItemUuid, sourceUrl, sourceEnabled, articleContent, articleIdentifier;
+@synthesize rssItemUuid, category, sourceUrl, sourceEnabled, articleContent, articleIdentifier;
 @synthesize client;
 
 - (void)viewDidLoad
@@ -201,7 +201,7 @@
 	WebViewController *webViewController = [[WebViewController alloc] initWithURL:sourceUrl];
 	[webViewController setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
 	[self presentViewController:webViewController animated:YES completion:nil];
-	[client createReadLogWithSpeed:0 andWords:0 forRssItem:rssItemUuid];
+	[client createReadLogWithSpeed:0 andWords:0 forRssItem:rssItemUuid withCategory:category];
 }
 
 - (void)updateCounters:(bool)animated
@@ -403,7 +403,7 @@
 	NSDictionary *flurryParamsWords = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%d", wordArraySize], @"Words", nil];
 	[Flurry logEvent:@"Words Read" withParameters:flurryParamsWords];
 	
-	[client createReadLogWithSpeed:speed andWords:wordArraySize forRssItem:rssItemUuid];
+	[client createReadLogWithSpeed:speed andWords:wordArraySize forRssItem:rssItemUuid withCategory:category];
 }
 
 - (void)requestReturned:(NSDictionary *)request

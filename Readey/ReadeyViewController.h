@@ -61,9 +61,10 @@
 
 @property (nonatomic, strong) ReadeyAPIClient *client;
 @property (nonatomic) bool sourceEnabled;
-@property (nonatomic, retain) NSString *rssItemUuid;
-@property (nonatomic, retain) NSString *sourceUrl;
-@property (nonatomic, retain) NSString *articleContent;
-@property (nonatomic, retain) NSString *articleIdentifier;
+@property (nonatomic, strong) NSString *rssItemUuid;
+@property (nonatomic, strong) NSString *category;
+@property (nonatomic, strong) NSString *sourceUrl;
+@property (nonatomic, strong) NSString *articleContent;
+@property (nonatomic, strong) NSString *articleIdentifier;
 
 @end

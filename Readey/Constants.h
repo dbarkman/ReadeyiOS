@@ -10,10 +10,10 @@
 
 #define kReadeyAppiTunesURL @"https://bit.ly/readeyApp"
 
-#define kReadeyAPIKey @"VmB33NRgrW4ckY9DQ7872yFnuEU86AZj"
+#define kReadeyAPIKey @"42m24fbJtEnAC6vXoVy8Yjz9U79dhZ3u"
 #define kReadeyAPIURL @"https://reallysimpleapps.com/readeyAPI"
 
-#define kFlurryAPIKey @"S3QZ6TQKCP9SWK8D8365"
+#define kFlurryAPIKey @"DFMY373V5MCRJJNRCYK9"
 #define kCrashlyticsAPIKey @"a01dfebdcb52c4fba6676ae21ccf86c043992c3c"
 
 #define kDropboxAppKey @"py9e1yuyy55owpb"

@@ -299,6 +299,7 @@ const int kLoadingCellTag = 1234;
 	[readeyViewController setClient:client];
 	[readeyViewController setSourceEnabled:true];
 	[readeyViewController setRssItemUuid:rssItem.uuid];
+	[readeyViewController setCategory:rssCategory.uuid];
 	[readeyViewController setSourceUrl:rssItem.permalink];
 	[readeyViewController setArticleContent:rssItem.content];
 	[readeyViewController setArticleIdentifier:rssItem.permalink];

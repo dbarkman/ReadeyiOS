@@ -22,8 +22,8 @@
 }
 
 @property (nonatomic, weak)id <PickerViewDelegate> delegate;
-@property (nonatomic, retain) NSString *pickerTitle;
+@property (nonatomic, strong) NSString *pickerTitle;
 @property (nonatomic) int pickerIndex;
-@property (nonatomic, retain) NSArray *valueArray;
+@property (nonatomic, strong) NSArray *valueArray;
 
 @end
