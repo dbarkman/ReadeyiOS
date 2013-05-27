@@ -28,10 +28,6 @@
 	[[self navigationItem] setLeftBarButtonItem:menuButton];
 	UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(settingsTapped)];
 	[[self navigationItem] setRightBarButtonItem:settingsButton];
-	
-	UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
-	[refresh addTarget:self action:@selector(refreshPulled) forControlEvents:UIControlEventValueChanged];
-	self.refreshControl = refresh;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -64,18 +60,6 @@
 		[self.tableView reloadData];
 	} else {
 		[[[UIAlertView alloc] initWithTitle:@"Drats! Couldn't fetch categories." message:@"Please try again in a few minutes." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-	}
-}
-
-- (void)refreshPulled
-{
-	rssCategories = [NSMutableArray array];
-	
-	[self fetchCategories];
-
-	if ([[self refreshControl] isRefreshing]) {
-		[[self refreshControl] endRefreshing];
-		[Flurry logEvent:@"RSS Categories Refreshed"];
 	}
 }
 

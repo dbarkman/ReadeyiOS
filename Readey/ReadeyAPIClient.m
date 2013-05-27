@@ -87,6 +87,7 @@
 	NSURLRequest *request = [NSURLRequest requestWithURL:url];
 	AFJSONRequestOperation *operation = [[AFJSONRequestOperation alloc] initWithRequest:request];
 	[operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//		NSLog(@"responseObject %@", responseObject);
 		[Flurry logEvent:@"GET Call Succeeded"];
 		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
 			[delegate requestReturned:responseObject];
@@ -157,6 +158,7 @@
 	[httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
 	
 	[operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//		NSLog(@"Response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
 		[Flurry logEvent:@"POST Call Succeeded"];
 		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
 			[delegate requestReturned:[NSDictionary dictionary]];
