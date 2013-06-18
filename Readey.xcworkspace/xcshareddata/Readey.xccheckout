@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5281BA9B-5649-4C97-AA40-5307EE2562EE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Readey</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>723159FF-1DDB-421D-A9A3-BF23F76D991D</key>
+		<string>dbarkman@192.155.82.188:~/git/Development/iOS/Readey</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Readey.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>723159FF-1DDB-421D-A9A3-BF23F76D991D</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>dbarkman@192.155.82.188:~/git/Development/iOS/Readey</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>723159FF-1DDB-421D-A9A3-BF23F76D991D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>723159FF-1DDB-421D-A9A3-BF23F76D991D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Readey</string>
+		</dict>
+	</array>
+</dict>
+</plist>

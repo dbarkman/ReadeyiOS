@@ -55,7 +55,7 @@
 {
 	switch (section) {
 		case 0:
-			return 1;
+			return 3;
 			break;
 		case 1:
 			return 3;
@@ -72,6 +72,12 @@
 			switch ([indexPath row]) {
 				case 0:
 					[[cell textLabel] setText:@"Featured Articles"];
+					break;
+				case 1:
+					[[cell textLabel] setText:@"News Articles"];
+					break;
+				case 2:
+					[[cell textLabel] setText:@"Sports Articles"];
 					break;
 			}
 			break;
@@ -104,7 +110,9 @@
 	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Readey" bundle:nil];
 	UIViewController *centerViewController = [storyboard instantiateViewControllerWithIdentifier:@"centerViewController"];
 
-	NSDictionary *flurryParamsFeaturedArticleSource = [[NSDictionary alloc] initWithObjectsAndKeys:@"Featured Article", @"Source", nil];
+	NSDictionary *flurryParamsFeaturedArticleSource = [[NSDictionary alloc] initWithObjectsAndKeys:@"Featured Articles", @"Source", nil];
+	NSDictionary *flurryParamsNewsArticlesSource = [[NSDictionary alloc] initWithObjectsAndKeys:@"News Articles", @"Source", nil];
+	NSDictionary *flurryParamsSportsArticlesSource = [[NSDictionary alloc] initWithObjectsAndKeys:@"Sports Articles", @"Source", nil];
 	
 	NSDictionary *flurryParamsFeedbackSupportFeedback = [[NSDictionary alloc] initWithObjectsAndKeys:@"FeedbackSupport", @"Feedback", nil];
 	NSDictionary *flurryParamsVoteFeaturesFeedback = [[NSDictionary alloc] initWithObjectsAndKeys:@"VoteFeatures", @"Feedback", nil];
@@ -115,6 +123,24 @@
 			switch ([indexPath row]) {
 				case 0:
 					[Flurry logEvent:@"Reading Source Selected" withParameters:flurryParamsFeaturedArticleSource];
+					
+					[[NSUserDefaults standardUserDefaults] setObject:@"featuredCategories" forKey:@"topLevel"];
+
+					[[self viewDeckController] closeLeftViewAnimated:YES];
+					[[self viewDeckController] setCenterController:centerViewController];
+					break;
+				case 1:
+					[Flurry logEvent:@"Reading Source Selected" withParameters:flurryParamsNewsArticlesSource];
+					
+					[[NSUserDefaults standardUserDefaults] setObject:@"newsCategories" forKey:@"topLevel"];
+					
+					[[self viewDeckController] closeLeftViewAnimated:YES];
+					[[self viewDeckController] setCenterController:centerViewController];
+					break;
+				case 2:
+					[Flurry logEvent:@"Reading Source Selected" withParameters:flurryParamsSportsArticlesSource];
+					
+					[[NSUserDefaults standardUserDefaults] setObject:@"sportsCategories" forKey:@"topLevel"];
 					
 					[[self viewDeckController] closeLeftViewAnimated:YES];
 					[[self viewDeckController] setCenterController:centerViewController];

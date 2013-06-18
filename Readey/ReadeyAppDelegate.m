@@ -8,10 +8,22 @@
 
 #import "ReadeyAppDelegate.h"
 #import <Crashlytics/Crashlytics.h>
+#import "iRate.h"
 
 @implementation ReadeyAppDelegate
 
 @synthesize readeyAPIClient;
+
++ (void) initialize
+{
+	[[NSUserDefaults standardUserDefaults] setObject:@"featuredCategories" forKey:@"topLevel"];
+	
+	[[iRate sharedInstance] setDaysUntilPrompt:3];
+	[[iRate sharedInstance] setUsesUntilPrompt:4];
+	[[iRate sharedInstance] setRemindPeriod:2];
+	[[iRate sharedInstance] setPromptAgainForEachNewVersion:YES];
+	[[iRate sharedInstance] setDisplayAppUsingStorekitIfAvailable:YES];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

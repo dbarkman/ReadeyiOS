@@ -33,6 +33,7 @@
 		63330A1716C22299002A88FE /* greyButtonHighlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 633309FB16C22299002A88FE /* greyButtonHighlight@2x.png */; };
 		63330A2F16C5BC39002A88FE /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63330A2E16C5BC38002A88FE /* WebViewController.m */; };
 		63466ADD1720B1B9000CC838 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63466ADC1720B1B9000CC838 /* InitialViewController.m */; };
+		636F33281767A23600F07A5D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 636F33271767A23600F07A5D /* StoreKit.framework */; };
 		63766EC4170FD7A500CA639B /* Readey.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63766EC3170FD7A500CA639B /* Readey.storyboard */; };
 		63766ECD170FF72000CA639B /* RSSItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 63766ECC170FF72000CA639B /* RSSItemCell.m */; };
 		63766ED0171762BD00CA639B /* ReadeyAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 63766ECF171762BD00CA639B /* ReadeyAPIClient.m */; };
@@ -109,6 +110,7 @@
 		63330A2E16C5BC38002A88FE /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		63466ADB1720B1B9000CC838 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialViewController.h; sourceTree = "<group>"; };
 		63466ADC1720B1B9000CC838 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialViewController.m; sourceTree = "<group>"; };
+		636F33271767A23600F07A5D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		63766EC3170FD7A500CA639B /* Readey.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Readey.storyboard; sourceTree = SOURCE_ROOT; };
 		63766ECB170FF72000CA639B /* RSSItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSItemCell.h; sourceTree = "<group>"; };
 		63766ECC170FF72000CA639B /* RSSItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSItemCell.m; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				636F33281767A23600F07A5D /* StoreKit.framework in Frameworks */,
 				63A2ED2A169C8DCD0071D549 /* CoreGraphics.framework in Frameworks */,
 				639CA63B16D1E5BD0052EC91 /* Crashlytics.framework in Frameworks */,
 				633309EA16C22193002A88FE /* DropboxSDK.framework in Frameworks */,
@@ -287,6 +290,7 @@
 		63A2ED24169C8DCD0071D549 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				636F33271767A23600F07A5D /* StoreKit.framework */,
 				63A2ED29169C8DCD0071D549 /* CoreGraphics.framework */,
 				639CA63A16D1E5BD0052EC91 /* Crashlytics.framework */,
 				633309E916C22193002A88FE /* DropboxSDK.framework */,

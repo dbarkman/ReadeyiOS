@@ -36,7 +36,7 @@
 @property (nonatomic, strong) NSArray *rssCategories;
 @property (nonatomic, strong) NSArray *rssItems;
 
-- (void)getCategories;
+- (void)getCategoriesForTopLevel:(NSString *)topLevel;
 - (void)getItemsForCategory:(NSString *)category onPage:(int)page;
 - (void)createFeedback:(NSString *)feedbackType description:(NSString *)description email:(NSString *)email;
 - (void)createReadLogWithSpeed:(float)speed andWords:(int)words forRssItem:(NSString *)rssItemUuid withCategory:(NSString *)category;

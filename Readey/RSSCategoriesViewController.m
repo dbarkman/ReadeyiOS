@@ -22,6 +22,16 @@
 	
 	rssCategories = [NSMutableArray array];
 	
+	topLevel = [[NSUserDefaults standardUserDefaults] objectForKey:@"topLevel"];
+	
+	if ([topLevel isEqualToString:@"featuredCategories"]) {
+		[[self navigationItem] setTitle:@"Featured Articles"];
+	} else if ([topLevel isEqualToString:@"newsCategories"]) {
+		[[self navigationItem] setTitle:@"News Articles"];
+	} else if ([topLevel isEqualToString:@"sportsCategories"]) {
+		[[self navigationItem] setTitle:@"Sports Articles"];
+	}
+
 	[self fetchCategories];
 	
 	UIBarButtonItem *menuButton = [[UIBarButtonItem alloc] initWithTitle:@"Menu" style:UIBarButtonItemStyleBordered target:self action:@selector(menuTapped)];
@@ -42,7 +52,7 @@
 	client.delegate = self;
 	[SVProgressHUD showWithStatus:@"Fetching Categories"];
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		[client getCategories];
+		[client getCategoriesForTopLevel:topLevel];
 	});
 }
 

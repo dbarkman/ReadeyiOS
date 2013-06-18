@@ -12,6 +12,7 @@
 {
 	ReadeyAPIClient *client;
 	NSMutableArray *rssCategories;
+	NSString *topLevel;
 }
 
 @end

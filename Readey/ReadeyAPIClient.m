@@ -25,7 +25,7 @@
 			[keychainItem setObject:uuid forKey:(__bridge id)kSecAttrComment];
 		}
 		
-		logging = true;
+		logging = false;
 		[self getDeviceData];
 	}
 	return self;
@@ -59,13 +59,14 @@
     return [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
 }
 
-- (void)getCategories
+- (void)getCategoriesForTopLevel:(NSString *)topLevel
 {
 	[Flurry logEvent:@"Get Categories" timed:YES];
 	
 	NSString *url = [NSString stringWithFormat:
-		@"%@/categories?key=%@&uuid=%@&appVersion=%@&device=%@&machine=%@&osVersion=%@",
-		kReadeyAPIURL, kReadeyAPIKey, uuid, appVersion, device, machine, osVersion];
+		@"%@/%@?key=%@&uuid=%@&appVersion=%@&device=%@&machine=%@&osVersion=%@",
+		kReadeyAPIURL, topLevel, kReadeyAPIKey, uuid, appVersion, device, machine, osVersion];
+	if (logging) NSLog(@"URL: %@", url);
 	[self makeApiGetCallWithUrl:url];
 }
 
@@ -87,7 +88,7 @@
 	NSURLRequest *request = [NSURLRequest requestWithURL:url];
 	AFJSONRequestOperation *operation = [[AFJSONRequestOperation alloc] initWithRequest:request];
 	[operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//		NSLog(@"responseObject %@", responseObject);
+		if (logging) NSLog(@"responseObject %@", responseObject);
 		[Flurry logEvent:@"GET Call Succeeded"];
 		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
 			[delegate requestReturned:responseObject];
@@ -158,7 +159,7 @@
 	[httpClient registerHTTPOperationClass:[AFHTTPRequestOperation class]];
 	
 	[operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//		NSLog(@"Response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
+		if (logging) NSLog(@"Response: %@", [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
 		[Flurry logEvent:@"POST Call Succeeded"];
 		if ([delegate respondsToSelector:@selector(requestReturned:)]) {
 			[delegate requestReturned:[NSDictionary dictionary]];
@@ -175,59 +176,59 @@
 
 - (bool)createArticle:(NSString *)name source:(NSString *)source content:(NSString *)content
 {
-	NSLog(@"Placeholding");
+	if (logging) NSLog(@"Placeholding");
 	return false;
 }
 
 - (NSArray *)getArticles
 {
-	NSLog(@"Placeholding");
+	if (logging) NSLog(@"Placeholding");
 	NSArray *tempArray = [[NSArray alloc] init];
 	return tempArray;
 }
 
 - (bool)removeArticle:(NSString *)uuid
 {
-	NSLog(@"Placeholding");
+	if (logging) NSLog(@"Placeholding");
 	return false;
 }
 
 - (void)saveLogin
 {
-	NSLog(@"Placeholding");
+	if (logging) NSLog(@"Placeholding");
 }
 
 - (void)resetLogin
 {
-	NSLog(@"Placeholding");
+	if (logging) NSLog(@"Placeholding");
 }
 
 - (NSString *)accessToken
 {
-	NSLog(@"Placeholding");
+	if (logging) NSLog(@"Placeholding");
 	return @"";
 }
 
 - (bool)login
 {
-	NSLog(@"Placeholding");
+	if (logging) NSLog(@"Placeholding");
 	return false;
 }
 
 - (bool)isTokenValid
 {
-	NSLog(@"Placeholding");
+	if (logging) NSLog(@"Placeholding");
 	return false;
 }
 
 - (void)logout
 {
-	NSLog(@"Placeholding");
+	if (logging) NSLog(@"Placeholding");
 }
 
 - (bool)createUser
 {
-	NSLog(@"Placeholding");
+	if (logging) NSLog(@"Placeholding");
 	return false;
 }
 
